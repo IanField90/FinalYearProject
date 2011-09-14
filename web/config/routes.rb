@@ -1,15 +1,12 @@
 Web::Application.routes.draw do
 
-  #get "password_resets/new"
-
-  # get "log_out" => "sessions#destroy", :as => "log_out"
-  #   get "log_in" => "sessions#new", :as => "log_in"
-  #   get "sign_up" => "users#new", :as => "sign_up"
+  get "home/index"
+  
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   get "signup" => "users#new", :as => "signup"
   
-  root :to => "users#new"
+  root :to => "home#index"
   
   resources :users
   resources :sessions
