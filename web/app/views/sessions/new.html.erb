@@ -1,5 +1,5 @@
 <h1>Log in!</h1>
-<%= form_tag sessions_path do %>
+<%= form_tag sessions_path, :class => "form-stacked" do %>
 	<div class="clearfix">
 		<%= label_tag :email %>
 		<div class="input">
@@ -13,9 +13,14 @@
 		</div>
 	</div>
 	<div class="clearfix">
-		<%= label_tag :remember_me %>
-		<div class="input" style="padding-top:5px;">
-			<%= check_box_tag :remember_me, 1, params[:remember_me] %>
+		<div class="input">
+			<ul class="inputs-list">
+				<li>
+					<label>
+						<%= check_box_tag :remember_me, 1, params[:remember_me] %> Remember me
+					</label>
+				</li>
+			</ul>
 		</div>
 	</div>
 	<div class="actions">

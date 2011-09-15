@@ -1,9 +1,11 @@
 <h1>Sign up!</h1>
 
-<%= form_for @user do |f| %>
+<%= form_for @user, :html => { :class => "form-stacked" } do |f|  %>
 	<% if @user.errors.any? %>
-	<div class="error_messages">
-		<h2>Form is invalid</h2>
+	<div class="alert-message block-message error">
+		<p>
+			<strong>Form is invalid!</strong>
+		</p>
 		<ul>
 			<% for message in @user.errors.full_messages %>
 			<li><%= message %></li>
