@@ -1,0 +1,20 @@
+<div class="topbar">
+	<div class="topbar-inner">
+		<div class="container">
+			<h3><%= link_to "TeachReach", root_path %></h3>
+			<ul class="nav">
+				<li><%= link_to "Home", root_path %></li>
+			</ul>
+			<ul class="nav secondary-nav">
+					<% if current_user %>
+						<!-- <li style="padding-top:10px;">Logged in as <%= current_user.email %>.</li> -->
+						<li><%= link_to "Log out", logout_path %></li>
+					<% else %>
+						<li><%= link_to "Sign up", signup_path %></li>
+						<li><%= link_to "Log in", login_path %></li>
+					<% end %>
+			</ul>
+		</div>
+	</div>
+</div>
+</div>

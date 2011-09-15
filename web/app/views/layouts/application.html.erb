@@ -2,23 +2,15 @@
 <html>
 <head>
   <title>TeachReach</title>
-	<%= stylesheet_link_tag    "bootstrap-1.2.0.min" %>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-	<!-- TODO: Boostrap nav partial here -->
-	
+<body style="padding-top:45px;">
+	<%= render "shared/navigation" %>
 	<div class="container">
 		<div id="user_nav">
-		  <% if current_user %>
-		    Logged in as <%= current_user.email %>.
-		    <%= link_to "Log out", logout_path %>
-		  <% else %>
-		    <%= link_to "Sign up", signup_path %> or
-		    <%= link_to "log in", login_path %>
-		  <% end %>
+
 		</div>
 
 		<% flash.each do |name, msg, type| %>
