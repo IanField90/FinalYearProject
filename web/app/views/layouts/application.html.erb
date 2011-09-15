@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Web</title>
+  <title>TeachReach</title>
+	<%= stylesheet_link_tag    "bootstrap-1.2.0.min" %>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-	<div id="user_nav">
-	  <% if current_user %>
-	    Logged in as <%= current_user.email %>.
-	    <%= link_to "Log out", logout_path %>
-	  <% else %>
-	    <%= link_to "Sign up", signup_path %> or
-	    <%= link_to "log in", login_path %>
-	  <% end %>
+	<!-- TODO: Boostrap nav partial here -->
+	
+	<div class="container">
+		<div id="user_nav">
+		  <% if current_user %>
+		    Logged in as <%= current_user.email %>.
+		    <%= link_to "Log out", logout_path %>
+		  <% else %>
+		    <%= link_to "Sign up", signup_path %> or
+		    <%= link_to "log in", login_path %>
+		  <% end %>
+		</div>
+
+		<% flash.each do |name, msg, type| %>
+		  <%= content_tag :div, msg, :id => "flash_#{name}", :class => "alert-message #{name}" %>
+		<% end %>
+
+		<%= yield %>
 	</div>
-
-	<% flash.each do |name, msg| %>
-	  <%= content_tag :div, msg, :id => "flash_#{name}" %>
-	<% end %>
-
-<%= yield %>
-
 </body>
 </html>
