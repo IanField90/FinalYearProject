@@ -5,7 +5,6 @@ class UsersController < ApplicationController
   
   def create
     @user = User.new(params[:user])
-    # TODO: See if a user already exists with this email address first
     if @user.save
       redirect_to root_url, :notice => "Signed Up!"
     else
