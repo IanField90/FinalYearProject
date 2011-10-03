@@ -9,13 +9,10 @@
 <body style="padding-top:45px;">
 	<%= render "shared/navigation" %>
 	<div class="container">
-		<div id="user_nav">
-
-		</div>
 
 		<% flash.each do |name, msg, type| %>
 		  <%= content_tag :div, msg, :id => "flash_#{name}", :class => "alert-message #{name}" %>
-		<!--<a class="close" href="#">×</a>-->
+		<!--<a class="close" href="#">×</a> before msg-->
 		<% end %>
 
 		<%= yield %>
