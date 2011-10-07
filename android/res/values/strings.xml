@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, TeachReachActivity!</string>
-    <string name="app_name">TeachReach</string>
+    <string name="app_name">World Association of Girl Guides and Girl Scouts</string>
+    <!-- If a name is unique here, it will be loaded with the default localisation -->
 </resources>
