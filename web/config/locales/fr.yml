@@ -224,15 +224,37 @@ fr:
       full_messages:
         format: "%{attribute} %{message}"
         
+        
       #pages begin
   home:
     title: "TeachReach Accueil"
     paragraph: "Bienvenue TeachReach!"
     
+  user:
+    login: "Login fr"
+    logout: "Log out fr"
+    logout_confirm: "Logged out fr!"
+    email: "Email address fr"
+    password: "Password fr"
+    password_confirm: "Password Confirmation fr"
+    signup: "Sign up fr!"
+    signedup: "Signed up fr!"
+    forgotten_password: "Forgotten Password fr"
+    remember: "Remember me fr"
+    unsuccessful: "Invalid Email or Password fr"
+    
+  password_resets:
+    sent: "Email sent with password reset instructions. fr"
+    expired: "Password reset has expired. fr"
+    reset: "Password has been reset! fr"
+    update: "Update password fr"
+    reset_button: "Reset password fr"
+    
   nav:
-    home: "Home"
-    signup: "Sign up"
-    login: "Log in"
+    home: "Home fr"
+    signup: "Sign up fr"
+    login: "Log in fr"
+    logout: "Log out fr"
   
   signup:
     title: "S'inscrire!"

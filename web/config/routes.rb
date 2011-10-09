@@ -1,8 +1,8 @@
 Web::Application.routes.draw do
 
-  get "home/index"
+  #get "home/index"
   
-  #TODO: root pathing better
+  # TODO: root pathing better
   root :to => "home#index", :locale => /en|es|fr/
   
   match "/:locale" => "home#index" #root

@@ -3,14 +3,14 @@
 		<div class="container">
 			<h3><%= link_to "TeachReach", root_path %></h3>
 			<ul class="nav">
-				<li><%= link_to "Home", root_path %></li>
+				<li><%= link_to t('nav.home'), root_path %></li>
 			</ul>
 			<ul class="nav secondary-nav">
 					<% if current_user %>
-						<li><%= link_to current_user.email + " - Log out", logout_path %></li>
+						<li><%= link_to current_user.email + " - " + t('nav.logout'), logout_path %></li>
 					<% else %>
-						<li><%= link_to "Sign up", signup_path %></li>
-						<li><%= link_to "Log in", login_path %></li>
+						<li><%= link_to t('nav.signup'), signup_path %></li>
+						<li><%= link_to t('nav.login'), login_path %></li>
 					<% end %>
 			</ul>
 		</div>

@@ -10,14 +10,14 @@ class SessionsController < ApplicationController
       end
       redirect_to root_url #, :flash => { :success => "Logged in!" }
     else
-      flash[:error] = "Invalid email or password"
+      flash[:error] = t('user.unsuccessful') # TODO: Maybe make this use locales better
       render "new"
     end
   end
   
   def destroy
     cookies.delete(:auth_token)
-    redirect_to root_url, :notice => "Logged out!"
+    redirect_to root_url, :notice => t('user.logout_confirm')
   end
 
 end

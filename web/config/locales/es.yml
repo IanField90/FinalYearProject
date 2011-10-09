@@ -226,16 +226,39 @@ es:
 
       full_messages:
         format: "%{attribute} %{message}"
+        
+
 
 #pages begin
   home:
     title: "TeachReach Casa"
     paragraph: "Welcome to TeachReach!"
-  
+    
+  user:
+    login: "Login es "
+    logout: "Log out es"
+    logout_confirm: "Logged out es!"
+    email: "Email address es"
+    password: "Password es"
+    password_confirm: "Password Confirmation es"
+    signup: "Sign up es!"
+    signedup: "Signed up es!"
+    forgotten_password: "Forgotten Password es"
+    remember: "Remember me es"
+    unsuccessful: "Invalid Email or Password es"
+    
+  password_resets:
+    sent: "Email sent with password reset instructions. es"
+    expired: "Password reset has expired. es"
+    reset: "Password has been reset! es"
+    update: "Update password es"
+    reset_button: "Reset password es"
+      
   nav:
     home: "Casa"
     signup: "Regístrate"
-    login: "Log in"
+    login: "Log in es"
+    logout: "Log out fr"
 
   signup:
     title: "Regístrate!"

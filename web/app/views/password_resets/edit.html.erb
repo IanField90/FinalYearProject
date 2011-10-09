@@ -10,12 +10,12 @@
     </div>
   <% end %>
   <div class="field">
-    <%= f.label :password %>
+    <%= f.label :password, t('user.password') %>
     <%= f.password_field :password %>
   </div>
   <div class="field">
-    <%= f.label :password_confirmation %>
+    <%= f.label :password_confirmation, t('user.password_confirm') %>
     <%= f.password_field :password_confirmation %>
   </div>
-  <div class="actions"><%= f.submit "Update Password" %></div>
+  <div class="actions"><%= f.submit t('password_resets.update') %></div>
 <% end %>

@@ -221,6 +221,7 @@ en:
 
       full_messages:
         format: "%{attribute} %{message}"
+      
 
 #Pages begin
   hello: "Hello world"
@@ -228,10 +229,31 @@ en:
     title: "TeachReach Home"
     paragraph: "Welcome to TeachReach!"
     
+  user:
+    login: "Login!"
+    logout: "Log out"
+    logout_confirm: "Logged out!"
+    email: "Email address"
+    password: "Password"
+    password_confirm: "Password Confirmation"
+    signup: "Sign up!"
+    signedup: "Signed up!"
+    forgotten_password: "Forgotten Password"
+    remember: "Remember me"
+    unsuccessful: "Invalid email or password"
+    
+  password_resets:
+    sent: "Email sent with password reset instructions."
+    expired: "Password reset has expired."
+    reset: "Password has been reset!"
+    update: "Update password"
+    reset_button: "Reset password"
+    
   nav:
     home: "Home"
     signup: "Sign up"
     login: "Log in"
+    logout: "Log out"
     
   signup:
     title: "Sign up!"
