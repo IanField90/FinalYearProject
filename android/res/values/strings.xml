@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, TeachReachActivity!</string>
-    <string name="app_name">World Association of Girl Guides and Girl Scouts</string>
     <!-- If a name is unique here, it will be loaded with the default localisation -->
+
+    <string name="hello">To begin, please select a module below:</string>
+    <string name="app_name">World Association of Girl Guides and Girl Scouts</string>
+    <string name="programme_prompt">Please select a programme:</string>
+    <string name="course_prompt">Please select a course:</string>
+    <string name="module_prompt">Please select a module:</string>
+    
+    <string name="view_button">View</string>
+    
 </resources>
