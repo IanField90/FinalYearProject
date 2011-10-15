@@ -1,11 +1,19 @@
 package uk.ac.reading.dp005570.TeachReach;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
-public class TeachReachActivity extends Activity {
+/**
+ * @author ianfield
+ *
+ */
+public class TeachReachActivity extends Activity implements OnClickListener{
 //	private JSONObject object;
    
 	/** Called when the activity is first created. */
@@ -18,24 +26,45 @@ public class TeachReachActivity extends Activity {
         String courses[] = { "Test course 1" };
         String modules[] = { "Test module 1" };
         
+        //Set up proramme spinner
         Spinner programme_spinner = (Spinner) findViewById(R.id.programme_spinner);
         ArrayAdapter<String> programme_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, programmes);
         programme_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         programme_spinner.setAdapter(programme_adapter);
         
+        //Set up course spinner
         Spinner course_spinner = (Spinner) findViewById(R.id.course_spinner);
         ArrayAdapter<String> course_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, courses);
         course_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         course_spinner.setAdapter(course_adapter);
         
+        //Set up module spinner
         Spinner module_spinner = (Spinner) findViewById(R.id.module_spinner);
         ArrayAdapter<String> module_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, modules);
         module_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         module_spinner.setAdapter(module_adapter);
         
+        //Set up m
+        Button view_quizzes_button = (Button) findViewById(R.id.view_quizzes_button);
+        view_quizzes_button.setOnClickListener(this);
         
-        
-        //        interpretJSON();
+        Button view_materials_button = (Button) findViewById(R.id.view_materials_button);
+        view_materials_button.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+    	Intent intent;
+    	if(v == findViewById(R.id.view_quizzes_button)){
+        	//Create an intent and start activity
+        	intent = new Intent(this, QuizListActivity.class);
+        	startActivity(intent);
+
+    	}
+    	else if(v == findViewById(R.id.view_materials_button)){
+    		intent = new Intent(this, MaterialListActivity.class);
+        	startActivity(intent);
+    	}
     }
     
     
