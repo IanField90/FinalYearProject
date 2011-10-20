@@ -1,13 +1,34 @@
 package uk.ac.reading.dp005570.TeachReach;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MaterialListActivity extends Activity {
+public class MaterialListActivity extends ListActivity {
+	static final String[] materials = new String[] { "Introduction", "Material 2" };
 
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.material_list);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.material_list);
+
+		setListAdapter(new ArrayAdapter<String>(this, R.layout.material_item, materials));
+		ListView lv = getListView();
+		//Allows user typing to navigate through list bad for backtracing
+		//lv.setTextFilterEnabled(true);
+
+		lv.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Toast.makeText(getApplicationContext(),	((TextView) view).getText() + " selected index: " + position, 
+						Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 }
