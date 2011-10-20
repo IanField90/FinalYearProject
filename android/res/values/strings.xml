@@ -10,5 +10,6 @@
     
     <string name="view_quizzes_button">Quizzes</string>
     <string name="view_materials_button">Materials</string>
+    <string name="refresh_lists_button">Refresh</string>
     
 </resources>
