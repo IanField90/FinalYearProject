@@ -4,15 +4,18 @@ import java.util.ArrayList;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class QuizListActivity extends ListActivity {
+public class QuizListActivity extends ListActivity implements OnItemClickListener{
 	
 	private ArrayList<QuizStatus> m_quizzes = null;
 	private QuizItemAdapter m_adapter;
@@ -21,7 +24,8 @@ public class QuizListActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_list);
-        
+        getListView().setTextFilterEnabled(false);
+        getListView().setOnItemClickListener(this);
         m_quizzes = new ArrayList<QuizStatus>();
         
         // TODO ProgressDialog here while retreiving from online if chosen
@@ -29,6 +33,7 @@ public class QuizListActivity extends ListActivity {
         
         this.m_adapter = new QuizItemAdapter(this, R.layout.quiz_item, m_quizzes);
         setListAdapter(m_adapter);
+
 	}
 	
 	
@@ -38,7 +43,11 @@ public class QuizListActivity extends ListActivity {
         m_quizzes.add(new QuizStatus("Test Quiz 2", true));		
 	}
 
-
+	/**
+	 * 
+	 * @author ianfield
+	 * Class to handle custom list item display
+	 */
 	private class QuizItemAdapter extends ArrayAdapter<QuizStatus>{
 		private ArrayList<QuizStatus> items;
         
@@ -72,6 +81,15 @@ public class QuizListActivity extends ListActivity {
                 }
                 return v;
         }
+	}
+
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		// When a quiz item is clicked
+		Intent intent = new Intent(this, QuizBrowserActivity.class);
+		//TODO intent.setData once content provider is set up
+		startActivity(intent);
 	}
 	
 }

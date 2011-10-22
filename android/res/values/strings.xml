@@ -12,4 +12,9 @@
     <string name="view_materials_button">Materials</string>
     <string name="refresh_lists_button">Refresh</string>
     
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    
+    <string name="question">Question</string>
+    
 </resources>
