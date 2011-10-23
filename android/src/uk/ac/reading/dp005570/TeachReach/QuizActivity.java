@@ -5,42 +5,47 @@ import java.util.ArrayList;
 import uk.ac.reading.dp005570.TeachReach.data.Question;
 import uk.ac.reading.dp005570.TeachReach.data.QuestionType;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class QuizActivity extends Activity {
 	private Integer questionNumber, number_of_questions;
 	private TextView question_progress;
 	private ArrayList<Question> quiz;
+	private LinearLayout ll;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.quiz);
-		quiz = new ArrayList<Question>();
+		//Set up quiz
 		populateQuiz();
+		number_of_questions = quiz.size();
+		questionNumber = 1;
+		
+		//Set up progress label
+		question_progress = (TextView) findViewById(R.id.question_progress);
+		question_progress.setText( questionNumber + " / " + number_of_questions);
+		
+		//Label question with "Question"
+		TextView question_title = (TextView) findViewById(R.id.question_title);
+		question_title.setText(R.string.question);
+		
+		// Actually prepare question
+		ll = (LinearLayout) findViewById(R.id.question_options);
+		loadQuestion(quiz.get(0));
 
 		questionNumber = 1; 
 		number_of_questions = quiz.size();
 
-		question_progress = (TextView) findViewById(R.id.question_progress);
-		question_progress.setText( questionNumber + " / " + number_of_questions);
-
-		TextView question_title = (TextView) findViewById(R.id.question_title);
-		question_title.setText(R.string.question);
-
-		TextView question_text = (TextView) findViewById(R.id.question_text);
-		question_text.setText("blab ewa rewa  ewarewar ewa rewahiorpewa hiophfido ewaklcnakm eawocpmecdkmwe mkl pewa");
+		
+//		setContentView(R.layout.quiz);
 
 //		for(Question q : quiz){
 //			loadQuestion(q);
@@ -63,8 +68,23 @@ public class QuizActivity extends Activity {
 //		insertPoint.addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
 
 	}
+	
+	public void loadQuestion(Question q){
+		TextView question_text = (TextView) findViewById(R.id.question_text);
+		//question_text.setText("blab ewa rewa  ewarewar ewa rewahiorpewa hiophfido ewaklcnakm eawocpmecdkmwe mkl pewa");
+		question_text.setText(q.getQuestionText());
+		ArrayList<String> options_list = q.getOptions();
+		
+		Spinner options = new Spinner(this);
+        ArrayAdapter<String> options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options_list);
+        options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        options.setAdapter(options_adapter);
+		
+		ll.addView(options);
+	}
 
 	public void populateQuiz(){
+		quiz = new ArrayList<Question>();
 		//TODO Actual population later on
 		//TODO Add 1 question of each type
 		String questionText = "What colour is the sky?";
@@ -73,7 +93,7 @@ public class QuizActivity extends Activity {
 		options.add("Red");
 		options.add("Green");
 		options.add("Blue");
-		Boolean[] correctOptions = {false, false, true};
+		Boolean[] correctOptions = new Boolean[]{false, false, true};
 		Question q = new Question(questionText, type, options, correctOptions);
 		quiz.add(q);
 	}
