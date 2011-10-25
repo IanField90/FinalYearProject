@@ -2,7 +2,9 @@ package uk.ac.reading.dp005570.TeachReach;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
+import uk.ac.reading.dp005570.TeachReach.data.Answer;
+import uk.ac.reading.dp005570.TeachReach.data.AnswerStatus;
+import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,12 +14,24 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class QuizResultsActivity extends Activity{
+public class QuizResultsActivity extends ListActivity{
+	
+	private QuestionItemAdapter m_adapter;
+	private ArrayList<Answer> m_questions;
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.quiz_results);
+		
+		m_questions = new ArrayList<Answer>();
+		m_questions.add(new Answer(1, AnswerStatus.CORRECT));
+		m_questions.add(new Answer(2, AnswerStatus.INCORRECT));
+		m_questions.add(new Answer(2, AnswerStatus.NOT_APPLICABLE));
+		
+        this.m_adapter = new QuestionItemAdapter(this, R.layout.results_question_item, m_questions);
+        setListAdapter(m_adapter);
 	}
 
 	
@@ -26,12 +40,12 @@ public class QuizResultsActivity extends Activity{
 	 * @author ianfield
 	 * Class to handle custom list item display
 	 */
-	private class QuestionItemAdapter extends ArrayAdapter<QuizStatus>{
+	private class QuestionItemAdapter extends ArrayAdapter<Answer>{
 		
 		//TODO Customise copy&paste
-		private ArrayList<QuizStatus> items;
+		private ArrayList<Answer> items;
         
-		public QuestionItemAdapter(Context context, int textViewResourceId, ArrayList<QuizStatus> items) {
+		public QuestionItemAdapter(Context context, int textViewResourceId, ArrayList<Answer> items) {
             super(context, textViewResourceId, items);
             this.items = items;
         }
@@ -41,22 +55,28 @@ public class QuizResultsActivity extends Activity{
                 View v = convertView;
                 if (v == null) {
                     LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = vi.inflate(R.layout.quiz_item, null);
+                    v = vi.inflate(R.layout.results_question_item, null);
                 }
-                QuizStatus q = items.get(position);
-                if (q != null) {
-                	TextView title = (TextView) v.findViewById(R.id.quiz_title);
-                	if(title != null){
-                		title.setText(q.getName());
+                Answer a = items.get(position);
+                if (a != null) {
+                	TextView question_name = (TextView) v.findViewById(R.id.question_name);
+                	if(question_name != null){
+                    	question_name.setText("Question " + (position+1));
+
                 	}
                 	
-                	ImageView icon = (ImageView) v.findViewById(R.id.quiz_status);
-                	// TODO tick and cross images instead
-                	if(q.isTaken()){
+                	ImageView icon = (ImageView) v.findViewById(R.id.question_status);
+                	// Display tick
+                	if(a.getStatus() == AnswerStatus.CORRECT){
                 		icon.setImageResource(android.R.drawable.ic_menu_agenda);
                 	}
-                	else{
+                	else if (a.getStatus() == AnswerStatus.INCORRECT){
+                		//Display cross
                 		icon.setImageResource(android.R.drawable.ic_menu_edit);
+                	}
+                	else{
+                		//Not applicable
+                		icon.setImageResource(android.R.drawable.ic_menu_day);
                 	}
                 }
                 return v;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout 
+  	android:orientation="horizontal"
+  	android:layout_width="match_parent"
+  	android:layout_height="wrap_content">
+  	<ImageView 
+  		android:id="@+id/question_status"
+  		android:padding="5dp"
+  		android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="6dp"
+  	/>
+  	<TextView 
+  		android:layout_width="wrap_content" 
+  		android:layout_height="wrap_content"
+  		android:id="@+id/question_name"
+  		android:textAppearance="?android:attr/textAppearanceLarge"
+  		android:padding="5dp"
+  		android:layout_gravity="left"
+  	/>
+  	</LinearLayout>
+
+</LinearLayout>

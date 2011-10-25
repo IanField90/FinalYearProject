@@ -1,10 +1,10 @@
-package uk.ac.reading.dp005570.TeachReach;
+package uk.ac.reading.dp005570.TeachReach.data;
 
 public class QuizStatus {
 	private String name;
 	private boolean taken;
 	
-	QuizStatus(String name, boolean taken){
+	public QuizStatus(String name, boolean taken){
 		this.name = name;
 		this.taken = taken;
 	}
