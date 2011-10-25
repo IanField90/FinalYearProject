@@ -29,8 +29,14 @@
                 	<category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-            
-            
+        <activity android:name=".QuizResultsActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                	<category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+                        
         <activity android:name=".MaterialListActivity"
         		  android:label="@string/app_name">
         	<intent-filter>

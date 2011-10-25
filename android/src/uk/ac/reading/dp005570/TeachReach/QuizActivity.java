@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import uk.ac.reading.dp005570.TeachReach.data.Question;
 import uk.ac.reading.dp005570.TeachReach.data.QuestionType;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,7 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class QuizActivity extends Activity {
-	private Integer questionNumber, number_of_questions;
+	private Integer quesiton_number, number_of_questions;
 	private TextView question_progress;
 	private ArrayList<Question> quiz;
 	private LinearLayout ll;
@@ -28,11 +29,11 @@ public class QuizActivity extends Activity {
 		populateQuiz();
 		number_of_questions = quiz.size();
 		//We start on Question 1
-		questionNumber = 1;
+		quesiton_number = 1;
 
 		//Set up progress label
 		question_progress = (TextView) findViewById(R.id.question_progress);
-		question_progress.setText( questionNumber + " / " + number_of_questions);
+		question_progress.setText( quesiton_number + " / " + number_of_questions);
 
 		//Label question with "Question"
 		TextView question_title = (TextView) findViewById(R.id.question_title);
@@ -104,21 +105,23 @@ public class QuizActivity extends Activity {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.previous:
-			if(questionNumber > 1){
-				questionNumber--;
-				question_progress.setText(questionNumber + " / " + number_of_questions);
+			if(quesiton_number > 1){
+				quesiton_number--;
+				question_progress.setText(quesiton_number + " / " + number_of_questions);
 				return true;
 			}
 			else{
 				return false;
 			}
 		case R.id.next:
-			if(questionNumber < number_of_questions){
-				questionNumber++;
-				question_progress.setText(questionNumber + " / " + number_of_questions);
+			if(quesiton_number < number_of_questions){
+				quesiton_number++;
+				question_progress.setText(quesiton_number + " / " + number_of_questions);
 				return true;
 			}else {
 				//TODO Load final results screen
+				Intent intent = new Intent(this, QuizResultsActivity.class);
+				startActivity(intent);
 				return false;
 			}
 		default:
