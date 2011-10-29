@@ -72,11 +72,11 @@ public class QuizResultsActivity extends ListActivity{
                 	}
                 	else if (a.getStatus() == AnswerStatus.INCORRECT){
                 		//Display cross
-                		icon.setImageResource(android.R.drawable.ic_menu_edit);
+                		icon.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
                 	}
                 	else{
                 		//Not applicable
-                		icon.setImageResource(android.R.drawable.ic_menu_day);
+                		icon.setImageResource(android.R.drawable.ic_menu_sort_by_size);
                 	}
                 }
                 return v;

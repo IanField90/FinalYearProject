@@ -22,9 +22,11 @@ public class TeachReachActivity extends Activity implements OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        String programmes[] = { "Test programme 1" };
-        String courses[] = { "Test course 1" };
-        String modules[] = { "Test module 1" };
+        String programmes[] = { "1. Programme 1", "2. Programme 2", "3. Programme 3",
+        		"4. Programme 4", "5. Programme 5", "6. Programme 6", "7. Programme 7",
+        		"8. Programme 8", "9. Programme 9", "10. Programme 10"  };
+        String courses[] = { "1. Course 1", "2. Course 2" };
+        String modules[] = { "1. Module 1", "2. Modlue 2" };
         
         //Set up proramme spinner
         Spinner programme_spinner = (Spinner) findViewById(R.id.programme_spinner);
