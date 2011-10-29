@@ -94,12 +94,22 @@ public class QuizActivity extends Activity {
 		Boolean[] correctOptions = new Boolean[]{false, false, true};
 		Question q = new Question(questionText, type, options, correctOptions);
 		quiz.add(q);
+		
 		questionText = "Is a leader’s main responsibility to overcome the conflicts and challenges " +
 				"that arise during the course of a normal day, project etc.";
 		options = new ArrayList<String>();
 		options.add("True");
 		options.add("False");
 		correctOptions = new Boolean[]{ true, false};
+		type = QuestionType.MULTIPLE_CHOICE;
+		q = new Question(questionText, type, options, correctOptions);
+		quiz.add(q);
+		
+		questionText = "A bad leader is someone who always makes the decisions as they know best";
+		options = new ArrayList<String>();
+		options.add("True");
+		options.add("False");
+		correctOptions = new Boolean[]{ false, true };
 		type = QuestionType.MULTIPLE_CHOICE;
 		q = new Question(questionText, type, options, correctOptions);
 		quiz.add(q);
@@ -120,6 +130,8 @@ public class QuizActivity extends Activity {
 			if(question_number > 1){
 				question_number--;
 				question_progress.setText(question_number + " / " + number_of_questions);
+				ll.removeAllViews();
+				loadQuestion(quiz.get(question_number-1));
 				return true;
 			}
 			else{
