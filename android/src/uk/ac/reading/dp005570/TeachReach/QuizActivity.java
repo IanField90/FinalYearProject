@@ -16,7 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class QuizActivity extends Activity {
-	private Integer quesiton_number, number_of_questions;
+	private Integer question_number, number_of_questions;
 	private TextView question_progress;
 	private ArrayList<Question> quiz;
 	private LinearLayout ll;
@@ -29,11 +29,11 @@ public class QuizActivity extends Activity {
 		populateQuiz();
 		number_of_questions = quiz.size();
 		//We start on Question 1
-		quesiton_number = 1;
+		question_number = 1;
 
 		//Set up progress label
 		question_progress = (TextView) findViewById(R.id.question_progress);
-		question_progress.setText( quesiton_number + " / " + number_of_questions);
+		question_progress.setText( question_number + " / " + number_of_questions);
 
 		//Label question with "Question"
 		TextView question_title = (TextView) findViewById(R.id.question_title);
@@ -94,6 +94,15 @@ public class QuizActivity extends Activity {
 		Boolean[] correctOptions = new Boolean[]{false, false, true};
 		Question q = new Question(questionText, type, options, correctOptions);
 		quiz.add(q);
+		questionText = "Is a leader’s main responsibility to overcome the conflicts and challenges " +
+				"that arise during the course of a normal day, project etc.";
+		options = new ArrayList<String>();
+		options.add("True");
+		options.add("False");
+		correctOptions = new Boolean[]{ true, false};
+		type = QuestionType.MULTIPLE_CHOICE;
+		q = new Question(questionText, type, options, correctOptions);
+		quiz.add(q);
 	}
 
 	@Override
@@ -108,18 +117,20 @@ public class QuizActivity extends Activity {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.previous:
-			if(quesiton_number > 1){
-				quesiton_number--;
-				question_progress.setText(quesiton_number + " / " + number_of_questions);
+			if(question_number > 1){
+				question_number--;
+				question_progress.setText(question_number + " / " + number_of_questions);
 				return true;
 			}
 			else{
 				return false;
 			}
 		case R.id.next:
-			if(quesiton_number < number_of_questions){
-				quesiton_number++;
-				question_progress.setText(quesiton_number + " / " + number_of_questions);
+			if(question_number < number_of_questions){
+				question_number++;
+				question_progress.setText(question_number + " / " + number_of_questions);
+				ll.removeAllViews();
+				loadQuestion(quiz.get(question_number-1));
 				return true;
 			}else {
 				//TODO Load final results screen
