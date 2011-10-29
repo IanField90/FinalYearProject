@@ -82,12 +82,15 @@ public class QuizActivity extends Activity {
 		quiz = new ArrayList<Question>();
 		//TODO Actual population later on
 		//TODO Add blanks and slider(seekbar) question
-		String questionText = "What colour is the sky?";
+		String questionText = "One thing a good leader should do is:" +
+				"\n\nA) Tell others what should be done" +
+				"\n\nB) Allow free exchange of ideas and support decision making" +
+				"\n\nC) Not interfere with the group as they have specialist areas";
 		QuestionType type = QuestionType.MULTIPLE_CHOICE;
 		ArrayList<String> options = new ArrayList<String>();
-		options.add("Red");
-		options.add("Green");
-		options.add("Blue");
+		options.add("A");
+		options.add("B");
+		options.add("C");
 		Boolean[] correctOptions = new Boolean[]{false, false, true};
 		Question q = new Question(questionText, type, options, correctOptions);
 		quiz.add(q);
