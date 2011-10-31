@@ -10,13 +10,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class QuizActivity extends Activity {
+public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 	private Integer question_number, number_of_questions;
 	private TextView question_progress, slider_label;
 	private ArrayList<Question> quiz;
@@ -73,13 +76,18 @@ public class QuizActivity extends Activity {
 			slider = new SeekBar(this);
 			slider.setProgress(0);
 			slider.setMax(q.getOptions().size()-1);
-			//slider.setOnSeekBarChangeListener(this); //Within this change listener set slider_label text to q.getOptions().get(position);
+			slider.setOnSeekBarChangeListener(this); //Within this change listener set slider_label text to q.getOptions().get(position);
+			slider_label.setText(q.getOptions().get(0));
+			ll.addView(slider_label, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+			
+			ll.addView(slider, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.MATCH_PARENT));
 			break;
 		case BLANKS:
 		case ORDERING:
 		case MATCH_UP:
 			//Essentially the same rendering
 			//Spinner control for each option.
+			
 			break;
 		}
 
@@ -153,17 +161,17 @@ public class QuizActivity extends Activity {
 //		q = new Question(questionText, type, options, correctOptions);
 //		quiz.add(q);
 //		
-//		questionText = "How likely?";
-//		options = new ArrayList<String>();
-//		options.add("Very unlikely");
-//		options.add("Unlikely");
-//		options.add("Unsure");
-//		options.add("Likely");
-//		options.add("Very likely");
-//		correctOptions = null; //Not applicable for this datatype
-//		type = QuestionType.SLIDER;
-//		q = new Question(questionText, type, options, correctOptions);
-//		quiz.add(q);
+		questionText = "How likely?";
+		options = new ArrayList<String>();
+		options.add("Very unlikely");
+		options.add("Unlikely");
+		options.add("Unsure");
+		options.add("Likely");
+		options.add("Very likely");
+		correctOptions = null; //Not applicable for this datatype
+		type = QuestionType.SLIDER;
+		q = new Question(questionText, type, options, correctOptions);
+		quiz.add(q);
 	}
 
 	@Override
@@ -204,5 +212,25 @@ public class QuizActivity extends Activity {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	public void onProgressChanged(SeekBar seekBar, int progress,
+			boolean fromUser) {
+		// TODO Auto-generated method stub
+		Question current_question = quiz.get(question_number-1);
+		slider_label.setText(current_question.getOptions().get(progress));
+	}
+
+	@Override
+	public void onStartTrackingTouch(SeekBar seekBar) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStopTrackingTouch(SeekBar seekBar) {
+		// TODO Auto-generated method stub
+		
 	}
 }
