@@ -10,7 +10,7 @@ public class Question {
 	private String questionText;
 	private QuestionType type;
 	private ArrayList<String> options;
-	private Boolean[] correctOptions;
+	private Boolean[] correctOptions; //TODO 2D update as matrix
 	
 	public Question(String questionText, QuestionType type, ArrayList<String> options, Boolean[] correctOptions){
 		this.questionText = questionText;

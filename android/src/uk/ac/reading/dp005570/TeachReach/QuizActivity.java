@@ -12,14 +12,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 public class QuizActivity extends Activity {
 	private Integer question_number, number_of_questions;
-	private TextView question_progress;
+	private TextView question_progress, slider_label;
 	private ArrayList<Question> quiz;
 	private LinearLayout ll;
+	private SeekBar slider;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -64,15 +66,20 @@ public class QuizActivity extends Activity {
 			//Load spinner at the location of R.id.question_options
 			ll.addView(options);
 			break;
-		case BLANKS:
-			//TODO 
-			break;
 		case SLIDER:
 			//TODO Hashmap slider value + label value
 			//TODO add slider value change listener to update label
-//			LinearLayout option_slider = (LinearLayout) findViewById(R.layout.option_slider);
-//			TextView slider_value = (TextView) findViewById(R.id.slider_value);
-//			SeekBar bar = (SeekBar) findViewById(R.id.slider);			
+			slider_label = new TextView(this);
+			slider = new SeekBar(this);
+			slider.setProgress(0);
+			slider.setMax(q.getOptions().size()-1);
+			//slider.setOnSeekBarChangeListener(this); //Within this change listener set slider_label text to q.getOptions().get(position);
+			break;
+		case BLANKS:
+		case ORDERING:
+		case MATCH_UP:
+			//Essentially the same rendering
+			//Spinner control for each option.
 			break;
 		}
 
@@ -113,6 +120,50 @@ public class QuizActivity extends Activity {
 		type = QuestionType.MULTIPLE_CHOICE;
 		q = new Question(questionText, type, options, correctOptions);
 		quiz.add(q);
+		
+//		questionText = "Order these qualities into the order that you feel are the most important for a leader to possess.\n\n" +
+//				"A) Time management\n" + 
+//				"B) Delegation\n" + 
+//				"C) Authority\n" + 
+//				"D) Communication\n" + 
+//				"E) Patience\n";
+//		options = new ArrayList<String>();
+//		options.add("A");
+//		options.add("B");
+//		options.add("C");
+//		options.add("D");
+//		options.add("E");
+//		correctOptions = new Boolean[]{ true, true, true, true, true }; //TODO Better representation
+//		type = QuestionType.ORDERING;
+//		q = new Question(questionText, type, options, correctOptions);
+//		quiz.add(q);
+//		
+//		questionText = "Please match these up below:\n\n" +
+//		"A) A reflector learns by\n" + 
+//		"B) A theorist learns by\n" + 
+//		"C) A Pragmatist learns by\n" + 
+//		"D) An Activist learns by\n";
+//		options = new ArrayList<String>();
+//		options.add("Observing and reflecting");
+//		options.add("Understanding the reasons behind it");
+//		options.add("Active experimentation 'having a go'");
+//		options.add("Doing and experimenting");
+//		correctOptions = new Boolean[] { true, true, true, true }; //TODO Better representation
+//		type = QuestionType.MATCH_UP;
+//		q = new Question(questionText, type, options, correctOptions);
+//		quiz.add(q);
+//		
+//		questionText = "How likely?";
+//		options = new ArrayList<String>();
+//		options.add("Very unlikely");
+//		options.add("Unlikely");
+//		options.add("Unsure");
+//		options.add("Likely");
+//		options.add("Very likely");
+//		correctOptions = null; //Not applicable for this datatype
+//		type = QuestionType.SLIDER;
+//		q = new Question(questionText, type, options, correctOptions);
+//		quiz.add(q);
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 package uk.ac.reading.dp005570.TeachReach.data;
 
 public enum QuestionType {
-	MULTIPLE_CHOICE, BLANKS, SLIDER
+	MULTIPLE_CHOICE, BLANKS, SLIDER, ORDERING, MATCH_UP
 }
