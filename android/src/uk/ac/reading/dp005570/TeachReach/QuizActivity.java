@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -58,10 +57,10 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		switch(q.getType()){
 		case MULTIPLE_CHOICE:
 			//Get options
-			ArrayList<String> options_list = q.getOptions();
+//			ArrayList<String> options_list = q.getOptions();
 			Spinner options = new Spinner(this);
 			//Load options ready for spinner
-			ArrayAdapter<String> options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options_list);
+			ArrayAdapter<String> options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
 			//Put options into spinner drop down
 			options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			options.setAdapter(options_adapter);
@@ -79,7 +78,6 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 			slider.setOnSeekBarChangeListener(this); //Within this change listener set slider_label text to q.getOptions().get(position);
 			slider_label.setText(q.getOptions().get(0));
 			ll.addView(slider_label, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-			
 			ll.addView(slider, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.MATCH_PARENT));
 			break;
 		case BLANKS:
@@ -87,7 +85,10 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		case MATCH_UP:
 			//Essentially the same rendering
 			//Spinner control for each option.
-			
+//			Spinner option1 = new Spinner(this);
+//			ArrayAdapter<String> options_adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
+//			options_adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//			
 			break;
 		}
 
