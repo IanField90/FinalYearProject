@@ -24,6 +24,8 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 	private ArrayList<Question> quiz;
 	private LinearLayout ll;
 	private SeekBar slider;
+	int num_options;
+	char letter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -53,14 +55,15 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		//Question text will not be different whatever type the question it is
 		TextView question_text = (TextView) findViewById(R.id.question_text);
 		question_text.setText(q.getQuestionText());
-
+		ArrayAdapter<String> options_adapter;
+		Spinner options;
 		switch(q.getType()){
 		case MULTIPLE_CHOICE:
 			//Get options
 //			ArrayList<String> options_list = q.getOptions();
-			Spinner options = new Spinner(this);
+			options = new Spinner(this);
 			//Load options ready for spinner
-			ArrayAdapter<String> options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
+			options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
 			//Put options into spinner drop down
 			options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			options.setAdapter(options_adapter);
@@ -80,15 +83,52 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 			ll.addView(slider_label, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 			ll.addView(slider, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.MATCH_PARENT));
 			break;
-		case BLANKS:
 		case ORDERING:
+			num_options = q.getOptions().size();
+			letter = '1';
+			for(int i = 0; i < num_options-1; i++){
+				TextView label = new TextView(this);
+				label.setText(letter+")");
+				options = new Spinner(this);
+				options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
+				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				options.setAdapter(options_adapter);
+				ll.addView(label);
+				ll.addView(options);
+				letter++;
+			}
+			break;
+		case BLANKS:
+			num_options = q.getOptions().size();
+			letter = 'A';
+			for(int i = 0; i < num_options-1; i++){
+				TextView label = new TextView(this);
+				label.setText("*|"+letter+"|*)");
+				options = new Spinner(this);
+				options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
+				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				options.setAdapter(options_adapter);
+				ll.addView(label);
+				ll.addView(options);
+				letter++;
+			}
+			break;
 		case MATCH_UP:
 			//Essentially the same rendering
 			//Spinner control for each option.
-//			Spinner option1 = new Spinner(this);
-//			ArrayAdapter<String> options_adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
-//			options_adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//			
+			num_options = q.getOptions().size();
+			letter = 'A';
+			for(int i = 0; i < num_options-1; i++){
+				TextView label = new TextView(this);
+				label.setText(letter+")");
+				options = new Spinner(this);
+				options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
+				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				options.setAdapter(options_adapter);
+				ll.addView(label);
+				ll.addView(options);
+				letter++;
+			}
 			break;
 		}
 
@@ -130,38 +170,38 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		q = new Question(questionText, type, options, correctOptions);
 		quiz.add(q);
 		
-//		questionText = "Order these qualities into the order that you feel are the most important for a leader to possess.\n\n" +
-//				"A) Time management\n" + 
-//				"B) Delegation\n" + 
-//				"C) Authority\n" + 
-//				"D) Communication\n" + 
-//				"E) Patience\n";
-//		options = new ArrayList<String>();
-//		options.add("A");
-//		options.add("B");
-//		options.add("C");
-//		options.add("D");
-//		options.add("E");
-//		correctOptions = new Boolean[]{ true, true, true, true, true }; //TODO Better representation
-//		type = QuestionType.ORDERING;
-//		q = new Question(questionText, type, options, correctOptions);
-//		quiz.add(q);
-//		
-//		questionText = "Please match these up below:\n\n" +
-//		"A) A reflector learns by\n" + 
-//		"B) A theorist learns by\n" + 
-//		"C) A Pragmatist learns by\n" + 
-//		"D) An Activist learns by\n";
-//		options = new ArrayList<String>();
-//		options.add("Observing and reflecting");
-//		options.add("Understanding the reasons behind it");
-//		options.add("Active experimentation 'having a go'");
-//		options.add("Doing and experimenting");
-//		correctOptions = new Boolean[] { true, true, true, true }; //TODO Better representation
-//		type = QuestionType.MATCH_UP;
-//		q = new Question(questionText, type, options, correctOptions);
-//		quiz.add(q);
-//		
+		questionText = "Order these qualities into the order that you feel are the most important for a leader to possess.\n\n" +
+				"A) Time management\n" + 
+				"B) Delegation\n" + 
+				"C) Authority\n" + 
+				"D) Communication\n" + 
+				"E) Patience\n";
+		options = new ArrayList<String>();
+		options.add("A");
+		options.add("B");
+		options.add("C");
+		options.add("D");
+		options.add("E");
+		correctOptions = new Boolean[]{ true, true, true, true, true }; //TODO Better representation
+		type = QuestionType.ORDERING;
+		q = new Question(questionText, type, options, correctOptions);
+		quiz.add(q);
+		
+		questionText = "Please match these up below:\n\n" +
+		"A) A reflector learns by\n" + 
+		"B) A theorist learns by\n" + 
+		"C) A Pragmatist learns by\n" + 
+		"D) An Activist learns by\n";
+		options = new ArrayList<String>();
+		options.add("Observing and reflecting");
+		options.add("Understanding the reasons behind it");
+		options.add("Active experimentation 'having a go'");
+		options.add("Doing and experimenting");
+		correctOptions = new Boolean[] { true, true, true, true }; //TODO Better representation
+		type = QuestionType.MATCH_UP;
+		q = new Question(questionText, type, options, correctOptions);
+		quiz.add(q);
+		
 		questionText = "How likely?";
 		options = new ArrayList<String>();
 		options.add("Very unlikely");
