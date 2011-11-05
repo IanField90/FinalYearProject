@@ -60,7 +60,6 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		switch(q.getType()){
 		case MULTIPLE_CHOICE:
 			//Get options
-//			ArrayList<String> options_list = q.getOptions();
 			options = new Spinner(this);
 			//Load options ready for spinner
 			options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
@@ -72,8 +71,6 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 			ll.addView(options);
 			break;
 		case SLIDER:
-			//TODO Hashmap slider value + label value
-			//TODO add slider value change listener to update label
 			slider_label = new TextView(this);
 			slider = new SeekBar(this);
 			slider.setProgress(0);
@@ -86,7 +83,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		case ORDERING:
 			num_options = q.getOptions().size();
 			letter = '1';
-			for(int i = 0; i < num_options-1; i++){
+			for(int i = 0; i < num_options; i++){
 				TextView label = new TextView(this);
 				label.setText(letter+")");
 				options = new Spinner(this);
@@ -101,7 +98,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		case BLANKS:
 			num_options = q.getOptions().size();
 			letter = 'A';
-			for(int i = 0; i < num_options-1; i++){
+			for(int i = 0; i < num_options; i++){
 				TextView label = new TextView(this);
 				label.setText("*|"+letter+"|*)");
 				options = new Spinner(this);
@@ -118,7 +115,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 			//Spinner control for each option.
 			num_options = q.getOptions().size();
 			letter = 'A';
-			for(int i = 0; i < num_options-1; i++){
+			for(int i = 0; i < num_options; i++){
 				TextView label = new TextView(this);
 				label.setText(letter+")");
 				options = new Spinner(this);
@@ -137,7 +134,6 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 	public void populateQuiz(){
 		quiz = new ArrayList<Question>();
 		//TODO Actual population later on
-		//TODO Add blanks and slider(seekbar) question
 		String questionText = "One thing a good leader should do is:" +
 				"\n\nA) Tell others what should be done" +
 				"\n\nB) Allow free exchange of ideas and support decision making" +
@@ -245,7 +241,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 				loadQuestion(quiz.get(question_number-1));
 				return true;
 			}else {
-				//TODO Load final results screen
+				// Load final results screen
 				Intent intent = new Intent(this, QuizResultsActivity.class);
 				startActivity(intent);
 				return false;
