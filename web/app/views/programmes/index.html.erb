@@ -1,0 +1,27 @@
+<h1>Listing programmes</h1>
+
+<table>
+  <tr>
+    <th>Name en</th>
+    <th>Name fr</th>
+    <th>Name es</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @programmes.each do |programme| %>
+  <tr>
+    <td><%= programme.name_en %></td>
+    <td><%= programme.name_fr %></td>
+    <td><%= programme.name_es %></td>
+    <td><%= link_to 'Show', programme %></td>
+    <td><%= link_to 'Edit', edit_programme_path(programme) %></td>
+    <td><%= link_to 'Destroy', programme, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Programme', new_programme_path %>

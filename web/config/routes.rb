@@ -1,20 +1,27 @@
 Web::Application.routes.draw do
 
-  #get "home/index"
+  #scaffolds
+  resources :parts
+  resources :programmes
+  resources :courses
+
+  get "home/index"
   
   # TODO: root pathing better
-  root :to => "home#index", :locale => /en|es|fr/
+  root :to => "home#index" #, :locale => /en|es|fr/
   
-  match "/:locale" => "home#index" #root
-  match "/:locale/logout" => "sessions#destroy", :as => "logout"
-  match "/:locale/login" => "sessions#new", :as => "login"
-  match "/:locale/signup" => "users#new", :as => "signup"
+  #match "/" => "home#index" #root
+  match "logout" => "sessions#destroy", :as => "logout"
+  match "login" => "sessions#new", :as => "login"
+  match "signup" => "users#new", :as => "signup"
   
-  scope "(:locale)", :locale => /en|es|fr/ do
-    resources :users
-    resources :sessions
-    resources :password_resets
-  end
+  resources :users
+  resources :sessions
+  resources :password_resets
+  
+  # scope "(:locale)", :locale => /en|es|fr/ do
+  # 
+  #   end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
