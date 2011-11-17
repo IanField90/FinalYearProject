@@ -1,10 +1,6 @@
 Web::Application.routes.draw do
 
-  #scaffolds
-  resources :parts
-  resources :programmes
-  resources :courses
-
+  #scaffolds  resources :programmes
   get "home/index"
   
   # TODO: root pathing better
