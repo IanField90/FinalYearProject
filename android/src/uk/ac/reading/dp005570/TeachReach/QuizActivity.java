@@ -254,20 +254,15 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
-		// TODO Auto-generated method stub
 		Question current_question = quiz.get(question_number-1);
 		slider_label.setText(current_question.getOptions().get(progress));
 	}
 
 	@Override
-	public void onStartTrackingTouch(SeekBar seekBar) {
-		// TODO Auto-generated method stub
-		
+	public void onStartTrackingTouch(SeekBar seekBar) {		
 	}
 
 	@Override
-	public void onStopTrackingTouch(SeekBar seekBar) {
-		// TODO Auto-generated method stub
-		
+	public void onStopTrackingTouch(SeekBar seekBar) {		
 	}
 }

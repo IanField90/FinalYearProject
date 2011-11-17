@@ -41,8 +41,6 @@ public class QuizResultsActivity extends ListActivity{
 	 * Class to handle custom list item display
 	 */
 	private class QuestionItemAdapter extends ArrayAdapter<Answer>{
-		
-		//TODO Customise copy&paste
 		private ArrayList<Answer> items;
         
 		public QuestionItemAdapter(Context context, int textViewResourceId, ArrayList<Answer> items) {

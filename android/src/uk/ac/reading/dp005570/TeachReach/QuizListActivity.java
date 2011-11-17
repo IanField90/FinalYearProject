@@ -30,7 +30,7 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
         getListView().setOnItemClickListener(this);
         m_quizzes = new ArrayList<QuizStatus>();
         
-        // TODO ProgressDialog here while retreiving from online if chosen
+        // TODO ProgressDialog here while retrieving from online if chosen
         populateQuizList();
         
         this.m_adapter = new QuizItemAdapter(this, R.layout.quiz_item, m_quizzes);
