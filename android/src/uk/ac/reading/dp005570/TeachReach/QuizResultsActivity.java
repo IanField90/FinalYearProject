@@ -6,15 +6,18 @@ import uk.ac.reading.dp005570.TeachReach.data.Answer;
 import uk.ac.reading.dp005570.TeachReach.data.AnswerStatus;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class QuizResultsActivity extends ListActivity{
+public class QuizResultsActivity extends ListActivity implements OnItemClickListener{
 	
 	private QuestionItemAdapter m_adapter;
 	private ArrayList<Answer> m_questions;
@@ -32,6 +35,8 @@ public class QuizResultsActivity extends ListActivity{
 		
         this.m_adapter = new QuestionItemAdapter(this, R.layout.results_question_item, m_questions);
         setListAdapter(m_adapter);
+        
+        getListView().setOnItemClickListener(this);
 	}
 
 	
@@ -79,6 +84,13 @@ public class QuizResultsActivity extends ListActivity{
                 }
                 return v;
         }
+	}
+
+
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		// TODO Auto-generated method stub
+		Intent i = new Intent(this, FeedbackActivity.class);
+		startActivity(i);
 	}
 
 }
