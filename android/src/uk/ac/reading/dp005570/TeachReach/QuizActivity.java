@@ -106,6 +106,8 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 				options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
 				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 				options.setAdapter(options_adapter);
+				options.setHorizontalScrollBarEnabled(true);
+
 				ll.addView(label);
 				ll.addView(options);
 				letter++;
@@ -121,8 +123,9 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 				label.setText(letter+")");
 				options = new Spinner(this);
 				options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
-				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); //Can customise
 				options.setAdapter(options_adapter);
+				options.setScrollContainer(true);
 				ll.addView(label);
 				ll.addView(options);
 				letter++;
