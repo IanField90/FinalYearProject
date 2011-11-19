@@ -54,7 +54,7 @@ public class TeachReachActivity extends Activity implements OnClickListener{
         view_materials_button.setOnClickListener(this);
     }
 
-    @Override
+//    @Override
     public void onClick(View v) {
     	Intent intent;
     	if(v == findViewById(R.id.view_quizzes_button)){

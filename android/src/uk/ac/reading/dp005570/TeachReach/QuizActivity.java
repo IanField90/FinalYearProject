@@ -66,6 +66,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 			//Put options into spinner drop down
 			options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			options.setAdapter(options_adapter);
+			options.setHorizontalScrollBarEnabled(true);
 			//TODO add OnItemSelectedListener
 			//Load spinner at the location of R.id.question_options
 			ll.addView(options);
@@ -251,18 +252,18 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		}
 	}
 
-	@Override
+//	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
 		Question current_question = quiz.get(question_number-1);
 		slider_label.setText(current_question.getOptions().get(progress));
 	}
 
-	@Override
+//	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {		
 	}
 
-	@Override
+//	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {		
 	}
 }

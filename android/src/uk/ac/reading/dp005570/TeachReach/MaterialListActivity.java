@@ -33,7 +33,7 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 		
 	}
 
-	@Override
+//	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// When a quiz item is clicked
 		Intent intent = new Intent(this, MaterialActivity.class);

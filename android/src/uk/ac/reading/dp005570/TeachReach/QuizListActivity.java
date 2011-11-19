@@ -86,7 +86,7 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
 	}
 
 
-	@Override
+//	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// When a quiz item is clicked
 		Intent intent = new Intent(this, QuizActivity.class);
