@@ -46,7 +46,7 @@
         android:text="@string/part_prompt" />
 
     <Spinner
-        android:id="@+id/module_spinner"
+        android:id="@+id/part_spinner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:prompt="@string/part_prompt" />
