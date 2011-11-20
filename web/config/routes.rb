@@ -1,5 +1,13 @@
 Web::Application.routes.draw do
 
+  get "courses/index"
+  
+  get "courses/create"
+  
+  get "courses/update"
+  
+  get "courses/destroy"
+
   #scaffolds  resources :programmes
   get "home/index"
   
@@ -10,6 +18,8 @@ Web::Application.routes.draw do
   match "logout" => "sessions#destroy", :as => "logout"
   match "login" => "sessions#new", :as => "login"
   match "signup" => "users#new", :as => "signup"
+  
+  match "courses" => "courses#index", :as => "courses"
   
   resources :users
   resources :sessions
