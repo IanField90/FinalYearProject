@@ -8,7 +8,7 @@ CREATE TABLE Courses(
 
 CREATE TABLE Programmes(
 	_id INTEGER NOT NULL,
-	course_id INTEGER NOT NULL,--TODO Foreign key
+	course_id INTEGER NOT NULL,
 	programme_name_en VARCHAR(255) NOT NULL, 
 	programme_name_fr VARCHAR(255) NOT NULL, 
 	programme_name_es VARCHAR(255) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE Programmes(
 
 CREATE TABLE Parts(
 	_id INTEGER NOT NULL,
-	programme_id INTEGER NOT NULL, --TODO Foreign key
+	programme_id INTEGER NOT NULL,
 	part_name_en VARCHAR(255) NOT NULL, 
 	part_name_fr VARCHAR(255) NOT NULL, 
 	part_name_es VARCHAR(255) NOT NULL,
@@ -31,12 +31,12 @@ CREATE TABLE Quizes(
 	part_id INTEGER NOT NULL,
 	updated_at DATE,
 	PRIMARY KEY (_id),
-	FOREIGN KEY (module_id) REFERENCES Parts(_id)
+	FOREIGN KEY (part_id) REFERENCES Parts(_id)
 );
 
 CREATE TABLE Questions(
 	_id INTEGER NOT NULL,
-	quiz_id INTEGER NOT NULL,--TODO Foreign key
+	quiz_id INTEGER NOT NULL,
 	question_en VARCHAR(1000) NOT NULL,
 	question_fr VARCHAR(1000) NOT NULL,
 	question_es VARCHAR(1000) NOT NULL,
@@ -46,8 +46,8 @@ CREATE TABLE Questions(
 
 CREATE TABLE Options(
 	_id INTEGER NOT NULL,
+	quiz_id INTEGER NOT NULL,
 	question_id INTEGER NOT NULL,
-	option_id INTEGER NOT NULL, --TODO Foreign key
 	option_en VARCHAR(255) NOT NULL,
 	option_fr VARCHAR(255) NOT NULL,
 	option_es VARCHAR(255) NOT NULL,
@@ -56,20 +56,9 @@ CREATE TABLE Options(
 	FOREIGN KEY (question_id) REFERENCES Questions(_id)
 );
 
-CREATE TABLE Answers(
-	_id INTEGER NOT NULL,
-	quiz_id INTEGER NOT NULL,
-	question_id INTEGER NOT NULL,
-	option_id INTEGER NOT NULL,
-	PRIMARY KEY (_id),
-	FOREIGN KEY (quiz_id) REFERENCES Quizes(_id),
-	FOREIGN KEY (question_id) REFERENCES Questions(_id),
-	FOREIGN KEY (option_id) REFERENCES Options(_id)
-);
-
 CREATE TABLE Feedbacks(
 	_id INTEGER NOT NULL,
-	quiz_id INTEGER NOT NULL, --TODO Foreign key
+	quiz_id INTEGER NOT NULL,	
 	feedback_en VARCHAR(1000) NOT NULL,
 	feedback_fr VARCHAR(1000) NOT NULL,
 	feedback_es VARCHAR(1000) NOT NULL,

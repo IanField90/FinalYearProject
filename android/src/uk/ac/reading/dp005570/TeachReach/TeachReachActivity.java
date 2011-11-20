@@ -15,12 +15,16 @@ import android.widget.Spinner;
  */
 public class TeachReachActivity extends Activity implements OnClickListener{
 //	private JSONObject object;
+	private TeachReachDbAdapter mDbHelper;
    
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        mDbHelper = new TeachReachDbAdapter(this);
+        mDbHelper.open();
         
         String programmes[] = { "1. Programme 1", "2. Programme 2", "3. Programme 3",
         		"4. Programme 4", "5. Programme 5", "6. Programme 6", "7. Programme 7",
