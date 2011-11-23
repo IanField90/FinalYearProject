@@ -1,2 +1,0 @@
-class ProgrammesController < ApplicationController
-end
