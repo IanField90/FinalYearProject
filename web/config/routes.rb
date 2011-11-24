@@ -1,5 +1,17 @@
 Web::Application.routes.draw do
 
+  get "materials/create"
+
+  get "materials/destroy"
+
+  get "materials/edit"
+
+  get "materials/new"
+
+  get "materials/show"
+
+  get "materials/update"
+
   get "quizzes/show"
 
   get "quizzes/new"

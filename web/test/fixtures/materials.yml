@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  part_id: 1
+  material_en: MyText
+  material_fr: MyText
+  material_es: MyText
+  material_type: 1
+
+two:
+  part_id: 1
+  material_en: MyText
+  material_fr: MyText
+  material_es: MyText
+  material_type: 1
