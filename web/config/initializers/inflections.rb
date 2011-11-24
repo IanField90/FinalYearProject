@@ -9,6 +9,6 @@
 #   inflect.uncountable %w( fish sheep )
 # end
 
-ActiveSupport::Inflector.inflectiosn do |inflect|
-  inflect.irrecular 'quiz', 'quizzes'
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.irregular 'quiz', 'quizzes'
 end
