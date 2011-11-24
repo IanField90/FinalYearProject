@@ -1,5 +1,29 @@
 Web::Application.routes.draw do
 
+  get "parts/show"
+
+  get "parts/list"
+
+  get "parts/delete"
+
+  get "parts/search"
+
+  get "parts/create"
+
+  get "parts/edit"
+
+  get "programmes/show"
+
+  get "programmes/list"
+
+  get "programmes/delete"
+
+  get "programmes/search"
+
+  get "programmes/create"
+
+  get "programmes/edit"
+
   get "courses/index"
   
   get "courses/create"

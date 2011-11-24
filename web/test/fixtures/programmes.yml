@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  programme_name_en: MyText
+  programme_name_fr: MyText
+  programme_name_es: MyText
+
+two:
+  programme_name_en: MyText
+  programme_name_fr: MyText
+  programme_name_es: MyText

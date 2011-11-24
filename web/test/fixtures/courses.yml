@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  course_name_en: MyText
+  course_name_fr: MyText
+  course_name_es: MyText
+
+two:
+  course_name_en: MyText
+  course_name_fr: MyText
+  course_name_es: MyText
