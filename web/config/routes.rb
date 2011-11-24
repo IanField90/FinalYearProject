@@ -1,5 +1,65 @@
 Web::Application.routes.draw do
 
+  get "quizzes/show"
+
+  get "quizzes/new"
+
+  get "quizzes/edit"
+
+  get "quizzes/create"
+
+  get "quizzes/update"
+
+  get "quizzes/destroy"
+
+  get "feedbacks/show"
+
+  get "feedbacks/new"
+
+  get "feedbacks/edit"
+
+  get "feedbacks/create"
+
+  get "feedbacks/update"
+
+  get "feedbacks/destroy"
+
+  get "options/show"
+
+  get "options/new"
+
+  get "options/edit"
+
+  get "options/create"
+
+  get "options/update"
+
+  get "options/destroy"
+
+  get "questions/show"
+
+  get "questions/new"
+
+  get "questions/edit"
+
+  get "questions/create"
+
+  get "questions/update"
+
+  get "questions/destroy"
+
+  get "quizes/show"
+
+  get "quizes/new"
+
+  get "quizes/edit"
+
+  get "quizes/create"
+
+  get "quizes/update"
+
+  get "quizes/destroy"
+
   get "parts/show"
 
   get "parts/list"
@@ -36,9 +96,8 @@ Web::Application.routes.draw do
   get "home/index"
   
   # TODO: root pathing better
-  root :to => "home#index" #, :locale => /en|es|fr/
+  root :to => "home#index"
   
-  #match "/" => "home#index" #root
   match "logout" => "sessions#destroy", :as => "logout"
   match "login" => "sessions#new", :as => "login"
   match "signup" => "users#new", :as => "signup"
