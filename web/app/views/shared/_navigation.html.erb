@@ -7,7 +7,7 @@
 			</ul>
 			<ul class="nav secondary-nav">
 					<% if current_user %>
-						<li><%= link_to current_user.email + " - " + t('nav.logout'), logout_path %></li>
+						<li><%= link_to t('nav.logout'), logout_path %></li>
 					<% else %>
 						<li><%= link_to t('nav.signup'), signup_path %></li>
 						<li><%= link_to t('nav.login'), login_path %></li>
