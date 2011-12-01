@@ -18,4 +18,8 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find_by_auth_token!(cookies[:auth_token]) if cookies[:auth_token]
   end
   helper_method :current_user
+  
+  def id_user_admin
+    return current_user && current_user.admin
+  end
 end

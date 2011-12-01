@@ -98,7 +98,7 @@ Web::Application.routes.draw do
 
   get "courses/index"
   
-  get "courses/create"
+  get "courses/new"
   
   get "courses/update"
   
