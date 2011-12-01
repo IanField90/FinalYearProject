@@ -1,2 +1,23 @@
-<h1>Courses#index</h1>
-<p>Find me in app/views/courses/index.html.erb</p>
+<h1>Courses</h1>
+<table>
+	<tr>
+		<th>Name EN</th>
+		<th>Name FR</th>
+		<th>Name ES</th>
+		<th></th>
+		<th></th>
+	</tr>
+	<% @courses.each do |course| %>
+	<tr>
+		<td><%= course.course_name_en %></td>
+		<td><%= course.course_name_fr %></td>
+		<td><%= course.course_name_es %></td>
+		<td><%= echo 'Edit' %></td>
+		<td><%= echo 'Destroy' %></td>
+	</tr>
+	<%end%>
+	
+</table>
+
+link_to 'Edit', edit_course_path(course)
+link_to 'Destroy', course, :confirm 'Are you sure?', :method => :delete

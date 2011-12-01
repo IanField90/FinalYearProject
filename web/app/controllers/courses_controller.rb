@@ -1,8 +1,10 @@
 class CoursesController < ApplicationController
 
   def index
+    @courses = Course.all
   end
 
+  # GET /courses/new
   def new
     # current_user is nill if no-one is logged in, check for that, then if they are admin
     @course = Course.new
