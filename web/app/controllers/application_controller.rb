@@ -19,7 +19,8 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
   
-  def id_user_admin
-    return current_user && current_user.admin
+  def is_user_admin
+    current_user && current_user.admin
   end
+  helper_method :is_user_admin
 end

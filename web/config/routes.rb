@@ -96,16 +96,16 @@ Web::Application.routes.draw do
 
   get "programmes/edit"
 
-  get "courses/index"
+  # get "courses/index"
   
-  get "courses/new"
-  
-  get "courses/update"
-  
-  get "courses/destroy"
+  # get "courses/new"
+  # 
+  # get "courses/update"
+  # 
+  # get "courses/destroy"
 
   #scaffolds  resources :programmes
-  get "home/index"
+  # get "home/index"
   
   # TODO: root pathing better
   root :to => "home#index"
@@ -114,9 +114,16 @@ Web::Application.routes.draw do
   match "login" => "sessions#new", :as => "login"
   match "signup" => "users#new", :as => "signup"
   
-  match "courses" => "courses#index", :as => "courses"
+  # match "courses" => "courses#index", :as => "courses"
   
   resources :users
+  resources :courses
+  resources :programmes
+  resources :parts
+  resources :materials
+  resources :quizzes
+  resources :questions
+  resources :options
   resources :sessions
   resources :password_resets
   

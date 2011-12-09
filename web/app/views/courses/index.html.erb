@@ -1,9 +1,13 @@
 <h1>Courses</h1>
+<%if is_user_admin %>
+	<%= button_to 'New Course', new_course_path, :class => 'btn primary', :method => :get %>
+<%end%>
 <table>
 	<tr>
 		<th>Name EN</th>
 		<th>Name FR</th>
 		<th>Name ES</th>
+		<th></th>
 		<th></th>
 		<th></th>
 	</tr>
@@ -12,12 +16,10 @@
 		<td><%= course.course_name_en %></td>
 		<td><%= course.course_name_fr %></td>
 		<td><%= course.course_name_es %></td>
-		<td><%= echo 'Edit' %></td>
-		<td><%= echo 'Destroy' %></td>
+		<td><%= link_to 'View', course_path(course)%></td>
+		<td><%= link_to 'Edit', edit_course_path(course)%></td>
+		<td><%= link_to 'Delete', course, :confirm => 'Are you sure?', :method => :delete %></td>
 	</tr>
 	<%end%>
 	
 </table>
-
-link_to 'Edit', edit_course_path(course)
-link_to 'Destroy', course, :confirm 'Are you sure?', :method => :delete

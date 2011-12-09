@@ -1,0 +1,18 @@
+<table>
+	<tr>
+		<th>Programme Name EN</th>
+		<th>Programme Name FR</th>
+		<th>Programme Name ES</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	<% @course.programmes.each do |programme| %>
+		<td><%= programme.programme_name_en %></td>
+		<td><%= programme.programme_name_fr %></td>
+		<td><%= programme.programme_name_es %></td>
+		<td>Show</td>
+		<td>Edit</td>
+		<td>Delete</td>
+	<%end%>
+</table>
