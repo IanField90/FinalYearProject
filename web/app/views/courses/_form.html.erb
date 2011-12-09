@@ -1,31 +1,30 @@
 <%= form_for @course, :html => {:class => 'form-stacked'} do |f| %>
 <% if @course.errors.any? %>
-	<div id="error_explanation">
-      <h2><%= pluralize(@course.errors.count, "error") %> prohibited this course from being saved:</h2>
-
-      <ul>
-      <% @course.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-		<%end%>
-	  </ul>
-    </div>
+<div id="error_explanation">
+     <h2><%= pluralize(@course.errors.count, "error") %> prohibited this course from being saved:</h2>
+     <ul>
+     	<% @course.errors.full_messages.each do |msg| %>
+       <li><%= msg %></li>
+	<%end%>
+  </ul>
+   </div>
 <% end %>
-	<div class="field">
-		<%= f.label :course_name_en %>
-		<%= f.text_field :course_name_en %>
-	</div>
-	
-	<div class="field">
-		<%= f.label :course_name_fr %>
-		<%= f.text_field :course_name_fr %>
-	</div>
-	
-	<div class="field">
-		<%= f.label :course_name_es %>
-		<%= f.text_field :course_name_es %>
-	</div>
-	
-	<div class="actions">
-		<%= f.submit :class => 'btn primary' %>
-	</div>
+<div class="field">
+	<%= f.label :course_name_en, "Course Name EN" %>
+	<%= f.text_field :course_name_en %>
+</div>
+
+<div class="field">
+	<%= f.label :course_name_fr, "Course Name FR"%>
+	<%= f.text_field :course_name_fr %>
+</div>
+
+<div class="field">
+	<%= f.label :course_name_es, "Course Name ES" %>
+	<%= f.text_field :course_name_es %>
+</div>
+
+<div class="actions">
+	<%= f.submit :class => 'btn primary' %>
+</div>
 <% end %>

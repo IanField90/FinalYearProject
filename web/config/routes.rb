@@ -95,17 +95,6 @@ Web::Application.routes.draw do
   get "programmes/create"
 
   get "programmes/edit"
-
-  # get "courses/index"
-  
-  # get "courses/new"
-  # 
-  # get "courses/update"
-  # 
-  # get "courses/destroy"
-
-  #scaffolds  resources :programmes
-  # get "home/index"
   
   # TODO: root pathing better
   root :to => "home#index"

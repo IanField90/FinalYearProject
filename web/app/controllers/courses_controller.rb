@@ -21,12 +21,12 @@ class CoursesController < ApplicationController
     # respond_to |format| do
     #       format.html #show.html.erb
     #     end
-    render :show
+    #render :show
   end
   
   # GET /courses/1/edit
   def edit
-    @course = Course.new(params[:course])
+    @course = Course.find(params[:id])
   end
   
   # POST /courses
@@ -45,7 +45,13 @@ class CoursesController < ApplicationController
   end
 
   def update
-    render :update
+    @course = Course.find(params[:id])
+    if @course.update_attributes(params[:course])
+      redirect_to @course, :notice => 'Course was successfully updated.'
+    else
+      render :action => "edit"
+    end
+    #render :update
   end
 
   def destroy
