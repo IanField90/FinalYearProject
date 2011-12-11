@@ -1,3 +1,9 @@
+<h1>Course: <%= @course.course_name_en %></h1>
+<h2>Programmes</h2>
+
+<%if is_user_admin %>
+	<%= link_to 'New Programme', {:controller => "programmes", :action => "new", :course_id => @course }, :class => 'btn primary'%>
+<%end%>
 <table>
 	<tr>
 		<th>Programme Name EN</th>
@@ -8,11 +14,13 @@
 		<th></th>
 	</tr>
 	<% @course.programmes.each do |programme| %>
+	<tr>
 		<td><%= programme.programme_name_en %></td>
 		<td><%= programme.programme_name_fr %></td>
 		<td><%= programme.programme_name_es %></td>
-		<td>Show</td>
-		<td>Edit</td>
-		<td>Delete</td>
+		<td><%= link_to "Show", programme_path(programme)%></td>
+		<td><%if is_user_admin %><%= link_to "Edit", edit_programme_path(programme) %><%end%></td>
+		<td><%if is_user_admin %><%= link_to 'Delete', programme, :confirm => 'Are you sure?', :method => :delete %><%end%></td>
+	</tr>
 	<%end%>
 </table>

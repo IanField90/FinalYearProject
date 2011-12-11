@@ -1,2 +1,19 @@
-<h1>Programmes#show</h1>
-<p>Find me in app/views/programmes/show.html.erb</p>
+<h1>Parts</h1>
+<table>
+	<tr>
+		<th>Part Name EN</th>
+		<th>Part Name FR</th>
+		<th>Part Name ES</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	<% @programme.parts.each do |part| %>
+		<td><%= part.part_name_en %></td>
+		<td><%= part.part_name_fr %></td>
+		<td><%= part.part_name_es %></td>
+		<td>Show</td>
+		<td>Edit</td>
+		<td>Delete</td>
+	<%end%>
+</table>

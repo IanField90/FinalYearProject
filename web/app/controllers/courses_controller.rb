@@ -17,7 +17,8 @@ class CoursesController < ApplicationController
   
   def show
     @course = Course.find(params[:id])
-    
+    #@programmes = @course.programmes
+    #@programmes = Programme.find(:course_id => params[:id])
     # respond_to |format| do
     #       format.html #show.html.erb
     #     end
@@ -27,6 +28,9 @@ class CoursesController < ApplicationController
   # GET /courses/1/edit
   def edit
     @course = Course.find(params[:id])
+    if !is_user_admin
+      redirect_to courses_path
+    end
   end
   
   # POST /courses

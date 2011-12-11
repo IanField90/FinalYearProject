@@ -1,0 +1,24 @@
+<h1>Programmes</h1>
+<%if is_user_admin %>
+	<%= button_to 'New Programme', new_programme_path, :class => 'btn primary', :method => :get %>
+<%end%>
+<table>
+	<tr>
+		<th>Name EN</th>
+		<th>Name FR</th>
+		<th>Name ES</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	<% @programmes.each do |programme| %>
+	<tr>
+		<td><%= programme.programme_name_en %></td>
+		<td><%= programme.programme_name_fr %></td>
+		<td><%= programme.programme_name_es %></td>
+		<td><%= link_to 'View', programme_path(programme)%></td>
+		<td><%= link_to 'Edit', edit_programme_path(programme)%></td>
+		<td><%= link_to 'Delete', programme, :confirm => 'Are you sure?', :method => :delete %></td>
+	</tr>
+	<%end%>
+</table>

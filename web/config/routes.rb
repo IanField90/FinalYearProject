@@ -106,7 +106,11 @@ Web::Application.routes.draw do
   # match "courses" => "courses#index", :as => "courses"
   
   resources :users
-  resources :courses
+  resources :courses do
+    resources :programmes do
+      resources :parts
+    end
+  end
   resources :programmes
   resources :parts
   resources :materials

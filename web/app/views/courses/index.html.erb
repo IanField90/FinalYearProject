@@ -17,8 +17,8 @@
 		<td><%= course.course_name_fr %></td>
 		<td><%= course.course_name_es %></td>
 		<td><%= link_to 'View', course_path(course)%></td>
-		<td><%= link_to 'Edit', edit_course_path(course)%></td>
-		<td><%= link_to 'Delete', course, :confirm => 'Are you sure?', :method => :delete %></td>
+		<td><%if is_user_admin %><%= link_to 'Edit', edit_course_path(course)%><%end%></td>
+		<td><%if is_user_admin %><%= link_to 'Delete', course, :confirm => 'Are you sure?', :method => :delete %><%end%></td>
 	</tr>
 	<%end%>
 	
