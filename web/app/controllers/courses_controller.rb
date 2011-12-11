@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-
+  # GET /courses
   def index
     @courses = Course.all
   end
@@ -15,6 +15,7 @@ class CoursesController < ApplicationController
     end
   end
   
+  # GET /courses/1
   def show
     @course = Course.find(params[:id])
     #@programmes = @course.programmes
@@ -48,6 +49,7 @@ class CoursesController < ApplicationController
     end
   end
 
+  # PUT /courses/1
   def update
     @course = Course.find(params[:id])
     if @course.update_attributes(params[:course])
@@ -58,6 +60,7 @@ class CoursesController < ApplicationController
     #render :update
   end
 
+  # DELETE /courses/1
   def destroy
     #render :destroy
     @course = Course.find(params[:id])

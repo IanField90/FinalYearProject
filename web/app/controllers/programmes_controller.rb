@@ -1,4 +1,5 @@
 class ProgrammesController < ApplicationController
+  # GET /programmes/1
   def show
     @programme = Programme.find(params[:id])
   end
@@ -14,20 +15,20 @@ class ProgrammesController < ApplicationController
       redirect_to programme_path
     end
   end
-
+  
+  # GET /programmes
   def index
     @programmes = Programme.all
   end
 
+  # DELETE /programmes/1
   def destroy
     @programme = Programme.find(params[:id])
     @programme.destroy
     redirect_to programmes_path
   end
 
-  def search
-  end
-
+  # POST /programmes
   def create
     if is_user_admin
       @programme = Programme.new(params[:programme])
@@ -41,6 +42,7 @@ class ProgrammesController < ApplicationController
     end
   end
   
+  # PUT /programmes/1
   def update
     if is_user_admin
       #can update
@@ -54,7 +56,8 @@ class ProgrammesController < ApplicationController
       redirect_to programmes_path
     end
   end
-
+  
+  # GET /programmes/1/edit
   def edit
     @programme = Programme.find(params[:id])
   end
