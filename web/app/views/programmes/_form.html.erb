@@ -23,15 +23,8 @@
 	<%= f.label :programme_name_es, "Programme Name ES" %>
 	<%= f.text_field :programme_name_es %>
 </div>
-<% 
-if @course == nil
-	@id = @programme.course_id
-else
-	@id = @course.id
-end
-%>
 
-<%= f.hidden_field :course_id, :value => @id %>
+<%= f.hidden_field :course_id, :value => @course.nil? ? @programme.course_id : @course.id %>
 
 <div class="actions">
 	<%= f.submit :class => 'btn primary' %>
