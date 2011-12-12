@@ -1,101 +1,101 @@
 Web::Application.routes.draw do
-
-  get "materials/create"
-
-  get "materials/destroy"
-
-  get "materials/edit"
-
-  get "materials/new"
-
-  get "materials/show"
-
-  get "materials/update"
-
-  get "quizzes/show"
-
-  get "quizzes/new"
-
-  get "quizzes/edit"
-
-  get "quizzes/create"
-
-  get "quizzes/update"
-
-  get "quizzes/destroy"
-
-  get "feedbacks/show"
-
-  get "feedbacks/new"
-
-  get "feedbacks/edit"
-
-  get "feedbacks/create"
-
-  get "feedbacks/update"
-
-  get "feedbacks/destroy"
-
-  get "options/show"
-
-  get "options/new"
-
-  get "options/edit"
-
-  get "options/create"
-
-  get "options/update"
-
-  get "options/destroy"
-
-  get "questions/show"
-
-  get "questions/new"
-
-  get "questions/edit"
-
-  get "questions/create"
-
-  get "questions/update"
-
-  get "questions/destroy"
-
-  get "quizes/show"
-
-  get "quizes/new"
-
-  get "quizes/edit"
-
-  get "quizes/create"
-
-  get "quizes/update"
-
-  get "quizes/destroy"
-
-  get "parts/show"
-
-  get "parts/list"
-
-  get "parts/delete"
-
-  get "parts/search"
-
-  get "parts/create"
-
-  get "parts/edit"
-
-  get "programmes/show"
-
-  get "programmes/list"
-
-  get "programmes/delete"
-
-  get "programmes/search"
-
-  get "programmes/create"
-
-  get "programmes/edit"
-  
+  # 
+  # get "materials/create"
+  # 
+  # get "materials/destroy"
+  # 
+  # get "materials/edit"
+  # 
+  # get "materials/new"
+  # 
+  # get "materials/show"
+  # 
+  # get "materials/update"
+  # 
+  # get "quizzes/show"
+  # 
+  # get "quizzes/new"
+  # 
+  # get "quizzes/edit"
+  # 
+  # get "quizzes/create"
+  # 
+  # get "quizzes/update"
+  # 
+  # get "quizzes/destroy"
+  # 
+  # get "feedbacks/show"
+  # 
+  # get "feedbacks/new"
+  # 
+  # get "feedbacks/edit"
+  # 
+  # get "feedbacks/create"
+  # 
+  # get "feedbacks/update"
+  # 
+  # get "feedbacks/destroy"
+  # 
+  # get "options/show"
+  # 
+  # get "options/new"
+  # 
+  # get "options/edit"
+  # 
+  # get "options/create"
+  # 
+  # get "options/update"
+  # 
+  # get "options/destroy"
+  # 
+  # get "questions/show"
+  # 
+  # get "questions/new"
+  # 
+  # get "questions/edit"
+  # 
+  # get "questions/create"
+  # 
+  # get "questions/update"
+  # 
+  # get "questions/destroy"
+  # 
+  # get "quizes/show"
+  # 
+  # get "quizes/new"
+  # 
+  # get "quizes/edit"
+  # 
+  # get "quizes/create"
+  # 
+  # get "quizes/update"
+  # 
+  # get "quizes/destroy"
+  # 
+  # get "parts/show"
+  # 
+  # get "parts/list"
+  # 
+  # get "parts/delete"
+  # 
+  # get "parts/search"
+  # 
+  # get "parts/create"
+  # 
+  # get "parts/edit"
+  # 
+  # get "programmes/show"
+  # 
+  # get "programmes/list"
+  # 
+  # get "programmes/delete"
+  # 
+  # get "programmes/search"
+  # 
+  # get "programmes/create"
+  # 
+  # get "programmes/edit"
+  # 
   # TODO: root pathing better
   root :to => "home#index"
   
@@ -115,7 +115,11 @@ Web::Application.routes.draw do
   resources :programmes do
     resources :parts
   end
-  resources :parts
+  
+  resources :parts do
+    resources :materials, :quizzes
+  end
+  
   resources :materials
   resources :quizzes
   resources :questions
