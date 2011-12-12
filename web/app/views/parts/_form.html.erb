@@ -1,0 +1,32 @@
+<%= form_for @part, :html => {:class => 'form-stacked'} do |f| %>
+<% if @part.errors.any? %>
+<div id="error_explanation">
+     <h2><%= pluralize(@part.errors.count, "error") %> prohibited this part from being saved:</h2>
+     <ul>
+     	<% @part.errors.full_messages.each do |msg| %>
+       <li><%= msg %></li>
+	<%end%>
+  </ul>
+   </div>
+<% end %>
+<div class="field">
+	<%= f.label :part_name_en, "Part Name EN" %>
+	<%= f.text_field :part_name_en %>
+</div>
+
+<div class="field">
+	<%= f.label :part_name_fr, "Part Name FR"%>
+	<%= f.text_field :part_name_fr %>
+</div>
+
+<div class="field">
+	<%= f.label :part_name_es, "Part Name ES" %>
+	<%= f.text_field :part_name_es %>
+</div>
+
+<%= f.hidden_field :programme_id, :value => @programme.nil? ? @part.programme_id : @programme.id %>
+
+<div class="actions">
+	<%= f.submit :class => 'btn primary' %>
+</div>
+<% end %>

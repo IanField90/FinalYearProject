@@ -1,4 +1,8 @@
-<h1>Parts</h1>
+<h1>Programme: <%= @programme.programme_name_en %></h1>
+<h2>Parts</h2>
+<%if is_user_admin %>
+	<%= link_to 'New Part', {:controller => "parts", :action => "new", :programme_id => @programme }, :class => 'btn primary'%>
+<%end%>
 <table>
 	<tr>
 		<th>Part Name EN</th>
@@ -12,8 +16,8 @@
 		<td><%= part.part_name_en %></td>
 		<td><%= part.part_name_fr %></td>
 		<td><%= part.part_name_es %></td>
-		<td>Show</td>
-		<td>Edit</td>
-		<td>Delete</td>
+		<td><%= link_to "Show", part_path(part)%></td>
+		<td><%if is_user_admin %><%= link_to "Edit", edit_part_path(part) %><%end%></td>
+		<td><%if is_user_admin %><%= link_to 'Delete', part, :confirm => 'Are you sure?', :method => :delete %><%end%></td>
 	<%end%>
 </table>
