@@ -111,7 +111,10 @@ Web::Application.routes.draw do
       resources :parts
     end
   end
-  resources :programmes
+  
+  resources :programmes do
+    resources :parts
+  end
   resources :parts
   resources :materials
   resources :quizzes
