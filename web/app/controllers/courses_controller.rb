@@ -2,6 +2,11 @@ class CoursesController < ApplicationController
   # GET /courses
   def index
     @courses = Course.all
+    respond_to do |format|
+      format.html
+      format.json { render :json => @courses }
+      format.xml { render :xml => @courses }
+    end
   end
 
   # GET /courses/new
@@ -18,11 +23,16 @@ class CoursesController < ApplicationController
   # GET /courses/1
   def show
     @course = Course.find(params[:id])
+    
+    
+    
     #@programmes = @course.programmes
     #@programmes = Programme.find(:course_id => params[:id])
-    # respond_to |format| do
-    #       format.html #show.html.erb
-    #     end
+   respond_to |format| do
+     format.html #show.html.erb
+     format.json { render :json => @course }
+     format.xml { render :xml => @course }
+   end
     #render :show
   end
   

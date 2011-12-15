@@ -6,6 +6,7 @@
 <%end%>
 <table>
 	<tr>
+		<th>Number</th>
 		<th>Quiz Name EN</th>
 		<th>Quiz Name FR</th>
 		<th>Quiz Name ES</th>
@@ -13,35 +14,45 @@
 		<th></th>
 		<th></th>
 	</tr>
+	<% i = 0 %>
 	<% @part.quizzes.each do |quiz| %>
+	<tr>
+		<td><%= i += 1 %></td>
 		<td><%= quiz.quiz_name_en %></td>
 		<td><%= quiz.quiz_name_fr %></td>
 		<td><%= quiz.quiz_name_es %></td>
 		<td><%= link_to "Show", quiz_path(quiz)%></td>
 		<td><%if is_user_admin %><%= link_to "Edit", edit_quiz_path(quiz) %><%end%></td>
 		<td><%if is_user_admin %><%= link_to 'Delete', quiz, :confirm => 'Are you sure?', :method => :delete %><%end%></td>
+	</tr>
 	<%end%>
 </table>
 
+
+<h2>Materials</h2>
 <%if is_user_admin %>
 	<%= link_to 'New Material', {:controller => "materials", :action => "new", :part_id => @part }, :class => 'btn primary'%>
 <%end%>
-<h2>Materials</h2>
 <table>
 	<tr>
-		<th>Material Name EN</th>
-		<th>Material Name FR</th>
-		<th>Material Name ES</th>
+		<th>Number</th>
+		<th>Material EN</th>
+		<th>Material FR</th>
+		<th>Material ES</th>
 		<th></th>
 		<th></th>
 		<th></th>
 	</tr>
+	<% i = 0%>
 	<% @part.materials.each do |material| %>
-		<td><%= material.material_name_en %></td>
-		<td><%= material.material_name_fr %></td>
-		<td><%= material.material_name_es %></td>
+	<tr>
+		<td><%= i += 1%></td>
+		<td><%= truncate(material.material_en, :length => 20) %></td>
+		<td><%= truncate(material.material_fr, :length => 20) %></td>
+		<td><%= truncate(material.material_es, :length => 20) %></td>
 		<td><%= link_to "Show", material_path(material)%></td>
 		<td><%if is_user_admin %><%= link_to "Edit", edit_material_path(material) %><%end%></td>
 		<td><%if is_user_admin %><%= link_to 'Delete', material, :confirm => 'Are you sure?', :method => :delete %><%end%></td>
+	</tr>
 	<%end%>
 </table>
