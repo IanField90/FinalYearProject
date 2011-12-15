@@ -14,6 +14,9 @@ class MaterialsController < ApplicationController
   end
 
   def destroy
+    @material = Material.find(params[:id])
+    @material.destroy
+    redirect_to courses_path
   end
 
   def edit

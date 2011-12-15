@@ -23,17 +23,11 @@ class CoursesController < ApplicationController
   # GET /courses/1
   def show
     @course = Course.find(params[:id])
-    
-    
-    
-    #@programmes = @course.programmes
-    #@programmes = Programme.find(:course_id => params[:id])
-   respond_to |format| do
+   respond_to do |format|
      format.html #show.html.erb
      format.json { render :json => @course }
      format.xml { render :xml => @course }
    end
-    #render :show
   end
   
   # GET /courses/1/edit
