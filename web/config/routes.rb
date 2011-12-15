@@ -23,9 +23,16 @@ Web::Application.routes.draw do
     resources :materials, :quizzes
   end
   
+  
   resources :materials
-  resources :quizzes
-  resources :questions
+  resources :quizzes do
+    resources :questions
+  end
+  
+  resources :questions do
+    resources :options
+  end
+  
   resources :options
   resources :sessions
   resources :password_resets

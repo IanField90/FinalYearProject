@@ -1,0 +1,34 @@
+<%= form_for @quiz, :html => {:class => 'form-stacked'} do |f| %>
+<% if @quiz.errors.any? %>
+<div id="error_explanation">
+     <h2><%= pluralize(@quiz.errors.count, "error") %> prohibited this quiz from being saved:</h2>
+     <ul>
+     	<% @quiz.errors.full_messages.each do |msg| %>
+       <li><%= msg %></li>
+	<%end%>
+  </ul>
+   </div>
+<% end %>
+
+
+<div class="field">
+	<%= f.label :quiz_name_en, "Quiz Name EN" %>
+	<%= f.text_field :quiz_name_en %>
+</div>
+
+<div class="field">
+	<%= f.label :quiz_name_fr, "Quiz Name FR"%>
+	<%= f.text_field :quiz_name_fr %>
+</div>
+
+<div class="field">
+	<%= f.label :quiz_name_es, "Quiz Name ES" %>
+	<%= f.text_field :quiz_name_es %>
+</div>
+
+<%= f.hidden_field :part_id, :value => @part.nil? ? @material.part_id : @part.id %>
+
+<div class="actions">
+	<%= f.submit :class => 'btn primary' %>
+</div>
+<% end %>

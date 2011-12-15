@@ -4,12 +4,13 @@
 <%if is_user_admin %>
 	<%= link_to 'New Quiz', {:controller => "quizzes", :action => "new", :part_id => @part }, :class => 'btn primary'%>
 <%end%>
-<table>
+<table class="zebra-striped">
 	<tr>
 		<th>Number</th>
 		<th>Quiz Name EN</th>
 		<th>Quiz Name FR</th>
 		<th>Quiz Name ES</th>
+		<th>Published</th>
 		<th></th>
 		<th></th>
 		<th></th>
@@ -21,6 +22,8 @@
 		<td><%= quiz.quiz_name_en %></td>
 		<td><%= quiz.quiz_name_fr %></td>
 		<td><%= quiz.quiz_name_es %></td>
+		<!-- TODO: Make dynamic-->
+		<td><input type="checkbox" value="false" disabled></td>
 		<td><%= link_to "Show", quiz_path(quiz)%></td>
 		<td><%if is_user_admin %><%= link_to "Edit", edit_quiz_path(quiz) %><%end%></td>
 		<td><%if is_user_admin %><%= link_to 'Delete', quiz, :confirm => 'Are you sure?', :method => :delete %><%end%></td>
@@ -33,7 +36,7 @@
 <%if is_user_admin %>
 	<%= link_to 'New Material', {:controller => "materials", :action => "new", :part_id => @part }, :class => 'btn primary'%>
 <%end%>
-<table>
+<table class="zebra-striped">
 	<tr>
 		<th>Number</th>
 		<th>Material EN</th>

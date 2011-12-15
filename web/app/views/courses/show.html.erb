@@ -4,7 +4,7 @@
 <%if is_user_admin %>
 	<%= link_to 'New Programme', {:controller => "programmes", :action => "new", :course_id => @course }, :class => 'btn primary'%>
 <%end%>
-<table>
+<table class="zebra-striped">
 	<tr>
 		<th>Programme Name EN</th>
 		<th>Programme Name FR</th>

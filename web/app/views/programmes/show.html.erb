@@ -3,7 +3,7 @@
 <%if is_user_admin %>
 	<%= link_to 'New Part', {:controller => "parts", :action => "new", :programme_id => @programme }, :class => 'btn primary'%>
 <%end%>
-<table>
+<table class="zebra-striped">
 	<tr>
 		<th>Part Name EN</th>
 		<th>Part Name FR</th>

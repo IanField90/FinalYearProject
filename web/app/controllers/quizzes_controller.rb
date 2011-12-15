@@ -3,6 +3,7 @@ class QuizzesController < ApplicationController
   end
 
   def new
+    @quiz = Quiz.new(params[:quiz])
   end
 
   def edit
