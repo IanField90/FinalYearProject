@@ -1,6 +1,6 @@
 <h1>Courses</h1>
 <%if is_user_admin %>
-	<%= button_to 'New Course', new_course_path, :class => 'btn primary', :method => :get %>
+	<%= link_to 'New Course', {:controller => "courses", :action => "new"}, :class => 'btn primary'%>
 <%end%>
 <table>
 	<tr>
