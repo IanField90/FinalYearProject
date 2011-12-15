@@ -13,11 +13,13 @@
 		<th></th>
 	</tr>
 	<% @programme.parts.each do |part| %>
+	<tr>
 		<td><%= part.part_name_en %></td>
 		<td><%= part.part_name_fr %></td>
 		<td><%= part.part_name_es %></td>
 		<td><%= link_to "Show", part_path(part)%></td>
 		<td><%if is_user_admin %><%= link_to "Edit", edit_part_path(part) %><%end%></td>
 		<td><%if is_user_admin %><%= link_to 'Delete', part, :confirm => 'Are you sure?', :method => :delete %><%end%></td>
+	</tr>
 	<%end%>
 </table>

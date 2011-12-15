@@ -1,4 +1,6 @@
 class CoursesController < ApplicationController
+  before_filter :is_user_admin, :except => [:index, :show]
+  
   # GET /courses
   def index
     @courses = Course.all

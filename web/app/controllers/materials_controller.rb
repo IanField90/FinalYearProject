@@ -8,19 +8,25 @@ class MaterialsController < ApplicationController
         render :action => "new"
       end 
     else
-      redirect_to materials_path
+      redirect_to courses_path
     end
     
   end
 
   def destroy
-    @material = Material.find(params[:id])
-    @material.destroy
-    redirect_to courses_path
+      @material = Material.find(params[:id])
+      @id = @material.part_id
+      if is_user_admin
+        @material.destroy
+      end
+      redirect_to part_path(@id)
   end
 
   def edit
     @material = Material.find(params[:id])
+    if !is_user_admin
+      redirect_to part_path(@material.part_id)
+    end
   end
 
   def new
@@ -29,7 +35,7 @@ class MaterialsController < ApplicationController
     if is_user_admin
       render "new"
     else
-      redirect_to materials_path
+      redirect_to part_path(@part)
     end
   end
 
@@ -41,13 +47,15 @@ class MaterialsController < ApplicationController
     if is_user_admin
       #can update
       @material = Material.find(params[:id])
+      @id = @material.part_id
+      
       if @material.update_attributes(params[:material])
         redirect_to @material, :notice => 'Material was successfully updated.'
       else
         render :action => "edit"
       end
     else
-      redirect_to materials_path
+      redirect_to part_path(@id)
     end
   end
 
