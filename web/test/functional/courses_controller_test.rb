@@ -6,7 +6,7 @@ class CoursesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get new" do
+  test "should get new" do #if admin
     get :new
     assert_response :success
   end
@@ -19,6 +19,10 @@ class CoursesControllerTest < ActionController::TestCase
   test "should get destroy" do
     get :destroy
     assert_response :success
+  end
+  
+  test "should get redirected from new if not admin" do
+    
   end
 
 end

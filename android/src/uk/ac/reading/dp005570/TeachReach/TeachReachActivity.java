@@ -1,5 +1,6 @@
 package uk.ac.reading.dp005570.TeachReach;
 
+import uk.ac.reading.dp005570.TeachReach.data.ServerCommunicationHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -57,6 +58,9 @@ public class TeachReachActivity extends Activity implements OnClickListener{
         
         Button view_materials_button = (Button) findViewById(R.id.view_materials_button);
         view_materials_button.setOnClickListener(this);
+        
+        Button refresh_lists_button = (Button) findViewById(R.id.refresh_lists_button);
+        refresh_lists_button.setOnClickListener(this);
     }
 
 //    @Override
@@ -79,6 +83,16 @@ public class TeachReachActivity extends Activity implements OnClickListener{
     	}
     	else if(v == findViewById(R.id.refresh_lists_button)){
     		//TODO Retrieve from Server & Update DB
+    		
+    		//TODO remove testing - perhaps put threading into the ServerCommunicationHelper class
+    		Thread th = new Thread(new Runnable(){
+    			public void run(){
+    	    		ServerCommunicationHelper sch = new ServerCommunicationHelper();
+    	    		sch.getCourseList();	
+    			}
+    		});
+    		th.run();
+
     	}
     }
 }
