@@ -35,7 +35,7 @@ class ProgrammesController < ApplicationController
     if is_user_admin
       @programme.destroy
     else
-      redirect_to programme_path(@programme), :notice => "Cannot edit unless admin"
+      redirect_to programme_path(@programme), :notice => "Cannot delete unless admin"
     end
   end
 
