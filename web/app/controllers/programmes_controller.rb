@@ -2,6 +2,10 @@ class ProgrammesController < ApplicationController
   # GET /programmes/1
   def show
     @programme = Programme.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render :json => @programme }
+    end
   end
   
   # GET /programmes/new
@@ -12,20 +16,27 @@ class ProgrammesController < ApplicationController
     if is_user_admin
       render :new
     else
-      redirect_to programme_path
+      redirect_to programme_path, :notice => "Cannot create unless admin"
     end
   end
   
   # GET /programmes
   def index
     @programmes = Programme.all
+    respond_to do |format|
+      format.html
+      format.json { render :json => @programmes }
+    end
   end
 
   # DELETE /programmes/1
   def destroy
     @programme = Programme.find(params[:id])
-    @programme.destroy
-    redirect_to programmes_path
+    if is_user_admin
+      @programme.destroy
+    else
+      redirect_to programme_path(@programme), :notice => "Cannot edit unless admin"
+    end
   end
 
   # POST /programmes
@@ -60,6 +71,9 @@ class ProgrammesController < ApplicationController
   # GET /programmes/1/edit
   def edit
     @programme = Programme.find(params[:id])
+    if !is_user_admin
+      redirect_to programme_path(@programme), :notice => "Cannot edit unless admin"
+    end
   end
 
 end
