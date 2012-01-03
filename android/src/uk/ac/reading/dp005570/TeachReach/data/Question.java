@@ -1,6 +1,7 @@
 package uk.ac.reading.dp005570.TeachReach.data;
 
 import java.util.ArrayList;
+
 /**
  * 
  * @author ianfield
@@ -11,6 +12,10 @@ public class Question {
 	private QuestionType type;
 	private ArrayList<String> options;
 	private Boolean[] correctOptions; //TODO 2D update as matrix
+	
+	public enum QuestionType {
+		MULTIPLE_CHOICE, BLANKS, SLIDER, ORDERING, MATCH_UP
+	}
 	
 	public Question(String questionText, QuestionType type, ArrayList<String> options, Boolean[] correctOptions){
 		this.questionText = questionText;

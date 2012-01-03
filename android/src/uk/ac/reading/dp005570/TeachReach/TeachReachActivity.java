@@ -1,6 +1,6 @@
 package uk.ac.reading.dp005570.TeachReach;
 
-import uk.ac.reading.dp005570.TeachReach.data.ServerCommunicationHelper;
+import uk.ac.reading.dp005570.TeachReach.net.ServerCommunicationHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -83,7 +83,8 @@ public class TeachReachActivity extends Activity implements OnClickListener{
     	}
     	else if(v == findViewById(R.id.refresh_lists_button)){
     		//TODO Retrieve from Server & Update DB
-    		
+//    		ServerCommunicationHelper sch = new ServerCommunicationHelper();
+//    		sch.getCourseList();
     		//TODO remove testing - perhaps put threading into the ServerCommunicationHelper class
     		Thread th = new Thread(new Runnable(){
     			public void run(){

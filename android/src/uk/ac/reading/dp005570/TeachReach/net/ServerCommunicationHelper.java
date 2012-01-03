@@ -1,4 +1,4 @@
-package uk.ac.reading.dp005570.TeachReach.data;
+package uk.ac.reading.dp005570.TeachReach.net;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,8 +20,8 @@ public class ServerCommunicationHelper {
 	private HttpResponse response;
 	private BufferedReader in;
 	
-	private final String SERVER_ADDRESS = "http://192.168.1.66:3000/";
-	private final String REST_COURSES = "courses.json";
+	private final String SERVER_ADDRESS = "http://192.168.0.2:3000/";//Resources.getSystem().getString(uk.ac.reading.dp005570.TeachReach.R.string.server_uri);
+	private final String REST_COURSES = "courses.json"; 
 	
 	
 	public void getCourseList(){
@@ -34,6 +34,8 @@ public class ServerCommunicationHelper {
 			StringBuffer sb = new StringBuffer("");
 			String line = "";
 			String NL = System.getProperty("line.separator");
+			
+			
 			
 			while((line = in.readLine()) != null){
 				sb.append(line + NL);

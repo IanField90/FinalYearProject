@@ -3,7 +3,6 @@ package uk.ac.reading.dp005570.TeachReach;
 import java.util.ArrayList;
 
 import uk.ac.reading.dp005570.TeachReach.data.Question;
-import uk.ac.reading.dp005570.TeachReach.data.QuestionType;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -142,7 +141,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 				"\n\nA) Tell others what should be done" +
 				"\n\nB) Allow free exchange of ideas and support decision making" +
 				"\n\nC) Not interfere with the group as they have specialist areas";
-		QuestionType type = QuestionType.MULTIPLE_CHOICE;
+		Question.QuestionType type = Question.QuestionType.MULTIPLE_CHOICE;
 		ArrayList<String> options = new ArrayList<String>();
 		options.add("A");
 		options.add("B");
@@ -157,7 +156,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		options.add("True");
 		options.add("False");
 		correctOptions = new Boolean[]{ true, false};
-		type = QuestionType.MULTIPLE_CHOICE;
+		type = Question.QuestionType.MULTIPLE_CHOICE;
 		q = new Question(questionText, type, options, correctOptions);
 		quiz.add(q);
 		
@@ -166,7 +165,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		options.add("True");
 		options.add("False");
 		correctOptions = new Boolean[]{ false, true };
-		type = QuestionType.MULTIPLE_CHOICE;
+		type = Question.QuestionType.MULTIPLE_CHOICE;
 		q = new Question(questionText, type, options, correctOptions);
 		quiz.add(q);
 		
@@ -183,7 +182,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		options.add("D");
 		options.add("E");
 		correctOptions = new Boolean[]{ true, true, true, true, true }; //TODO Better representation
-		type = QuestionType.ORDERING;
+		type = Question.QuestionType.ORDERING;
 		q = new Question(questionText, type, options, correctOptions);
 		quiz.add(q);
 		
@@ -198,7 +197,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		options.add("Active experimentation 'having a go'");
 		options.add("Doing and experimenting");
 		correctOptions = new Boolean[] { true, true, true, true }; //TODO Better representation
-		type = QuestionType.MATCH_UP;
+		type = Question.QuestionType.MATCH_UP;
 		q = new Question(questionText, type, options, correctOptions);
 		quiz.add(q);
 		
@@ -210,7 +209,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		options.add("Likely");
 		options.add("Very likely");
 		correctOptions = null; //Not applicable for this datatype
-		type = QuestionType.SLIDER;
+		type = Question.QuestionType.SLIDER;
 		q = new Question(questionText, type, options, correctOptions);
 		quiz.add(q);
 	}
