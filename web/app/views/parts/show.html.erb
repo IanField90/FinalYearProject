@@ -22,7 +22,7 @@
 		<td><%= quiz.name_en %></td>
 		<td><%= quiz.name_fr %></td>
 		<td><%= quiz.name_es %></td>
-		<td><input type="checkbox" checked="<%= quiz.published ? 'yes' : 'no'  %>" disabled="true" /></td>
+		<td><%= quiz.published ? 'Y' : 'N' %> <!-- <input type="checkbox" checked="<%= quiz.published ? 'checked' : 'unchecked'  %>" disabled="true" />--></td>
 		<td><%= link_to "Show", quiz_path(quiz)%></td>
 		<td><%if is_user_admin %><%= link_to "Edit", edit_quiz_path(quiz) %><%end%></td>
 		<td><%if is_user_admin %><%= link_to 'Delete', quiz, :confirm => 'Are you sure?', :method => :delete %><%end%></td>
