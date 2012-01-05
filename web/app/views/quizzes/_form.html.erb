@@ -12,20 +12,24 @@
 
 
 <div class="field">
-	<%= f.label :quiz_name_en, "Quiz Name EN" %>
-	<%= f.text_field :quiz_name_en %>
+	<%= f.label :name_en, "Quiz Name EN" %>
+	<%= f.text_field :name_en %>
 </div>
 
 <div class="field">
-	<%= f.label :quiz_name_fr, "Quiz Name FR"%>
-	<%= f.text_field :quiz_name_fr %>
+	<%= f.label :name_fr, "Quiz Name FR"%>
+	<%= f.text_field :name_fr %>
 </div>
 
 <div class="field">
-	<%= f.label :quiz_name_es, "Quiz Name ES" %>
-	<%= f.text_field :quiz_name_es %>
+	<%= f.label :name_es, "Quiz Name ES" %>
+	<%= f.text_field :name_es %>
 </div>
 
+<div class="field">
+	<%= f.label :published, "Status" %>
+	<%= f.check_box :published %> Published
+</div>
 <%= f.hidden_field :part_id, :value => @part.nil? ? @material.part_id : @part.id %>
 
 <div class="actions">
