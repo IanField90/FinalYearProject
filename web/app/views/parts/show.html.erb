@@ -19,11 +19,10 @@
 	<% @part.quizzes.each do |quiz| %>
 	<tr>
 		<td><%= i += 1 %></td>
-		<td><%= quiz.quiz_name_en %></td>
-		<td><%= quiz.quiz_name_fr %></td>
-		<td><%= quiz.quiz_name_es %></td>
-		<!-- TODO: Make dynamic-->
-		<td><input type="checkbox" value="false" disabled></td>
+		<td><%= quiz.name_en %></td>
+		<td><%= quiz.name_fr %></td>
+		<td><%= quiz.name_es %></td>
+		<td><input type="checkbox" checked="<%= quiz.published ? 'yes' : 'no'  %>" disabled="true" /></td>
 		<td><%= link_to "Show", quiz_path(quiz)%></td>
 		<td><%if is_user_admin %><%= link_to "Edit", edit_quiz_path(quiz) %><%end%></td>
 		<td><%if is_user_admin %><%= link_to 'Delete', quiz, :confirm => 'Are you sure?', :method => :delete %><%end%></td>

@@ -10,7 +10,6 @@
    </div>
 <% end %>
 
-
 <div class="field">
 	<%= f.label :name_en, "Quiz Name EN" %>
 	<%= f.text_field :name_en %>
@@ -30,7 +29,7 @@
 	<%= f.label :published, "Status" %>
 	<%= f.check_box :published %> Published
 </div>
-<%= f.hidden_field :part_id, :value => @part.nil? ? @material.part_id : @part.id %>
+<%= f.hidden_field :part_id, :value => @part.nil? ? @quiz.part_id : @part.id %>
 
 <div class="actions">
 	<%= f.submit :class => 'btn primary' %>

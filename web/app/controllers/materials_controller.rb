@@ -15,11 +15,10 @@ class MaterialsController < ApplicationController
 
   def destroy
       @material = Material.find(params[:id])
-      @id = @material.part_id
       if is_user_admin
         @material.destroy
       end
-      redirect_to part_path(@id)
+      redirect_to part_path(@material.part_id)
   end
 
   def edit
@@ -44,18 +43,17 @@ class MaterialsController < ApplicationController
   end
 
   def update
+    @material = Material.find(params[:id])
+    
     if is_user_admin
-      #can update
-      @material = Material.find(params[:id])
-      @id = @material.part_id
-      
+      #can update      
       if @material.update_attributes(params[:material])
         redirect_to @material, :notice => 'Material was successfully updated.'
       else
         render :action => "edit"
       end
     else
-      redirect_to part_path(@id)
+      redirect_to part_path(@material.part_id)
     end
   end
 
