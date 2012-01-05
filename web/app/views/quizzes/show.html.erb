@@ -1,2 +1,32 @@
-<h1>Quizzes#show</h1>
-<p>Find me in app/views/quizzes/show.html.erb</p>
+<h1>Quiz: <%= @quiz.name %></h1>
+
+<h2>Questions</h2>
+<%if is_user_admin %>
+	<%= link_to 'New Question', {:controller => "questions", :action => "new", :quiz_id => @quiz }, :class => 'btn primary'%>
+<%end%>
+<table class="zebra-striped">
+	<tr>
+		<th>Number</th>
+		<th>Question EN</th>
+		<th>Question FR</th>
+		<th>Question ES</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	
+	<% i = 0 %>
+	<% @quiz.questions.each do |question| %>
+	<tr>
+		<td><%= i += 1 %></td>
+		<td><%= question.question_en %></td>
+		<td><%= question.question_fr %></td>
+		<td><%= question.question_es %></td>
+		<td><%= link_to "Show", question_path(question)%></td>
+		<td><%if is_user_admin %><%= link_to "Edit", edit_question_path(question) %><%end%></td>
+		<td><%if is_user_admin %><%= link_to 'Delete', question, :confirm => 'Are you sure?', :method => :delete %><%end%></td>
+	</tr>
+	<%end%>
+	
+</table>
+
