@@ -6,7 +6,7 @@ class CoursesController < ApplicationController
     @courses = Course.all
     respond_to do |format|
       format.html
-      format.json { render :json => @courses }
+      format.json { render :json => @courses, :include => {:programmes => {:include => :parts}} } # allows for 1 HTTP request for first app page
       format.xml { render :xml => @courses }
     end
   end
