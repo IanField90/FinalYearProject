@@ -1,2 +1,11 @@
-<h1><%= t 'home.title' %></h1>
-<%= t 'home.paragraph' %>
+<h1>Home</h1>
+
+<% if is_user_admin %>
+<h3>Welcome to TeachReach!</h3>
+<p>
+	To get started visit the 'Courses' link in the top bar. Create a <em>Course</em>, its subsequent <em>Programmes</em>, and the <em>Programmes</em> <em>Parts</em>.
+<p>
+	Once the part is created Materials and Quizzes can be created.
+</p>
+
+<% end %>

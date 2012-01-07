@@ -1,2 +1,25 @@
-<h1>Parts#list</h1>
-<p>Find me in app/views/parts/list.html.erb</p>
+<h1>Parts</h1>
+<table class="zebra-striped">
+	<tr>
+		<th>#</th>
+		<th>Name EN</th>
+		<th>Name FR</th>
+		<th>Name ES</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	<% i = 0 %>
+	<% @parts.each do |part| %>
+	<tr>
+		<td><%= i += 1 %></td>
+		<td><%= part.part_name_en %></td>
+		<td><%= part.part_name_fr %></td>
+		<td><%= part.part_name_es %></td>
+		<td><%= link_to 'View', part_path(part)%></td>
+		<td><% if is_user_admin %><%= link_to 'Edit', edit_part_path(part) %><% end %></td>
+		<td><% if is_user_admin %><%= link_to 'Delete', part, :confirm => 'Are you sure?', :method => :delete %><% end %></td>
+	</tr>
+	<%end%>
+	
+</table>
