@@ -1,35 +1,36 @@
 <h1>Part: <%= @part.part_name_en %></h1>
-
+<!-- Only admins can see non-published -->
 <h2>Quizzes</h2>
 <%if is_user_admin %>
 	<%= link_to 'New Quiz', {:controller => "quizzes", :action => "new", :part_id => @part }, :class => 'btn primary'%>
 <%end%>
 <table class="zebra-striped">
 	<tr>
-		<th>Number</th>
-		<th>Quiz Name EN</th>
-		<th>Quiz Name FR</th>
-		<th>Quiz Name ES</th>
-		<th>Published</th>
+		<th>#</th>
+		<th>Name EN</th>
+		<th>Name FR</th>
+		<th>Name ES</th>
+		<% if is_user_admin %><th>Published</th><% end %>
 		<th></th>
 		<th></th>
 		<th></th>
 	</tr>
 	<% i = 0 %>
 	<% @part.quizzes.each do |quiz| %>
-	<tr>
-		<td><%= i += 1 %></td>
-		<td><%= quiz.name_en %></td>
-		<td><%= quiz.name_fr %></td>
-		<td><%= quiz.name_es %></td>
-		<td><%= quiz.published ? 'Y' : 'N' %> <!-- <input type="checkbox" checked="<%= quiz.published ? 'checked' : 'unchecked'  %>" disabled="true" />--></td>
-		<td><%= link_to "Show", quiz_path(quiz)%></td>
-		<td><%if is_user_admin %><%= link_to "Edit", edit_quiz_path(quiz) %><%end%></td>
-		<td><%if is_user_admin %><%= link_to 'Delete', quiz, :confirm => 'Are you sure?', :method => :delete %><%end%></td>
-	</tr>
+		<% if quiz.published %>
+		<tr>
+			<td><%= i += 1 %></td>
+			<td><%= quiz.name_en %></td>
+			<td><%= quiz.name_fr %></td>
+			<td><%= quiz.name_es %></td>
+			<% if is_user_admin %><td><%= quiz.published ? 'Y' : 'N' %></td><% end %>
+			<td><%= link_to "Show", quiz_path(quiz)%></td>
+			<td><%if is_user_admin %><%= link_to "Edit", edit_quiz_path(quiz) %><%end%></td>
+			<td><%if is_user_admin %><%= link_to 'Delete', quiz, :confirm => 'Are you sure?', :method => :delete %><%end%></td>
+		</tr>
+		<% end %>
 	<%end%>
 </table>
-
 
 <h2>Materials</h2>
 <%if is_user_admin %>
@@ -37,7 +38,7 @@
 <%end%>
 <table class="zebra-striped">
 	<tr>
-		<th>Number</th>
+		<th>#</th>
 		<th>Material EN</th>
 		<th>Material FR</th>
 		<th>Material ES</th>
