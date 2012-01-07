@@ -14,6 +14,8 @@ class MaterialsController < ApplicationController
     
   end
 
+  # GET /materials
+  # GET /parts/1/materials
   def index
     if params[:part_id]
       @materials = Material.find(:all, :conditions => ["part_id = ?", params[:part_id]])
@@ -26,6 +28,7 @@ class MaterialsController < ApplicationController
     end
   end
 
+  # DELETE /materials/1
   def destroy
       @material = Material.find(params[:id])
       if is_user_admin
@@ -34,6 +37,7 @@ class MaterialsController < ApplicationController
       redirect_to part_path(@material.part_id)
   end
 
+  # GET /materials/1/edit
   def edit
     @material = Material.find(params[:id])
     if !is_user_admin
@@ -41,6 +45,7 @@ class MaterialsController < ApplicationController
     end
   end
 
+  # GET /parts/1/materials/new
   def new
     @part = Part.find(params[:part_id])
     @material = Material.new(params[:material])
@@ -51,6 +56,7 @@ class MaterialsController < ApplicationController
     end
   end
 
+  # GET /materials/1
   def show
     @material = Material.find(params[:id])
   end
