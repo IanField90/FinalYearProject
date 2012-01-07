@@ -1,0 +1,18 @@
+<h1>Materials</h1>
+<table class="zebra-striped">
+	<tr>
+		<th>#</th>
+		<th>EN</th>
+		<th>FR</th>
+		<th>ES</th>
+	</tr>
+	<% i = 0%>
+	<% @materials.each do |material| %>
+		<tr>
+			<td><%= i += 1 %></td>
+			<td><%= truncate(material.material_en, :length => 20) %></td>
+			<td><%= truncate(material.material_fr, :length => 20) %></td>
+			<td><%= truncate(material.material_es, :length => 20) %></td>
+		</tr>
+	<% end %>
+	</table>

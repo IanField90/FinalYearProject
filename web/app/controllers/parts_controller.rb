@@ -28,7 +28,7 @@ class PartsController < ApplicationController
     end
   end
   
-  # GET programmes/1/parts/new
+  # GET /programmes/1/parts/new
   def new
     @programme = Programme.find(params[:programme_id])
     @part = @programme.parts.new(params[:part])
@@ -39,7 +39,7 @@ class PartsController < ApplicationController
     end
   end
 
-  # POST /courses
+  # POST /parts
   def create
     if is_user_admin
       @part = Part.new(params[:part])
@@ -53,7 +53,7 @@ class PartsController < ApplicationController
     end
   end
 
-  # PUT /courses/1
+  # PUT /parts/1
   def update
     if is_user_admin
       #can update

@@ -1,4 +1,5 @@
 class MaterialsController < ApplicationController
+  # GET /parts/1/materials/new
   def create
     if is_user_admin
       @material = Material.new(params[:material])
@@ -11,6 +12,18 @@ class MaterialsController < ApplicationController
       redirect_to courses_path
     end
     
+  end
+
+  def index
+    if params[:part_id]
+      @materials = Material.find(:all, :conditions => ["part_id = ?", params[:part_id]])
+    else
+      @materials = Material.all
+    end
+    respond_to do |format|
+      format.html
+      format.json { render :json => @materials }
+    end
   end
 
   def destroy
