@@ -8,9 +8,9 @@ class SessionsController < ApplicationController
       else
         cookies[:auth_token] = user.auth_token
       end
-      redirect_to root_url #, :flash => { :success => "Logged in!" }
+      redirect_to root_url, :flash => { :success => "Logged in!" }
     else
-      flash[:error] = t('user.unsuccessful') # TODO: Maybe make this use locales better
+      flash[:error] = t('user.unsuccessful')
       render "new"
     end
   end

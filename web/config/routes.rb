@@ -1,5 +1,5 @@
 Web::Application.routes.draw do
-  # TODO: root pathing better
+  # root pathing
   root :to => "home#index"
   
   match "logout" => "sessions#destroy", :as => "logout"

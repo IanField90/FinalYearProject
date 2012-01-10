@@ -10,19 +10,43 @@
    </div>
 <% end %>
 
-<div class="field">
-	<%= f.label :question_en %>
-	<%= f.text_area :question_en %>
+<h3>Body</h3>
+<div class="field" style="float:left; margin-right:10px;">
+	<%= f.label :question_en, "Question EN" %>
+	<%= f.text_area :question_en, :rows => 10 %>
+</div>
+
+<div class="field" style="float:left; margin-right:10px;">
+	<%= f.label :question_fr, "Question FR" %>
+	<%= f.text_area :question_fr, :rows => 10 %>
 </div>
 
 <div class="field">
-	<%= f.label :question_fr %>
-	<%= f.text_area :question_fr %>
+	<%= f.label :question_es, "Question ES" %>
+	<%= f.text_area :question_es, :rows => 10 %>
+</div>
+
+<div class="field" style="float:left; margin-right:10px;">
+	<%= f.label :feedback_en, "Feedback EN" %>
+	<%= f.text_area :feedback_en, :rows => 10 %>
+</div>
+
+<div class="field" style="float:left; margin-right:10px;">
+	<%= f.label :feedback_fr, "Feedback FR" %>
+	<%= f.text_area :feedback_fr, :rows => 10 %>
 </div>
 
 <div class="field">
-	<%= f.label :question_es %>
-	<%= f.label :question_es %>
+	<%= f.label :feedback_es, "Feedback ES" %>
+	<%= f.text_area :feedback_es, :rows => 10 %>
+</div>
+
+<h3>Options</h3>
+
+<!-- TODO: Options here-->
+
+<div class="actions">
+<%= f.submit :class => 'btn primary'%>
 </div>
 
 <% end %>
