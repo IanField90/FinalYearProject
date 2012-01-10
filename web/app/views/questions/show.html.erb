@@ -28,3 +28,36 @@
 
 <!-- TODO: OPTIONS SHOW -->
 <h2>Options</h2>
+<%if is_user_admin %>
+	<%= link_to 'New Option', {:controller => "options", :action => "new", :question_id => @question }, :class => 'btn primary'%>
+<%end%>
+
+<table class="zebra-striped">
+	<tr>
+		<th>Option</th>
+		<th>EN</th>
+		<th>Answer</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	<% i = '@' %>
+	<% @options.each do |option| %>
+	<tr>
+		<td>
+			<%= i += 1 %>
+		</td>
+		<td>
+			<%= option.content_en %>
+		</td>
+		<td>
+			<%= option.answer ? 'Y' : 'N' %>
+		</td>
+		<td></td>
+		<td></td>
+		<td></td>
+		
+	</tr>
+	<% end %>
+	
+</table>

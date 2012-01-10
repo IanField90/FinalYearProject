@@ -64,7 +64,7 @@ class PartsController < ApplicationController
         render :action => "edit"
       end
     else
-      redirect_to parts_path
+      redirect_to parts_path, "Cannot edit unless admin."
     end
   end
   

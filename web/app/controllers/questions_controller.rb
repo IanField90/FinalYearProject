@@ -7,6 +7,7 @@ class QuestionsController < ApplicationController
   # GET /questions/1
   def show
     @question = Question.find(params[:id])
+    @options = @question.options
     respond_to do |format|
       format.html
       format.json { render :json => @question }

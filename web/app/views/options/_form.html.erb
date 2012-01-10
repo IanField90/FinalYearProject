@@ -1,0 +1,38 @@
+<%= form_for @option, :html => { :class => 'form-stacked' } do |f| %>
+	<% if @option.errors.any? %>
+	<div id="error_explanation">
+	     <h2><%= pluralize(@option.errors.count, "error") %> prohibited this option from being saved:</h2>
+	     <ul>
+	     	<% @option.errors.full_messages.each do |msg| %>
+	       <li><%= msg %></li>
+		<%end%>
+	  </ul>
+	   </div>
+	<% end %>
+	
+	<div class="field">
+		<%= f.label :content_en, "EN" %>
+		<%= f.text_field :content_en %>
+	</div>
+	
+	<div class="field">
+		<%= f.label :content_fr, "FR" %>
+		<%= f.text_field :content_fr %>
+	</div>
+	
+	<div class="field">
+		<%= f.label :content_es, "ES" %>
+		<%= f.text_field :content_es %>
+	</div>
+	
+	<div class="field">
+		<%= f.label :answer, "Correct" %>
+		<%= f.check_box :answer %> Answer?
+	</div>
+	
+	<%= f.hidden_field :question_id, :value => @question.nil? ? @option.question_id : @question.id %>
+	
+	<div class="actions">
+		<%= f.submit :class => 'btn primary' %>
+	</div>
+<% end %>
