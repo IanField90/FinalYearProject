@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
 
   # GET /quizzes/1/questions/new
   def new
+    @quiz = Quiz.find(params[:quiz_id])
     @question = Question.new(params[:question])
     if !is_user_admin
       redirect_to @question, :notice => "Cannot create unless admin."
