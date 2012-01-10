@@ -41,7 +41,7 @@
 		<th></th>
 		<th></th>
 	</tr>
-	<% i = '@' %>
+	<% i = 0 %>
 	<% @options.each do |option| %>
 	<tr>
 		<td>
@@ -53,9 +53,9 @@
 		<td>
 			<%= option.answer ? 'Y' : 'N' %>
 		</td>
-		<td></td>
-		<td></td>
-		<td></td>
+		<td><%= link_to "Show", option_path(option)%></td>
+		<td><%if is_user_admin %><%= link_to "Edit", edit_option_path(option) %><%end%></td>
+		<td><%if is_user_admin %><%= link_to 'Delete', option, :confirm => 'Are you sure?', :method => :delete %><%end%>
 		
 	</tr>
 	<% end %>

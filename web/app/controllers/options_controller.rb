@@ -1,6 +1,7 @@
 class OptionsController < ApplicationController
   # GET /options/1
   def show
+    @option = Option.find(params[:id])
   end
 
   # GET /questions/1/options/new
@@ -16,6 +17,10 @@ class OptionsController < ApplicationController
 
   # GET /questions/1/options/edit
   def edit
+    @option = Option.find(params[:id])
+    if !is_user_admin
+      redirect_to question_path(@option.question_id), :notice => "Cannot edit unless admin."
+    end
   end
 
   # POST /options
@@ -23,7 +28,7 @@ class OptionsController < ApplicationController
     @option = Option.new(params[:option])
     if is_user_admin
       if @option.save
-        redirect_to @option, :notice => "Option saved."
+        redirect_to question_path(@option.question_id), :notice => "Option saved."
       else
         render :action => :new
       end
