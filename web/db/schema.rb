@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120105122638) do
+ActiveRecord::Schema.define(:version => 20120110095838) do
 
   create_table "courses", :force => true do |t|
     t.text     "course_name_en"
@@ -76,6 +76,9 @@ ActiveRecord::Schema.define(:version => 20120105122638) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "type_id"
+    t.text     "feedback_en"
+    t.text     "feedback_fr"
+    t.text     "feedback_es"
   end
 
   create_table "quizzes", :force => true do |t|
