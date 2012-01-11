@@ -10,9 +10,8 @@
     User.create(:email => 'test@example.com', :password => 'Password', :admin => true)
   end
   
-  if Type.count == 0
-    Type.create(:type => 'Multiple Choice')
-    Type.create(:type => 'Fill-in-the-blanks')
-    Type.create(:type => 'Match-up')
-    Type.create(:type => 'Slider/Opinion')
-  end
+  Type.delete_all
+  Type.create(:value => "Multiple Choice")
+  Type.create(:value => 'Fill-in-the-blanks')
+  Type.create(:value => 'Match-up')
+  Type.create(:value => 'Slider/Opinion')
