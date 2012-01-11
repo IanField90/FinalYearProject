@@ -6,4 +6,13 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 
-  User.create(:email => 'test@example.com', :password => 'Password', :admin => true)
+  if User.count == 0
+    User.create(:email => 'test@example.com', :password => 'Password', :admin => true)
+  end
+  
+  if Type.count == 0
+    Type.create(:type => 'Multiple Choice')
+    Type.create(:type => 'Fill-in-the-blanks')
+    Type.create(:type => 'Match-up')
+    Type.create(:type => 'Slider/Opinion')
+  end

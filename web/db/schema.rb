@@ -10,21 +10,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120110095838) do
+ActiveRecord::Schema.define(:version => 20120111110634) do
 
   create_table "courses", :force => true do |t|
     t.text     "course_name_en"
     t.text     "course_name_fr"
     t.text     "course_name_es"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "feedbacks", :force => true do |t|
-    t.text     "feedback_en"
-    t.text     "feedback_fr"
-    t.text     "feedback_es"
-    t.integer  "question_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -71,7 +62,6 @@ ActiveRecord::Schema.define(:version => 20120110095838) do
     t.text     "question_en"
     t.text     "question_fr"
     t.text     "question_es"
-    t.integer  "question_position"
     t.integer  "quiz_id"
     t.datetime "created_at"
     t.datetime "updated_at"
