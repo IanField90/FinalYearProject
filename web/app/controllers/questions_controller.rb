@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
   def show
     @question = Question.find(params[:id])
     @options = @question.options
+    @type = Type.find(@question.type_id)
     respond_to do |format|
       format.html
       format.json { render :json => @question }
@@ -18,6 +19,7 @@ class QuestionsController < ApplicationController
   def new
     @quiz = Quiz.find(params[:quiz_id])
     @question = Question.new(params[:question])
+    @types = Type.all
     if !is_user_admin
       redirect_to @question, :notice => "Cannot create unless admin."
     end
@@ -26,6 +28,7 @@ class QuestionsController < ApplicationController
   # GET /questions/1/edit
   def edit
     @question = Question.find(params[:id])
+    @types = Type.all
     if !is_user_admin
       redirect_to @question, :notice => "Cannot edit unless admin."
     end
@@ -35,6 +38,7 @@ class QuestionsController < ApplicationController
   def create
     if is_user_admin
       @question = Question.new(params[:question])
+      @question.type_id = params[:type][:id]
       if @question.save
         redirect_to @question, :notice => "Question was successfully created."
       else

@@ -11,6 +11,7 @@
   end
   
   Type.delete_all
+  # ActiveRecord::Base.connection.execute("ALTER TABLE types AUTOINCREMENT = 1")
   Type.create(:value => "Multiple Choice")
   Type.create(:value => 'Fill-in-the-blanks')
   Type.create(:value => 'Match-up')

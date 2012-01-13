@@ -4,7 +4,13 @@ class PartsController < ApplicationController
     @part = Part.find(params[:id])
     respond_to do |format|
       format.html
-      format.json { render :json => @part }
+      format.json { render :json => @part, :include => {
+          :materials => {}, 
+          :quizzes => { 
+            :include => {
+              :questions => {:include => { :options => {}}}}}
+        } 
+      } # { :materials, :quizzes } }
     end
   end
 

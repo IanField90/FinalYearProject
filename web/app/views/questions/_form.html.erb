@@ -41,11 +41,11 @@
 	<%= f.text_area :feedback_es, :rows => 10 %>
 </div>
 
+<div class="field">
+	<%= collection_select(:type, :id, @types, :id, :value) %>
+</div>
+
 <%= f.hidden_field :quiz_id, :value => @quiz.nil? ? @question.quiz_id : @quiz.id %>
-
-<h3>Options</h3>
-
-<!-- TODO: Options here-->
 
 <div class="actions">
 <%= f.submit :class => 'btn primary'%>
