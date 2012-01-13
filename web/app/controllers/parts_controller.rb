@@ -4,13 +4,14 @@ class PartsController < ApplicationController
     @part = Part.find(params[:id])
     respond_to do |format|
       format.html
+      #Build full JSON response so it is just one request
       format.json { render :json => @part, :include => {
           :materials => {}, 
           :quizzes => { 
             :include => {
               :questions => {:include => { :options => {}}}}}
         } 
-      } # { :materials, :quizzes } }
+      }
     end
   end
 
