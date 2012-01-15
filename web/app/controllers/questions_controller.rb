@@ -51,9 +51,14 @@ class QuestionsController < ApplicationController
   
   # PUT /questions/1
   def update
+    @question = Question.find(params[:id])
     if is_user_admin
-      
+      if @question.update_attributes(params[:question])
+        redirect_to @question, :notice => "Question was successfully updated."
+      else
+        render :action => "edit"
     else
+      redirect_to quiz_path(@question.quiz_id)
     end
   end
   
