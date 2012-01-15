@@ -59,9 +59,12 @@ class QuestionsController < ApplicationController
   
   # DELETE /questions/1
   def destroy
+    @question = Question.find(params[:id])
+    @id = @question.quiz_id
     if is_user_admin
-    else
+      @question.destroy
     end
+    redirect_to quiz_path(@id)
   end
 
 end
