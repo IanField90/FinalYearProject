@@ -167,14 +167,16 @@ public class TeachReachDbAdapter {
 	 * Query the database for a list of courses
 	 * @return All courses available from the database
 	 */
-	private Cursor fetchCourseList(){
+	public void fetchCourseList(){
 		Cursor mCursor = mDb.query(true, "Programmes", 
 				new String[] {"programme_name_en", "programme_name_fr", "programme_name_es" }, 
 				null, null, null, null, null, null);
 		if(mCursor != null){
 			mCursor.moveToFirst();
 		}
-		return mCursor;
+		
+		//TODO return key pairs for Courses and corresponding ID
+		// e.g. Course[Name_en, Name_fr, Name_es, id]
 	}
 	
 	/**
@@ -190,7 +192,7 @@ public class TeachReachDbAdapter {
 	 * @param course_id The ID of the course to list programmes for.
 	 * @return list of programmes related to course
 	 */
-	private Cursor fetchProgrammesList(int course_id){
+	public void fetchProgrammesList(int course_id){
 		//TODO Use course_id
 		Cursor mCursor = mDb.query(true, "Programmes", 
 				new String[] {"programme_name_en", "programme_name_fr", "programme_name_es" }, 
@@ -198,7 +200,8 @@ public class TeachReachDbAdapter {
 		if(mCursor != null){
 			mCursor.moveToFirst();
 		}
-		return mCursor;
+		//TODO traverse cursor and construct array with IDs
+//		return mCursor;
 	}
 	
 	/**
@@ -215,17 +218,26 @@ public class TeachReachDbAdapter {
 		return mCursor;
 	}
 	
-	
-	private Cursor fetchPartsList(){
+	/**
+	 * Fetch all parts in the database
+	 * @return Cursor for all parts
+	 */
+	public void fetchPartsList(){
 		//TODO query logic
-		return null;
 	}
 	
-	private Cursor fetchPartsList(int programme_id){
+	/**
+	 * Fetch list of parts specific to the programme_id specified
+	 * @param programme_id Corresponding programme id to retrieve list of parts for
+	 * @return Cursor for selected parts
+	 */
+	public void fetchPartsList(int programme_id){
 		//TODO query logic with programm_id
-		return null;
 	}
 	
+	/**
+	 * Return the array object for all relative parts
+	 */
 	public void getPartsList(){
 		// TODO Utilise query helper and produce an array of parts but maintain IDs
 		
