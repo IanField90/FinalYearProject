@@ -6,7 +6,20 @@ class CoursesController < ApplicationController
     @courses = Course.all
     respond_to do |format|
       format.html
-      format.json { render :json => @courses, :include => {:programmes => {:include => :parts}}, :except => :created_at } # allows for 1 HTTP request for first app page
+      format.json { 
+        render :json => @courses,
+        :include => { 
+          :programmes => { 
+              :include => {
+                :parts  => {
+                  :except => [ :created_at, :programme_id ] # TODO may need to re-add programme_id depending on JSON parsing
+                }
+              }
+            }
+        },
+        :except => [ :created_at, :course_id ] # TODO may need to re-add course_id depending on JSON parsing 
+      } # allows for 1 HTTP request for first app page
+      
       format.xml { render :xml => @courses }
     end
   end

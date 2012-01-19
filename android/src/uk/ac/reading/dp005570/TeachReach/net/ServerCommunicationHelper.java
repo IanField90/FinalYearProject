@@ -11,9 +11,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import android.util.Log;
 
@@ -30,6 +29,9 @@ public class ServerCommunicationHelper {
 		
 	}
 	
+	private void parseCourses(JSONArray list){
+		list.toString();
+	}
 	
 	public void getCourseList(){
 		//TODO run on a different thread, and give user some feedback on progress
@@ -52,11 +54,13 @@ public class ServerCommunicationHelper {
 			
 			Log.d("SERVER", "Response: " + response_page);
 			
-			JSONTokener json_response = new JSONTokener(response_page);
-			Log.d("RESPONSE", json_response.toString());
-			//JsonReader reader = new JsonReader();
-//				Log.d("PARSER", json_response.getJSONArray("programmes") .toString());
-			
+			try {
+				JSONArray course_list = new JSONArray(response_page);
+				parseCourses(course_list);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
@@ -67,9 +71,7 @@ public class ServerCommunicationHelper {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		//return sb.toString();
-		
+		}		
 	}
 	
 }

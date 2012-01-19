@@ -31,7 +31,7 @@ class PartsController < ApplicationController
       @part.destroy
       redirect_to parts_path
     else
-      redirect_to part_path #, :notice => "Cannot delete unless admin"
+      redirect_to part_path, :notice => "Cannot delete unless admin"
     end
   end
   
