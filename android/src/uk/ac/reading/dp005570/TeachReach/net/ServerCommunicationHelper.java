@@ -19,13 +19,19 @@ public class ServerCommunicationHelper {
 	private HttpGet request = new HttpGet();
 	private HttpResponse response;
 	private BufferedReader in;
-	
-	private final String SERVER_ADDRESS = "http://192.168.0.2:3000/";//Resources.getSystem().getString(uk.ac.reading.dp005570.TeachReach.R.string.server_uri);
+	//TODO This does not work...
+	//Resources.getSystem().getString(uk.ac.reading.dp005570.TeachReach.R.string.server_uri);
+	private final String SERVER_ADDRESS = "http://10.0.2.2:3000/"; //Default emulator server address
 	private final String REST_COURSES = "courses.json"; 
+	
+	public ServerCommunicationHelper(){
+		
+	}
 	
 	
 	public void getCourseList(){
 		//TODO run on a different thread, and give user some feedback on progress
+		//TODO timeout handling if the server cannot be found
 		// (see list tutorial Karsten told me about)
 		try {
 			request.setURI(new URI(SERVER_ADDRESS + REST_COURSES));
