@@ -24,13 +24,19 @@ public class ServerCommunicationHelper {
 	//TODO This does not work...
 	//Resources.getSystem().getString(uk.ac.reading.dp005570.TeachReach.R.string.server_uri);
 	private final String SERVER_ADDRESS = "http://10.0.2.2:3000/"; //Default emulator server address
-	private final String REST_COURSES = "courses.json"; 
+	private final String REST_ENDING = ".json";
+	private final String REST_COURSES = "courses" + REST_ENDING;
+	private final String REST_PART = "part/";
 	public ServerCommunicationHelper(){
 		
 	}
 	
 	private void parseCourses(JSONArray list){
 		list.toString();
+	}
+	
+	private void parsePart(JSONArray items){
+		items.toString();
 	}
 	
 	public void getCourseList(){
@@ -52,7 +58,7 @@ public class ServerCommunicationHelper {
 			in.close();
 			String response_page = sb.toString();
 			
-			Log.d("SERVER", "Response: " + response_page);
+			Log.i("ServerCommunicationHelper", "Response: " + response_page);
 			
 			try {
 				JSONArray course_list = new JSONArray(response_page);
@@ -74,4 +80,44 @@ public class ServerCommunicationHelper {
 		}		
 	}
 	
+	public void getPartContent(int id){
+		//TODO run on a different thread, and give user some feedback on progress
+		//TODO timeout handling if the server cannot be found
+		// (see list tutorial Karsten told me about)
+		try {
+			request.setURI(new URI(SERVER_ADDRESS + REST_PART + id + REST_ENDING));
+			response = client.execute(request);
+			in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			StringBuffer sb = new StringBuffer("");
+			String line = "";
+			String NL = System.getProperty("line.separator");
+			
+			while((line = in.readLine()) != null){
+				sb.append(line + NL);
+			}
+			
+			in.close();
+			String response_page = sb.toString();
+			
+			Log.d("SERVER", "Response: " + response_page);
+			
+			try {
+				JSONArray part_content = new JSONArray(response_page);
+				parsePart(part_content);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
 }
