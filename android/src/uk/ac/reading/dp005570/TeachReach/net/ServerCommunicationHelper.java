@@ -11,6 +11,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import android.util.Log;
 
@@ -40,8 +43,6 @@ public class ServerCommunicationHelper {
 			String line = "";
 			String NL = System.getProperty("line.separator");
 			
-			
-			
 			while((line = in.readLine()) != null){
 				sb.append(line + NL);
 			}
@@ -50,6 +51,12 @@ public class ServerCommunicationHelper {
 			String response_page = sb.toString();
 			
 			Log.d("SERVER", "Response: " + response_page);
+			
+			JSONTokener json_response = new JSONTokener(response_page);
+			Log.d("RESPONSE", json_response.toString());
+			//JsonReader reader = new JsonReader();
+//				Log.d("PARSER", json_response.getJSONArray("programmes") .toString());
+			
 			
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
