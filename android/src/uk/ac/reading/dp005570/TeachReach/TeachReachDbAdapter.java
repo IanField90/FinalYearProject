@@ -7,14 +7,28 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+/**
+ * 
+ * @author ianfield
+ *	Handles updating and creating the database on the device.
+ */
 public class TeachReachDbAdapter {
 	public static final String KEY_ROWID = "_id";
 	
 	private static final String TAG = "TeachReachDbAdapter";
 	
 	/**
-	 * Database creation statement
+	 * Response codes
 	 */
+	private final int OK = 0;
+	private final int UPDATE_ERROR = -1;
+	private final int INSERT_ERROR = -2;
+	
+	
+	/**
+	 * Database creation statements
+	 */
+	// TODO Update the databases to add 'changed_at' date field to each table
 	// creation strings here	
 	private static final String TABLE_COURSES = "CREATE TABLE Courses(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
@@ -85,6 +99,10 @@ public class TeachReachDbAdapter {
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
 	
+	/**
+	 * @author ianfield
+	 *	Handles updates and changes to the database schema
+	 */
 	private static class DatabaseHelper extends SQLiteOpenHelper{
 		
 		DatabaseHelper(Context context){
@@ -119,24 +137,37 @@ public class TeachReachDbAdapter {
 	}
 	
 	/**
-	 * Allows the database to be created
-	 * @param ctx the context to work in
+	 * Allows the database to be created.
+	 * @param ctx the context to work in.
 	 */
 	public TeachReachDbAdapter(Context ctx){
 		this.mCtx = ctx;
 	}
 	
+	/**
+	 * Open database connection.
+	 * @return class instance with opened connection.
+	 * @throws SQLException
+	 */
 	public TeachReachDbAdapter open() throws SQLException{
 		mDbHelper = new DatabaseHelper(mCtx);
 		mDb = mDbHelper.getWritableDatabase();
 		return this;
 	}
 	
+	/**
+	 * close database connection.
+	 */
 	public void close(){
 		mDbHelper.close();
 	}
 	
-	public Cursor fetchProgrammesList(){
+	
+	/**
+	 * Query the database for a list of courses
+	 * @return All courses available from the database
+	 */
+	private Cursor fetchCourseList(){
 		Cursor mCursor = mDb.query(true, "Programmes", 
 				new String[] {"programme_name_en", "programme_name_fr", "programme_name_es" }, 
 				null, null, null, null, null, null);
@@ -146,11 +177,57 @@ public class TeachReachDbAdapter {
 		return mCursor;
 	}
 	
+	/**
+	 * Utilises provides a string array of all courses from the database
+	 */
 	public void getCoursesList(){
-		
+		// TODO Utilise query helper and produce an array of courses but maintain IDs
+
+	}
+
+	/**
+	 * Retrieves the list of programmes for a given course
+	 * @param course_id The ID of the course to list programmes for.
+	 * @return list of programmes related to course
+	 */
+	private Cursor fetchProgrammesList(int course_id){
+		//TODO Use course_id
+		Cursor mCursor = mDb.query(true, "Programmes", 
+				new String[] {"programme_name_en", "programme_name_fr", "programme_name_es" }, 
+				null, null, null, null, null, null);
+		if(mCursor != null){
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+	}
+	
+	/**
+	 * Retrieves the list of programmes
+	 * @return list of all programmes
+	 */
+	private Cursor fetchProgrammesList(){
+		Cursor mCursor = mDb.query(true, "Programmes", 
+				new String[] {"programme_name_en", "programme_name_fr", "programme_name_es" }, 
+				null, null, null, null, null, null);
+		if(mCursor != null){
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+	}
+	
+	
+	private Cursor fetchPartsList(){
+		//TODO query logic
+		return null;
+	}
+	
+	private Cursor fetchPartsList(int programme_id){
+		//TODO query logic with programm_id
+		return null;
 	}
 	
 	public void getPartsList(){
+		// TODO Utilise query helper and produce an array of parts but maintain IDs
 		
 	}
 	
@@ -165,4 +242,5 @@ public class TeachReachDbAdapter {
 	public void getQuiz(){
 		
 	}
+	
 }

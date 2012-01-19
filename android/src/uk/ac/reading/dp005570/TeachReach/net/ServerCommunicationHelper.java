@@ -16,6 +16,13 @@ import org.json.JSONException;
 
 import android.util.Log;
 
+/**
+ * 
+ * @author ianfield
+ *	Allows the communication and requests from the server.
+ *	Leverages the TeachReachDbAdapter class to update the database, 
+ *	which allows the population of the main Menu's selection ranges.
+ */
 public class ServerCommunicationHelper {
 	private HttpClient client = new DefaultHttpClient();
 	private HttpGet request = new HttpGet();
