@@ -7,8 +7,8 @@
     <TextView
         android:id="@+id/blank_label"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
     <Spinner
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" /><!--         android:id="@+id/android:spinner" -->

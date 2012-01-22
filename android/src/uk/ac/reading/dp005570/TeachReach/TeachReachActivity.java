@@ -1,9 +1,17 @@
 package uk.ac.reading.dp005570.TeachReach;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 import uk.ac.reading.dp005570.TeachReach.net.ServerCommunicationHelper;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -18,12 +26,21 @@ public class TeachReachActivity extends Activity implements OnClickListener{
 //	private JSONObject object;
 	private TeachReachDbAdapter mDbHelper;
 	private Spinner mProgrammeSpinner, mCourseSpinner, mPartSpinner; 
-   
+	private final String SETTINGS_FILE = "TeachReachSettings.txt";
+	private ServerCommunicationHelper sch = new ServerCommunicationHelper();
+
+	
+	private int selected_course = 0;
+	private int selected_programme = 0;
+	private int selected_part = 0;
+
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        loadSettings();
         
         mDbHelper = new TeachReachDbAdapter(this);
         mDbHelper.open();
@@ -59,10 +76,44 @@ public class TeachReachActivity extends Activity implements OnClickListener{
         Button view_materials_button = (Button) findViewById(R.id.view_materials_button);
         view_materials_button.setOnClickListener(this);
         
-        Button refresh_lists_button = (Button) findViewById(R.id.refresh_lists_button);
-        refresh_lists_button.setOnClickListener(this);
     }
 
+    private void loadSettings(){
+//        try {
+//        	char[] line = new char[10];
+//			FileReader fr = new FileReader(SETTINGS_FILE);
+//			fr.read(line);
+//			
+//			String string_line = line.toString();
+//			String[] options = string_line.split(",", 2);
+//			selected_course = Integer.parseInt(options[0]);
+//			selected_programme = Integer.parseInt(options[1]);
+//			selected_part = Integer.parseInt(options[2]);
+//			
+//			
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+        
+    }
+    
+    /**
+     * Save the id for course, programme, and part
+     */
+    private void saveSettings(){
+    	//TODO Get corresponding ID from db
+    }
+    
+	@Override
+	protected void onStop(){
+		super.onStop();
+		saveSettings();
+	}
+	
 //    @Override
     public void onClick(View v) {
     	Intent i;
@@ -81,19 +132,43 @@ public class TeachReachActivity extends Activity implements OnClickListener{
         	i.putExtra("Part", mPartSpinner.getSelectedItemPosition()+1);
         	startActivity(i);
     	}
-    	else if(v == findViewById(R.id.refresh_lists_button)){
-    		//TODO Retrieve from Server & Update DB
-//    		ServerCommunicationHelper sch = new ServerCommunicationHelper();
-//    		sch.getCourseList();
-    		//TODO remove testing - perhaps put threading into the ServerCommunicationHelper class
-    		Thread th = new Thread(new Runnable(){
-    			public void run(){
-    	    		ServerCommunicationHelper sch = new ServerCommunicationHelper();
-    	    		sch.getCourseList();	
-    			}
-    		});
-    		th.run();
-
-    	}
+//    	else if(v == findViewById(R.id.refresh_lists_button)){
+//    		//TODO Retrieve from Server & Update DB
+////    		ServerCommunicationHelper sch = new ServerCommunicationHelper();
+////    		sch.getCourseList();
+//    		//TODO remove testing - perhaps put threading into the ServerCommunicationHelper class
+//    		Thread th = new Thread(new Runnable(){
+//    			public void run(){
+//    	    		ServerCommunicationHelper sch = new ServerCommunicationHelper();
+//    	    		sch.getCourseList();	
+//    			}
+//    		});
+//    		th.run();
+//
+//    	}
     }
+    
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu){
+		MenuInflater mi = getMenuInflater();
+		mi.inflate(R.menu.main_menu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.refresh_lists:
+			final ProgressDialog progress = ProgressDialog.show(TeachReachActivity.this, "Please wait...", "Retrieving data...");
+			Thread thread = new Thread(new Runnable(){
+				public void run(){
+					sch.getCourseList(progress);
+				}
+			});
+			thread.run();
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	
+	}
 }

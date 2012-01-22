@@ -70,13 +70,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="@string/view_materials_button" />
-
-        <Button
-            android:id="@+id/refresh_lists_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/refresh_lists_button" />
     </LinearLayout>
 
 </LinearLayout>

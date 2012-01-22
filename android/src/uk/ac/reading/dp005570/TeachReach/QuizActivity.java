@@ -22,7 +22,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 	private TextView question_progress, slider_label;
 	private ArrayList<Question> quiz;
 	private LinearLayout ll;
-	private SeekBar slider;
+	private SeekBar slider;	
 	int num_options;
 	char letter;
 
@@ -49,6 +49,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		loadQuestion(quiz.get(0));
 		
 	}
+	
 
 	public void loadQuestion(Question q){
 		//Question text will not be different whatever type the question it is
