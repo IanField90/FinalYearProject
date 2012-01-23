@@ -1,5 +1,7 @@
 package uk.ac.reading.dp005570.TeachReach;
 
+import java.sql.Date;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -186,6 +188,14 @@ public class TeachReachDbAdapter {
 		// TODO Utilise query helper and produce an array of courses but maintain IDs
 
 	}
+	
+	public void createCourse(int id, String en, String fr, String es, Date date){
+		
+	}
+	
+	public void updateCourse(int id, String en, String fr, String es, Date date){
+		
+	}
 
 	/**
 	 * Retrieves the list of programmes for a given course
@@ -218,6 +228,14 @@ public class TeachReachDbAdapter {
 		return mCursor;
 	}
 	
+	public void updateProgramme(int id, String en, String fr, String es, Date date){
+		
+	}
+	
+	public void createProgramme(int id, String en, String fr, String es, Date date){
+		
+	}
+	
 	/**
 	 * Fetch all parts in the database
 	 * @return Cursor for all parts
@@ -233,6 +251,14 @@ public class TeachReachDbAdapter {
 	 */
 	public void fetchPartsList(int programme_id){
 		//TODO query logic with programm_id
+	}
+	
+	public void createPart(int id, String en, String fr, String es, Date date){
+		
+	}
+	
+	public void updatePart(int id, String en, String fr, String es, Date date){
+		
 	}
 	
 	/**
