@@ -1,10 +1,15 @@
 package uk.ac.reading.dp005570.TeachReach;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import uk.ac.reading.dp005570.TeachReach.data.TeachReachParser;
 import uk.ac.reading.dp005570.TeachReach.net.ServerCommunicationHelper;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,7 +29,7 @@ public class TeachReachActivity extends Activity implements OnClickListener{
 	private Spinner mProgrammeSpinner, mCourseSpinner, mPartSpinner; 
 	private final String SETTINGS_FILE = "TeachReachSettings.txt";
 	private ServerCommunicationHelper mSCH = new ServerCommunicationHelper();
-
+	private TeachReachParser mTeachReachParser = new TeachReachParser();
 	
 	private int mSelectedCourse = 0;
 	private int mSelectedProgramme = 0;
@@ -128,20 +133,6 @@ public class TeachReachActivity extends Activity implements OnClickListener{
         	i.putExtra("Part", mPartSpinner.getSelectedItemPosition()+1);
         	startActivity(i);
     	}
-//    	else if(v == findViewById(R.id.refresh_lists_button)){
-//    		//TODO Retrieve from Server & Update DB
-////    		ServerCommunicationHelper sch = new ServerCommunicationHelper();
-////    		sch.getCourseList();
-//    		//TODO remove testing - perhaps put threading into the ServerCommunicationHelper class
-//    		Thread th = new Thread(new Runnable(){
-//    			public void run(){
-//    	    		ServerCommunicationHelper sch = new ServerCommunicationHelper();
-//    	    		sch.getCourseList();	
-//    			}
-//    		});
-//    		th.run();
-//
-//    	}
     }
     
 	@Override
@@ -158,7 +149,13 @@ public class TeachReachActivity extends Activity implements OnClickListener{
 			final ProgressDialog progress = ProgressDialog.show(TeachReachActivity.this, "Please wait...", "Retrieving data...");
 			Thread thread = new Thread(new Runnable(){
 				public void run(){
-					mSCH.getCourseList(progress);
+					try {
+						Log.i("RAWR", "Testing thread");
+						mTeachReachParser.parseCourses(new JSONArray( mSCH.getCourseList(progress)));
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			});
 			thread.run();
