@@ -37,7 +37,7 @@ public class TeachReachDbAdapter {
 			"	course_name_en VARCHAR(255) NOT NULL, \n" + 
 			"	course_name_fr VARCHAR(255) NOT NULL, \n" + 
 			"	course_name_es VARCHAR(255) NOT NULL,\n" + 
-//			"	last_update	DATETIME,\n" +
+//			"	updated_at	DATETIME,\n" +
 			"	PRIMARY KEY (_id)\n" + 
 			");";
 	private static final String TABLE_PROGRAMMES = "CREATE TABLE Programmes(\n" + 

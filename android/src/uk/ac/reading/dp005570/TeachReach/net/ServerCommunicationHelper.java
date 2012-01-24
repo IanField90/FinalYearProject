@@ -27,10 +27,10 @@ import android.util.Log;
  *	which allows the population of the main Menu's selection ranges.
  */
 public class ServerCommunicationHelper {
-	private HttpClient client = new DefaultHttpClient();
-	private HttpGet request = new HttpGet();
-	private HttpResponse response;
-	private BufferedReader in;
+	private HttpClient mClient = new DefaultHttpClient();
+	private HttpGet mRequest = new HttpGet();
+	private HttpResponse mResponse;
+	private BufferedReader mIn;
 	
 	//Constants in case these fields change at a later date
 	
@@ -46,14 +46,12 @@ public class ServerCommunicationHelper {
 	
 	//Programmes JSON response fields
 	private final String PROGRAMMES = "programmes";
-	private final String COURSE_ID = "course_id";
 	private final String PROGRAMME_NAME_EN = "programme_name_en";
 	private final String PROGRAMME_NAME_FR = "programme_name_fr";
 	private final String PROGRAMME_NAME_ES = "programme_name_es";
 	
 	//Parts JSON response fields
 	private final String PARTS = "parts";
-	private final String PROGRAMME_ID = "programme_id";
 	private final String PART_NAME_EN = "part_name_en";
 	private final String PART_NAME_FR = "part_name_fr";
 	private final String PART_NAME_ES = "part_name_es";
@@ -68,6 +66,11 @@ public class ServerCommunicationHelper {
 
 	}
 
+	/**
+	 * Extracts information for a Course list and updates/creates entry in
+	 * database
+	 * @param list The JSON array of courses returned by the server
+	 */
 	private void parseCourses(JSONArray list){
 		JSONObject course;
 		int id;
@@ -83,13 +86,17 @@ public class ServerCommunicationHelper {
 				
 				Log.i(TAG, course.toString());
 				Log.i(TAG, "ID: "+id);
-				Log.i(TAG, "Date: " + updated_at.toString());
+				Log.i(TAG, "Date: " + updated_at.toString()); //NOTE: Maybe irrelevant update if exists else insert
 				Log.i(TAG, "EN: " + en);
 				Log.i(TAG, "FR: " + fr);
-				Log.i(TAG, "ES: " + es);		
+				Log.i(TAG, "ES: " + es);	
 				
 				//TODO Call DB helper function to insert course or update if exists
 				//createCourse(id, en, fr, es, updated_at);
+				
+				
+				JSONArray programmes = course.getJSONArray(PROGRAMMES);
+				parseProgramme(programmes, id);
 				
 			} catch (JSONException e) {
 				// Shouldn't happen unless empty response
@@ -98,6 +105,12 @@ public class ServerCommunicationHelper {
 		}
 	}
 	
+	/**
+	 * Extracts information for a programme's JSON and updates/creates entry in
+	 * database.
+	 * @param list The list of programmes to parse
+	 * @param course The ID of the parent course.
+	 */
 	private void parseProgramme(JSONArray list, int course){
 		JSONObject programme;
 		int id, course_id = course;
@@ -110,16 +123,19 @@ public class ServerCommunicationHelper {
 				en = programme.getString(PROGRAMME_NAME_EN);
 				fr = programme.getString(PROGRAMME_NAME_FR);
 				es = programme.getString(PROGRAMME_NAME_ES);
-				course_id = (Integer) programme.get(COURSE_ID);
 				Log.i(TAG, programme.toString());
 				Log.i(TAG, "ID: "+id);
 				Log.i(TAG, "Date: " + updated_at.toString());
 				Log.i(TAG, "EN: " + en);
 				Log.i(TAG, "FR: " + fr);
-				Log.i(TAG, "ES: " + es);		
+				Log.i(TAG, "ES: " + es);	
+				Log.i(TAG, "Course ID: " + course_id);
 				
-				//TODO Call DB helper function to insert course or update if exists
-				//createCourse(id, en, fr, es, updated_at);
+				//TODO Call DB helper function to insert programme or update if exists
+//				TeachReachDbAdapter.createProgramme(id, course_id, en, fr, es, updated_at);
+				
+				JSONArray parts = programme.getJSONArray(PARTS);
+				parseParts(parts, id);
 				
 			} catch (JSONException e) {
 				// Shouldn't happen unless empty response
@@ -128,8 +144,42 @@ public class ServerCommunicationHelper {
 		}
 	}
 
-	private void parsePart(JSONArray items){
-//		items.toString();
+	/**
+	 * Extracts the information from a list of parts and updates/creates entry in
+	 * database
+	 * @param list A list of Parts to parse
+	 * @param programme The ID of the Part's parent Programme
+	 */
+	private void parseParts(JSONArray list, int programme){
+		JSONObject part;
+		int id, programme_id = programme;
+		String en, fr, es, updated_at;
+		for (int i = 0; i < list.length()-1; i++){
+			try {
+				part = list.getJSONObject(i);
+				id = (Integer) part.get(ID);				
+				updated_at = part.get(UPDATED_AT).toString();
+				en = part.getString(PART_NAME_EN);
+				fr = part.getString(PART_NAME_FR);
+				es = part.getString(PART_NAME_ES);
+				Log.i(TAG, part.toString());
+				Log.i(TAG, "ID: "+id);
+				Log.i(TAG, "Date: " + updated_at.toString());
+				Log.i(TAG, "EN: " + en);
+				Log.i(TAG, "FR: " + fr);
+				Log.i(TAG, "ES: " + es);
+				Log.i(TAG, "Prog ID: " + programme_id);
+				
+				//TODO Call DB helper function to insert part or update if exists
+				//createPart(id, programme_id, en, fr, es, updated_at);
+				
+				
+				
+			} catch (JSONException e) {
+				// Shouldn't happen unless empty response
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**
@@ -139,25 +189,25 @@ public class ServerCommunicationHelper {
 	 * @param part
 	 */
 	private void parsePartContent(JSONArray part){
-		
+		//TODO triple layered parse.
 	}
 
 	public void getCourseList(ProgressDialog progress){
 		//TODO run on a different thread, and give user some feedback on progress
 		// (see list tutorial Karsten told me about)
 		try {
-			request.setURI(new URI(SERVER_ADDRESS + REST_COURSES));
-			response = client.execute(request);
-			in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			mRequest.setURI(new URI(SERVER_ADDRESS + REST_COURSES));
+			mResponse = mClient.execute(mRequest);
+			mIn = new BufferedReader(new InputStreamReader(mResponse.getEntity().getContent()));
 			StringBuffer sb = new StringBuffer("");
 			String line = "";
 			String NL = System.getProperty("line.separator");
 
-			while((line = in.readLine()) != null){
+			while((line = mIn.readLine()) != null){
 				sb.append(line + NL);
 			}
 
-			in.close();
+			mIn.close();
 			String response_page = sb.toString();
 
 			Log.i("ServerCommunicationHelper", "Response: " + response_page);
@@ -190,30 +240,31 @@ public class ServerCommunicationHelper {
 		progress.dismiss();
 	}
 
+	
 	public void getPartContent(int id){
 		//TODO run on a different thread, and give user some feedback on progress
 		//TODO timeout handling if the server cannot be found
 		// (see list tutorial Karsten told me about)
 		try {
-			request.setURI(new URI(SERVER_ADDRESS + REST_PART + id + REST_ENDING));
-			response = client.execute(request);
-			in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			mRequest.setURI(new URI(SERVER_ADDRESS + REST_PART + id + REST_ENDING));
+			mResponse = mClient.execute(mRequest);
+			mIn = new BufferedReader(new InputStreamReader(mResponse.getEntity().getContent()));
 			StringBuffer sb = new StringBuffer("");
 			String line = "";
 			String NL = System.getProperty("line.separator");
 
-			while((line = in.readLine()) != null){
+			while((line = mIn.readLine()) != null){
 				sb.append(line + NL);
 			}
 
-			in.close();
+			mIn.close();
 			String response_page = sb.toString();
 
 			Log.d("SERVER", "Response: " + response_page);
 
 			try {
 				JSONArray part_content = new JSONArray(response_page);
-				parsePart(part_content);
+				parsePartContent(part_content);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
