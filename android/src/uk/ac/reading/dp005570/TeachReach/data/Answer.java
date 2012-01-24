@@ -1,25 +1,25 @@
 package uk.ac.reading.dp005570.TeachReach.data;
 
 public class Answer {
-	private Integer answer; //Number of the answer within the question
-	private AnswerStatus status;
+	private Integer mAnswer; //Number of the answer within the question
+	private AnswerStatus mStatus;
 	
 	public Answer(Integer answer, AnswerStatus status){
-		this.answer = answer;
-		this.status = status;
+		this.mAnswer = answer;
+		this.mStatus = status;
 	}
 	
 	public void setAnswer(Integer answer) {
-		this.answer = answer;
+		this.mAnswer = answer;
 	}
 	public Integer getAnswer() {
-		return answer;
+		return mAnswer;
 	}
 	public void setStatus(AnswerStatus status) {
-		this.status = status;
+		this.mStatus = status;
 	}
 	public AnswerStatus getStatus() {
-		return status;
+		return mStatus;
 	}
 	
 	

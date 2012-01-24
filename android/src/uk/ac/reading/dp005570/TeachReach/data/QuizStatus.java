@@ -1,24 +1,24 @@
 package uk.ac.reading.dp005570.TeachReach.data;
 
 public class QuizStatus {
-	private String name;
-	private boolean taken;
+	private String mName;
+	private boolean mTaken;
 	
 	public QuizStatus(String name, boolean taken){
-		this.name = name;
-		this.taken = taken;
+		this.mName = name;
+		this.mTaken = taken;
 	}
 	
 	public void setName(String name) {
-		this.name = name;
+		this.mName = name;
 	}
 	public String getName() {
-		return name;
+		return mName;
 	}
 	public void setTaken(boolean taken) {
-		this.taken = taken;
+		this.mTaken = taken;
 	}
 	public boolean isTaken() {
-		return taken;
+		return mTaken;
 	}
 }

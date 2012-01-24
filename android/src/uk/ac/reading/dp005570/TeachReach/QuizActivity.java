@@ -18,12 +18,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class QuizActivity extends Activity implements OnSeekBarChangeListener {
-	private Integer question_number, number_of_questions;
-	private TextView question_progress, slider_label;
-	private ArrayList<Question> quiz;
-	private LinearLayout ll;
-	private SeekBar slider;	
-	int num_options;
+	private Integer mQuestionNumber, mNumberOfQuestions;
+	private TextView mQuestionProgress, mSliderLabel;
+	private ArrayList<Question> mQuiz;
+	private LinearLayout mLl;
+	private SeekBar mSlider;	
+	private int mNumberOptions;
 	char letter;
 
 	@Override
@@ -32,21 +32,21 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		setContentView(R.layout.quiz);
 		//Set up quiz
 		populateQuiz();
-		number_of_questions = quiz.size();
+		mNumberOfQuestions = mQuiz.size();
 		//We start on Question 1
-		question_number = 1;
+		mQuestionNumber = 1;
 
 		//Set up progress label
-		question_progress = (TextView) findViewById(R.id.question_progress);
-		question_progress.setText( question_number + " / " + number_of_questions);
+		mQuestionProgress = (TextView) findViewById(R.id.question_progress);
+		mQuestionProgress.setText( mQuestionNumber + " / " + mNumberOfQuestions);
 
 		//Label question with "Question"
 		TextView question_title = (TextView) findViewById(R.id.question_title);
 		question_title.setText(R.string.question);
 
 		// Actually prepare question
-		ll = (LinearLayout) findViewById(R.id.question_options);
-		loadQuestion(quiz.get(0));
+		mLl = (LinearLayout) findViewById(R.id.question_options);
+		loadQuestion(mQuiz.get(0));
 		
 	}
 	
@@ -69,37 +69,37 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 			options.setHorizontalScrollBarEnabled(true);
 			//TODO add OnItemSelectedListener
 			//Load spinner at the location of R.id.question_options
-			ll.addView(options);
+			mLl.addView(options);
 			break;
 		case SLIDER:
-			slider_label = new TextView(this);
-			slider = new SeekBar(this);
-			slider.setProgress(0);
-			slider.setMax(q.getOptions().size()-1);
-			slider.setOnSeekBarChangeListener(this); //Within this change listener set slider_label text to q.getOptions().get(position);
-			slider_label.setText(q.getOptions().get(0));
-			ll.addView(slider_label, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-			ll.addView(slider, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.MATCH_PARENT));
+			mSliderLabel = new TextView(this);
+			mSlider = new SeekBar(this);
+			mSlider.setProgress(0);
+			mSlider.setMax(q.getOptions().size()-1);
+			mSlider.setOnSeekBarChangeListener(this); //Within this change listener set slider_label text to q.getOptions().get(position);
+			mSliderLabel.setText(q.getOptions().get(0));
+			mLl.addView(mSliderLabel, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+			mLl.addView(mSlider, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.MATCH_PARENT));
 			break;
 		case ORDERING:
-			num_options = q.getOptions().size();
+			mNumberOptions = q.getOptions().size();
 			letter = '1';
-			for(int i = 0; i < num_options; i++){
+			for(int i = 0; i < mNumberOptions; i++){
 				TextView label = new TextView(this);
 				label.setText(letter+")");
 				options = new Spinner(this);
 				options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
 				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 				options.setAdapter(options_adapter);
-				ll.addView(label);
-				ll.addView(options);
+				mLl.addView(label);
+				mLl.addView(options);
 				letter++;
 			}
 			break;
 		case BLANKS:
-			num_options = q.getOptions().size();
+			mNumberOptions = q.getOptions().size();
 			letter = 'A';
-			for(int i = 0; i < num_options; i++){
+			for(int i = 0; i < mNumberOptions; i++){
 				TextView label = new TextView(this);
 				label.setText("*|"+letter+"|*)");
 				options = new Spinner(this);
@@ -108,17 +108,17 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 				options.setAdapter(options_adapter);
 				options.setHorizontalScrollBarEnabled(true);
 
-				ll.addView(label);
-				ll.addView(options);
+				mLl.addView(label);
+				mLl.addView(options);
 				letter++;
 			}
 			break;
 		case MATCH_UP:
 			//Essentially the same rendering
 			//Spinner control for each option.
-			num_options = q.getOptions().size();
+			mNumberOptions = q.getOptions().size();
 			letter = 'A';
-			for(int i = 0; i < num_options; i++){
+			for(int i = 0; i < mNumberOptions; i++){
 				TextView label = new TextView(this);
 				label.setText(letter+")");
 				options = new Spinner(this);
@@ -126,8 +126,8 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); //Can customise
 				options.setAdapter(options_adapter);
 				options.setScrollContainer(true);
-				ll.addView(label);
-				ll.addView(options);
+				mLl.addView(label);
+				mLl.addView(options);
 				letter++;
 			}
 			break;
@@ -136,7 +136,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 	}
 
 	public void populateQuiz(){
-		quiz = new ArrayList<Question>();
+		mQuiz = new ArrayList<Question>();
 		//TODO Actual population later on
 		String questionText = "One thing a good leader should do is:" +
 				"\n\nA) Tell others what should be done" +
@@ -149,7 +149,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		options.add("C");
 		Boolean[] correctOptions = new Boolean[]{false, false, true};
 		Question q = new Question(questionText, type, options, correctOptions);
-		quiz.add(q);
+		mQuiz.add(q);
 		
 		questionText = "Is a leader’s main responsibility to overcome the conflicts and challenges " +
 				"that arise during the course of a normal day, project etc.";
@@ -159,7 +159,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		correctOptions = new Boolean[]{ true, false};
 		type = Question.QuestionType.MULTIPLE_CHOICE;
 		q = new Question(questionText, type, options, correctOptions);
-		quiz.add(q);
+		mQuiz.add(q);
 		
 		questionText = "A bad leader is someone who always makes the decisions as they know best";
 		options = new ArrayList<String>();
@@ -168,7 +168,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		correctOptions = new Boolean[]{ false, true };
 		type = Question.QuestionType.MULTIPLE_CHOICE;
 		q = new Question(questionText, type, options, correctOptions);
-		quiz.add(q);
+		mQuiz.add(q);
 		
 		questionText = "Order these qualities into the order that you feel are the most important for a leader to possess.\n\n" +
 				"A) Time management\n" + 
@@ -185,7 +185,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		correctOptions = new Boolean[]{ true, true, true, true, true }; //TODO Better representation
 		type = Question.QuestionType.ORDERING;
 		q = new Question(questionText, type, options, correctOptions);
-		quiz.add(q);
+		mQuiz.add(q);
 		
 		questionText = "Please match these up below:\n\n" +
 		"A) A reflector learns by\n" + 
@@ -200,7 +200,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		correctOptions = new Boolean[] { true, true, true, true }; //TODO Better representation
 		type = Question.QuestionType.MATCH_UP;
 		q = new Question(questionText, type, options, correctOptions);
-		quiz.add(q);
+		mQuiz.add(q);
 		
 		questionText = "How likely?";
 		options = new ArrayList<String>();
@@ -212,7 +212,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		correctOptions = null; //Not applicable for this datatype
 		type = Question.QuestionType.SLIDER;
 		q = new Question(questionText, type, options, correctOptions);
-		quiz.add(q);
+		mQuiz.add(q);
 	}
 
 	@Override
@@ -227,22 +227,22 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.previous:
-			if(question_number > 1){
-				question_number--;
-				question_progress.setText(question_number + " / " + number_of_questions);
-				ll.removeAllViews();
-				loadQuestion(quiz.get(question_number-1));
+			if(mQuestionNumber > 1){
+				mQuestionNumber--;
+				mQuestionProgress.setText(mQuestionNumber + " / " + mNumberOfQuestions);
+				mLl.removeAllViews();
+				loadQuestion(mQuiz.get(mQuestionNumber-1));
 				return true;
 			}
 			else{
 				return false;
 			}
 		case R.id.next:
-			if(question_number < number_of_questions){
-				question_number++;
-				question_progress.setText(question_number + " / " + number_of_questions);
-				ll.removeAllViews();
-				loadQuestion(quiz.get(question_number-1));
+			if(mQuestionNumber < mNumberOfQuestions){
+				mQuestionNumber++;
+				mQuestionProgress.setText(mQuestionNumber + " / " + mNumberOfQuestions);
+				mLl.removeAllViews();
+				loadQuestion(mQuiz.get(mQuestionNumber-1));
 				return true;
 			}else {
 				// Load final results screen
@@ -258,8 +258,8 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 //	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
-		Question current_question = quiz.get(question_number-1);
-		slider_label.setText(current_question.getOptions().get(progress));
+		Question current_question = mQuiz.get(mQuestionNumber-1);
+		mSliderLabel.setText(current_question.getOptions().get(progress));
 	}
 
 //	@Override

@@ -7,9 +7,9 @@ package uk.ac.reading.dp005570.TeachReach.data;
  */
 public class HierarchySelection {
 	public static enum Type { COURSE, PROGRAMME, PART };
-	private int id;
-	private String en, fr, es;
-	private Type type;
+	private int mId;
+	private String mEN, mFR, mES;
+	private Type mType;
 	
 	public HierarchySelection(int id, String en, String fr, String es, Type type){
 		this.setId(id);
@@ -20,43 +20,43 @@ public class HierarchySelection {
 	}
 
 	public int getId() {
-		return id;
+		return mId;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.mId = id;
 	}
 
 	public String getEn() {
-		return en;
+		return mEN;
 	}
 
 	public void setEn(String en) {
-		this.en = en;
+		this.mEN = en;
 	}
 
 	public String getFr() {
-		return fr;
+		return mFR;
 	}
 
 	public void setFr(String fr) {
-		this.fr = fr;
+		this.mFR = fr;
 	}
 
 	public String getEs() {
-		return es;
+		return mES;
 	}
 
 	public void setEs(String es) {
-		this.es = es;
+		this.mES = es;
 	}
 
 	public Type getType() {
-		return type;
+		return mType;
 	}
 
 	public void setType(Type type) {
-		this.type = type;
+		this.mType = type;
 	}
 	
 	

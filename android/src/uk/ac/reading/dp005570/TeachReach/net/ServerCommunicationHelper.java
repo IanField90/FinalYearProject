@@ -62,6 +62,10 @@ public class ServerCommunicationHelper {
 	private final String REST_ENDING = ".json";
 	private final String REST_COURSES = "courses" + REST_ENDING;
 	private final String REST_PART = "part/";
+	
+	/**
+	 * 
+	 */
 	public ServerCommunicationHelper(){
 
 	}

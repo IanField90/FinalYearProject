@@ -8,52 +8,52 @@ import java.util.ArrayList;
  * Class to store the information for a particular question
  */
 public class Question {
-	private String questionText;
-	private QuestionType type;
-	private ArrayList<String> options;
-	private Boolean[] correctOptions; //TODO 2D update as matrix
+	private String mQuestionText;
+	private QuestionType mType;
+	private ArrayList<String> mOptions;
+	private Boolean[] mCorrectOptions; //TODO 2D update as matrix
 	
 	public enum QuestionType {
 		MULTIPLE_CHOICE, BLANKS, SLIDER, ORDERING, MATCH_UP
 	}
 	
 	public Question(String questionText, QuestionType type, ArrayList<String> options, Boolean[] correctOptions){
-		this.questionText = questionText;
-		this.type = type;
-		this.options = options;
+		this.mQuestionText = questionText;
+		this.mType = type;
+		this.mOptions = options;
 		this.setCorrectOptions(correctOptions);
 	}
 	
 	public void setQuestionText(String questionText) {
-		this.questionText = questionText;
+		this.mQuestionText = questionText;
 	}
 	
 	public String getQuestionText() {
-		return questionText;
+		return mQuestionText;
 	}
 	
 	public void setType(QuestionType type) {
-		this.type = type;
+		this.mType = type;
 	}
 	
 	public QuestionType getType() {
-		return type;
+		return mType;
 	}
 	
 	public void setOptions(ArrayList<String> options) {
-		this.options = options;
+		this.mOptions = options;
 	}
 	
 	public ArrayList<String> getOptions() {
-		return options;
+		return mOptions;
 	}
 
 	public void setCorrectOptions(Boolean[] correctOptions) {
-		this.correctOptions = correctOptions;
+		this.mCorrectOptions = correctOptions;
 	}
 
 	public Boolean[] getCorrectOptions() {
-		return correctOptions;
+		return mCorrectOptions;
 	}
 	
 }

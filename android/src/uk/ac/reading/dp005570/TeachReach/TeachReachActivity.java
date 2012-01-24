@@ -1,9 +1,5 @@
 package uk.ac.reading.dp005570.TeachReach;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
 import uk.ac.reading.dp005570.TeachReach.net.ServerCommunicationHelper;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -27,12 +23,12 @@ public class TeachReachActivity extends Activity implements OnClickListener{
 	private TeachReachDbAdapter mDbHelper;
 	private Spinner mProgrammeSpinner, mCourseSpinner, mPartSpinner; 
 	private final String SETTINGS_FILE = "TeachReachSettings.txt";
-	private ServerCommunicationHelper sch = new ServerCommunicationHelper();
+	private ServerCommunicationHelper mSCH = new ServerCommunicationHelper();
 
 	
-	private int selected_course = 0;
-	private int selected_programme = 0;
-	private int selected_part = 0;
+	private int mSelectedCourse = 0;
+	private int mSelectedProgramme = 0;
+	private int mSelectedPart = 0;
 
 	/** Called when the activity is first created. */
     @Override
@@ -162,7 +158,7 @@ public class TeachReachActivity extends Activity implements OnClickListener{
 			final ProgressDialog progress = ProgressDialog.show(TeachReachActivity.this, "Please wait...", "Retrieving data...");
 			Thread thread = new Thread(new Runnable(){
 				public void run(){
-					sch.getCourseList(progress);
+					mSCH.getCourseList(progress);
 				}
 			});
 			thread.run();

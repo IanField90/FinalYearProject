@@ -19,8 +19,8 @@ import android.widget.TextView;
 
 public class QuizListActivity extends ListActivity implements OnItemClickListener{
 	
-	private ArrayList<QuizStatus> m_quizzes = null;
-	private QuizItemAdapter m_adapter;
+	private ArrayList<QuizStatus> mQuizzes = null;
+	private QuizItemAdapter mAdapter;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,21 +28,21 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
         setContentView(R.layout.quiz_list);
         getListView().setTextFilterEnabled(false);
         getListView().setOnItemClickListener(this);
-        m_quizzes = new ArrayList<QuizStatus>();
+        mQuizzes = new ArrayList<QuizStatus>();
         
         // TODO ProgressDialog here while retrieving from online if chosen
         populateQuizList();
         
-        this.m_adapter = new QuizItemAdapter(this, R.layout.quiz_item, m_quizzes);
-        setListAdapter(m_adapter);
+        this.mAdapter = new QuizItemAdapter(this, R.layout.quiz_item, mQuizzes);
+        setListAdapter(mAdapter);
 
 	}
 	
 	
 	private void populateQuizList() {
 		// TODO Future implementation would be here
-        m_quizzes.add(new QuizStatus("Test Quiz 1", false));
-        m_quizzes.add(new QuizStatus("Test Quiz 2", true));		
+        mQuizzes.add(new QuizStatus("Test Quiz 1", false));
+        mQuizzes.add(new QuizStatus("Test Quiz 2", true));		
 	}
 
 	/**

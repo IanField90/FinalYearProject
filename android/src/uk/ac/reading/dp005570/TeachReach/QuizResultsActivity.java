@@ -19,8 +19,8 @@ import android.widget.TextView;
 
 public class QuizResultsActivity extends ListActivity implements OnItemClickListener{
 	
-	private QuestionItemAdapter m_adapter;
-	private ArrayList<Answer> m_questions;
+	private QuestionItemAdapter mAdapter;
+	private ArrayList<Answer> mQuestions;
 	
 	
 	@Override
@@ -28,13 +28,13 @@ public class QuizResultsActivity extends ListActivity implements OnItemClickList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.quiz_results);
 		
-		m_questions = new ArrayList<Answer>();
-		m_questions.add(new Answer(1, AnswerStatus.CORRECT));
-		m_questions.add(new Answer(2, AnswerStatus.INCORRECT));
-		m_questions.add(new Answer(2, AnswerStatus.NOT_APPLICABLE));
+		mQuestions = new ArrayList<Answer>();
+		mQuestions.add(new Answer(1, AnswerStatus.CORRECT));
+		mQuestions.add(new Answer(2, AnswerStatus.INCORRECT));
+		mQuestions.add(new Answer(2, AnswerStatus.NOT_APPLICABLE));
 		
-        this.m_adapter = new QuestionItemAdapter(this, R.layout.results_question_item, m_questions);
-        setListAdapter(m_adapter);
+        this.mAdapter = new QuestionItemAdapter(this, R.layout.results_question_item, mQuestions);
+        setListAdapter(mAdapter);
         
         getListView().setOnItemClickListener(this);
 	}
