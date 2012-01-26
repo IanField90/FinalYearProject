@@ -24,7 +24,6 @@ import android.widget.Spinner;
  *
  */
 public class TeachReachActivity extends Activity implements OnClickListener{
-//	private JSONObject object;
 	private TeachReachDbAdapter mDbHelper;
 	private Spinner mProgrammeSpinner, mCourseSpinner, mPartSpinner; 
 	private final String SETTINGS_FILE = "TeachReachSettings.txt";
@@ -150,7 +149,6 @@ public class TeachReachActivity extends Activity implements OnClickListener{
 			Thread thread = new Thread(new Runnable(){
 				public void run(){
 					try {
-						Log.i("RAWR", "Testing thread");
 						mTeachReachParser.parseCourses(new JSONArray( mSCH.getCourseList(progress)));
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block

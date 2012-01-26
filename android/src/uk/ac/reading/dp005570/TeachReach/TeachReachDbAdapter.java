@@ -169,16 +169,15 @@ public class TeachReachDbAdapter {
 	 * Query the database for a list of courses
 	 * @return All courses available from the database
 	 */
-	public void fetchCourseList(){
-		Cursor mCursor = mDb.query(true, "Programmes", 
+	public Cursor fetchCourseList(){
+		Cursor cursor = mDb.query(true, "Programmes", 
 				new String[] {"programme_name_en", "programme_name_fr", "programme_name_es" }, 
 				null, null, null, null, null, null);
-		if(mCursor != null){
-			mCursor.moveToFirst();
+		if(cursor != null){
+			cursor.moveToFirst();
 		}
-		
-		//TODO return key pairs for Courses and corresponding ID
-		// e.g. Course[Name_en, Name_fr, Name_es, id]
+		return cursor;
+
 	}
 	
 	/**
