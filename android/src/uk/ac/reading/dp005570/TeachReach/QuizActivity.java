@@ -6,24 +6,25 @@ import uk.ac.reading.dp005570.TeachReach.data.Question;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class QuizActivity extends Activity implements OnSeekBarChangeListener {
+public class QuizActivity extends Activity implements OnSeekBarChangeListener, OnClickListener {
 	private Integer mQuestionNumber, mNumberOfQuestions;
 	private TextView mQuestionProgress, mSliderLabel;
 	private ArrayList<Question> mQuiz;
 	private LinearLayout mLl;
 	private SeekBar mSlider;	
 	private int mNumberOptions;
+	private Button mNextQuestion;
 	char letter;
 
 	@Override
@@ -39,6 +40,9 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		//Set up progress label
 		mQuestionProgress = (TextView) findViewById(R.id.question_progress);
 		mQuestionProgress.setText( mQuestionNumber + " / " + mNumberOfQuestions);
+		
+		mNextQuestion = (Button) findViewById(R.id.next_question);
+		mNextQuestion.setOnClickListener(this);
 
 		//Label question with "Question"
 		TextView question_title = (TextView) findViewById(R.id.question_title);
@@ -214,46 +218,61 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener {
 		q = new Question(questionText, type, options, correctOptions);
 		mQuiz.add(q);
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu){
-		MenuInflater mi = getMenuInflater();
-		mi.inflate(R.menu.quiz_menu, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.previous:
-			if(mQuestionNumber > 1){
-				mQuestionNumber--;
-				mQuestionProgress.setText(mQuestionNumber + " / " + mNumberOfQuestions);
-				mLl.removeAllViews();
-				loadQuestion(mQuiz.get(mQuestionNumber-1));
-				return true;
-			}
-			else{
-				return false;
-			}
-		case R.id.next:
+	
+	public void onClick(View v){
+		if(v == findViewById(R.id.next_question)){
 			if(mQuestionNumber < mNumberOfQuestions){
 				mQuestionNumber++;
 				mQuestionProgress.setText(mQuestionNumber + " / " + mNumberOfQuestions);
 				mLl.removeAllViews();
 				loadQuestion(mQuiz.get(mQuestionNumber-1));
-				return true;
 			}else {
 				// Load final results screen
 				Intent intent = new Intent(this, QuizResultsActivity.class);
 				startActivity(intent);
-				return false;
 			}
-		default:
-			return super.onOptionsItemSelected(item);
 		}
 	}
+
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu){
+//		MenuInflater mi = getMenuInflater();
+//		mi.inflate(R.menu.quiz_menu, menu);
+//		return true;
+//	}
+//
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		// Handle item selection
+//		switch (item.getItemId()) {
+//		case R.id.previous:
+//			if(mQuestionNumber > 1){
+//				mQuestionNumber--;
+//				mQuestionProgress.setText(mQuestionNumber + " / " + mNumberOfQuestions);
+//				mLl.removeAllViews();
+//				loadQuestion(mQuiz.get(mQuestionNumber-1));
+//				return true;
+//			}
+//			else{
+//				return false;
+//			}
+//		case R.id.next:
+//			if(mQuestionNumber < mNumberOfQuestions){
+//				mQuestionNumber++;
+//				mQuestionProgress.setText(mQuestionNumber + " / " + mNumberOfQuestions);
+//				mLl.removeAllViews();
+//				loadQuestion(mQuiz.get(mQuestionNumber-1));
+//				return true;
+//			}else {
+//				// Load final results screen
+//				Intent intent = new Intent(this, QuizResultsActivity.class);
+//				startActivity(intent);
+//				return false;
+//			}
+//		default:
+//			return super.onOptionsItemSelected(item);
+//		}
+//	}
 
 //	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,

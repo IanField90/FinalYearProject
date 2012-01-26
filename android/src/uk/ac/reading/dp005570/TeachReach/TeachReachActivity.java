@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,13 +25,13 @@ import android.widget.Spinner;
 public class TeachReachActivity extends Activity implements OnClickListener{
 	private TeachReachDbAdapter mDbHelper;
 	private Spinner mProgrammeSpinner, mCourseSpinner, mPartSpinner; 
-	private final String SETTINGS_FILE = "TeachReachSettings.txt";
+//	private final String SETTINGS_FILE = "TeachReachSettings.txt";
 	private ServerCommunicationHelper mSCH = new ServerCommunicationHelper();
 	private TeachReachParser mTeachReachParser = new TeachReachParser();
 	
-	private int mSelectedCourse = 0;
-	private int mSelectedProgramme = 0;
-	private int mSelectedPart = 0;
+//	private int mSelectedCourse = 0;
+//	private int mSelectedProgramme = 0;
+//	private int mSelectedPart = 0;
 
 	/** Called when the activity is first created. */
     @Override

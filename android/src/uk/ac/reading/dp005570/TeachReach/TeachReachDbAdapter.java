@@ -22,9 +22,9 @@ public class TeachReachDbAdapter {
 	/**
 	 * Response codes
 	 */
-	private final int OK = 0;
-	private final int UPDATE_ERROR = -1;
-	private final int INSERT_ERROR = -2;
+//	private final int OK = 0;
+//	private final int UPDATE_ERROR = -1;
+//	private final int INSERT_ERROR = -2;
 	
 	
 	/**
