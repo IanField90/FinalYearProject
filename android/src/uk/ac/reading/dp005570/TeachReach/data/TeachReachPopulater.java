@@ -10,13 +10,11 @@ public class TeachReachPopulater {
 	private final String TAG = "POPULATER";
 //	private TeachReachParser mTeachReachParser;
 	private TeachReachDbAdapter mTeachReachDbAdapter;
-	
-	//TODO change list types to reflect actual type i.e. replace HierarchySelection with Course etc
-	
-	public ArrayList<HierarchySelection> getCourseList(){
+		
+	public ArrayList<Course> getCourseList(){
 		//return id with all 3 text fields - unless language can be determined here.
 		// add array list here
-		ArrayList<HierarchySelection> courses = new ArrayList<HierarchySelection>();
+		ArrayList<Course> courses = new ArrayList<Course>();
 		Cursor cursor = mTeachReachDbAdapter.fetchCourseList();
 		if(cursor == null){
 			Log.i(TAG, "Courses cursor empty.");
@@ -28,18 +26,18 @@ public class TeachReachPopulater {
 				String en = cursor.getString(1);
 				String fr = cursor.getString(2);
 				String es = cursor.getString(3);
+				String updated = cursor.getString(4);
 				
-				HierarchySelection selection = 
-						new HierarchySelection(id, en, fr, es, HierarchySelection.Type.COURSE);
-				courses.add(selection);
+				Course course = new Course(id, en, fr, es, updated);
+				courses.add(course);
 			}while(cursor.moveToNext());
 			
 		}
 		return (courses.size() > 0) ? courses : null;
 	}
 	
-	public ArrayList<HierarchySelection> getPogrammeList(int course_id){
-		ArrayList<HierarchySelection> programmes = new ArrayList<HierarchySelection>();
+	public ArrayList<Programme> getPogrammeList(int course_id){
+		ArrayList<Programme> programmes = new ArrayList<Programme>();
 		Cursor cursor = mTeachReachDbAdapter.fetchProgrammesList(course_id);
 		if (cursor == null){
 			Log.i(TAG, "Programmes cursor empty.");
@@ -51,18 +49,18 @@ public class TeachReachPopulater {
 				String en = cursor.getString(1);
 				String fr = cursor.getString(2);
 				String es = cursor.getString(3);
+				String updated = cursor.getString(4);
 				
-				HierarchySelection selection = 
-						new HierarchySelection(id, en, fr, es, HierarchySelection.Type.PROGRAMME);
-				programmes.add(selection);
+				Programme programme = new Programme(id, course_id, en, fr, es, updated);
+				programmes.add(programme);
 			}while(cursor.moveToNext());
 		}
 		
 		return (programmes.size() > 0) ? programmes : null;
 	}
 	
-	public ArrayList<HierarchySelection> getPartsList(int programme_id){
-		ArrayList<HierarchySelection> parts = new ArrayList<HierarchySelection>();
+	public ArrayList<Part> getPartsList(int programme_id){
+		ArrayList<Part> parts = new ArrayList<Part>();
 		Cursor cursor = mTeachReachDbAdapter.fetchPartsList(programme_id);
 		if (cursor == null){
 			Log.i(TAG, "Parts cursor empty.");
@@ -74,10 +72,10 @@ public class TeachReachPopulater {
 				String en = cursor.getString(1);
 				String fr = cursor.getString(2);
 				String es = cursor.getString(3);
+				String updated = cursor.getString(4);
 				
-				HierarchySelection selection = 
-						new HierarchySelection(id, en, fr, es, HierarchySelection.Type.PART);
-				parts.add(selection);
+				Part part = new Part(id, programme_id, en, fr, es, updated);
+				parts.add(part);
 			}while(cursor.moveToNext());
 		}
 		return (parts.size() > 0) ? parts : null;
