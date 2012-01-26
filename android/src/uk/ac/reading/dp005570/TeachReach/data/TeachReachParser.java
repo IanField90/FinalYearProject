@@ -133,10 +133,10 @@ public class TeachReachParser {
 				Log.i(TAG, "ES: " + es);
 				Log.i(TAG, "Prog ID: " + programme_id);
 				
+				//TODO Array list of parts for TeachReachPopulater to then utilise DB
+				// For better encapsulation
 				//TODO Call DB helper function to insert part or update if exists
 				//createPart(id, programme_id, en, fr, es, updated_at);
-				
-				
 				
 			} catch (JSONException e) {
 				// Shouldn't happen unless empty response

@@ -11,6 +11,8 @@ public class TeachReachPopulater {
 //	private TeachReachParser mTeachReachParser;
 	private TeachReachDbAdapter mTeachReachDbAdapter;
 	
+	//TODO change list types to reflect actual type i.e. replace HierarchySelection with Course etc
+	
 	public ArrayList<HierarchySelection> getCourseList(){
 		//return id with all 3 text fields - unless language can be determined here.
 		// add array list here
