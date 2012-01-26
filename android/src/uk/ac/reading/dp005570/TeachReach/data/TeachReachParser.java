@@ -1,11 +1,18 @@
 package uk.ac.reading.dp005570.TeachReach.data;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
 
+/**
+ * 
+ * @author ianfield
+ * Handles the parsing of the data retrieved from the server.
+ */
 public class TeachReachParser {
 	private final String TAG = "PARSER";
 	private final String ID = "id";
@@ -28,15 +35,19 @@ public class TeachReachParser {
 	private final String PART_NAME_FR = "part_name_fr";
 	private final String PART_NAME_ES = "part_name_es";
 	
+	
 	/**
 	 * Extracts information for a Course list and updates/creates entry in
 	 * database
 	 * @param list The JSON array of courses returned by the server
 	 */
-	public void parseCourses(JSONArray list){
+	public ArrayList<Course> parseCourses(JSONArray list){
+		//TODO IMPORTANT - recursive parsing - Retrieve courses, programmes and parts in one object
+
 		JSONObject course;
 		int id;
 		String en, fr, es, updated_at;
+		ArrayList<Course> courses = new ArrayList<Course>();
 		for (int i = 0; i < list.length()-1; i++){
 			try {
 				course = list.getJSONObject(i);
@@ -53,6 +64,7 @@ public class TeachReachParser {
 				Log.i(TAG, "FR: " + fr);
 				Log.i(TAG, "ES: " + es);	
 				
+				courses.add(new Course(id, en, fr, es, updated_at));
 				//TODO Call DB helper function to insert course or update if exists
 				//createCourse(id, en, fr, es, updated_at);
 				
@@ -65,6 +77,7 @@ public class TeachReachParser {
 				e.printStackTrace();
 			}
 		}
+		return (courses.size() > 0) ? courses : null;
 	}
 	
 	

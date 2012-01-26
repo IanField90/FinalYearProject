@@ -48,8 +48,6 @@ public class ServerCommunicationHelper {
 
 	}
 	
-
-
 	public String getCourseList(ProgressDialog progress){
 		//TODO run on a different thread, and give user some feedback on progress
 		// (see list tutorial Karsten told me about)
