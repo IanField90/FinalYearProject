@@ -201,30 +201,16 @@ public class TeachReachDbAdapter {
 	 * @param course_id The ID of the course to list programmes for.
 	 * @return list of programmes related to course
 	 */
-	public void fetchProgrammesList(int course_id){
+	public Cursor fetchProgrammesList(int course_id){
 		//TODO Use course_id
-		Cursor mCursor = mDb.query(true, "Programmes", 
+		Cursor cursor = mDb.query(true, "Programmes", 
 				new String[] {"programme_name_en", "programme_name_fr", "programme_name_es" }, 
-				null, null, null, null, null, null);
-		if(mCursor != null){
-			mCursor.moveToFirst();
+				null, null, null, "course_id="+course_id, null, null);
+		if(cursor != null){
+			cursor.moveToFirst();
 		}
 		//TODO traverse cursor and construct array with IDs
-//		return mCursor;
-	}
-	
-	/**
-	 * Retrieves the list of programmes
-	 * @return list of all programmes
-	 */
-	private Cursor fetchProgrammesList(){
-		Cursor mCursor = mDb.query(true, "Programmes", 
-				new String[] {"programme_name_en", "programme_name_fr", "programme_name_es" }, 
-				null, null, null, null, null, null);
-		if(mCursor != null){
-			mCursor.moveToFirst();
-		}
-		return mCursor;
+		return cursor;
 	}
 	
 	public void updateProgramme(int id, String en, String fr, String es, Date date){
@@ -236,20 +222,20 @@ public class TeachReachDbAdapter {
 	}
 	
 	/**
-	 * Fetch all parts in the database
-	 * @return Cursor for all parts
-	 */
-	public void fetchPartsList(){
-		//TODO query logic
-	}
-	
-	/**
 	 * Fetch list of parts specific to the programme_id specified
 	 * @param programme_id Corresponding programme id to retrieve list of parts for
 	 * @return Cursor for selected parts
 	 */
-	public void fetchPartsList(int programme_id){
-		//TODO query logic with programm_id
+	public Cursor fetchPartsList(int programme_id){
+		//TODO query logic with programme_id
+		//TODO Use programme_id
+		Cursor cursor = mDb.query(true, "parts", 
+				new String[] {"part_name_en", "part_name_fr", "part_name_es" }, 
+				null, null, null, "programme_id=" + programme_id, null, null);
+		if(cursor != null){
+			cursor.moveToFirst();
+		}
+		return cursor;
 	}
 	
 	public void createPart(int id, String en, String fr, String es, Date date){
