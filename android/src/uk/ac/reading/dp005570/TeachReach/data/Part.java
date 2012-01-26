@@ -10,6 +10,15 @@ public class Part {
 	private String mEN, mFR, mES, mUpdated;
 	private int mId, mProgrammeID;
 	
+	/**
+	 * 
+	 * @param id The ID of the part on server-side
+	 * @param prog_id The ID of the parent Programme
+	 * @param en The English title of the part
+	 * @param fr The French title of the part
+	 * @param es The Spanish title of the part
+	 * @param updated The date the part was last updated on the server
+	 */
 	public Part(int id, int prog_id, String en, String fr, String es, String updated){
 		setId(id);
 		setEN(en);
@@ -19,54 +28,100 @@ public class Part {
 		setProgrammeID(prog_id);
 	}
 
+	/**
+	 * 
+	 * @return The English title of the part
+	 */
 	public String getEN() {
 		return mEN;
 	}
 
+	/**
+	 * 
+	 * @param mEN The English title of the part
+	 */
 	public void setEN(String mEN) {
 		this.mEN = mEN;
 	}
 
+	/**
+	 * 
+	 * @return The French title of the part
+	 */
 	public String getFR() {
 		return mFR;
 	}
 
+	/**
+	 * 
+	 * @param mFR The French title of the part
+	 */
 	public void setFR(String mFR) {
 		this.mFR = mFR;
 	}
 
+	/**
+	 * 
+	 * @return The Spanish title of the part
+	 */
 	public String getES() {
 		return mES;
 	}
-
+	
+	/**
+	 * 
+	 * @param mES The Spanish title of the part
+	 */
 	public void setES(String mES) {
 		this.mES = mES;
 	}
-
+	
+	/**
+	 * 
+	 * @return The date that the part was last updated on the server
+	 */
 	public String getUpdated() {
 		return mUpdated;
 	}
 
+	/**
+	 * 
+	 * @param mUpdated The date that the part was last updated on the server
+	 */
 	public void setUpdated(String mUpdated) {
 		this.mUpdated = mUpdated;
 	}
 
+	/**
+	 * 
+	 * @return The server's ID of the part
+	 */
 	public int getId() {
 		return mId;
 	}
-
+	
+	/**
+	 * 
+	 * @param mId The server's ID of the part
+	 */
 	public void setId(int mId) {
 		this.mId = mId;
 	}
 
+	/**
+	 * 
+	 * @return The parent programme's ID of the part
+	 */
 	public int getProgrammeID() {
 		return mProgrammeID;
 	}
 
+	/**
+	 * 
+	 * @param mProgrammeID The parent programme's ID of the part
+	 */
 	public void setProgrammeID(int mProgrammeID) {
 		this.mProgrammeID = mProgrammeID;
 	}
-	
-	
 
 }
