@@ -35,6 +35,10 @@ public class TeachReachParser {
 	private final String PART_NAME_FR = "part_name_fr";
 	private final String PART_NAME_ES = "part_name_es";
 	
+	//TODO 1 getter for each of these - non-sent ids can still be populated.
+	private ArrayList<Course> mCourses = new ArrayList<Course>();
+	private ArrayList<Programme> mProgrammes = new ArrayList<Programme>();
+	private ArrayList<Part> mParts = new ArrayList<Part>();
 	
 	/**
 	 * Extracts information for a Course list and updates/creates entry in
@@ -67,7 +71,6 @@ public class TeachReachParser {
 				courses.add(new Course(id, en, fr, es, updated_at));
 				//TODO Call DB helper function to insert course or update if exists
 				//createCourse(id, en, fr, es, updated_at);
-				
 				
 				JSONArray programmes = course.getJSONArray(PROGRAMMES);
 				parseProgramme(programmes, id);
@@ -166,5 +169,35 @@ public class TeachReachParser {
 	 */
 	public void parsePartContent(JSONArray part){
 		//TODO triple layered parse.
+	}
+
+
+	public ArrayList<Course> getCourses() {
+		return mCourses;
+	}
+
+
+	public void setCourses(ArrayList<Course> mCourses) {
+		this.mCourses = mCourses;
+	}
+
+
+	public ArrayList<Programme> getProgrammes() {
+		return mProgrammes;
+	}
+
+
+	public void setProgrammes(ArrayList<Programme> mProgrammes) {
+		this.mProgrammes = mProgrammes;
+	}
+
+
+	public ArrayList<Part> getParts() {
+		return mParts;
+	}
+
+
+	public void setParts(ArrayList<Part> mParts) {
+		this.mParts = mParts;
 	}
 }

@@ -24,6 +24,10 @@ public class TeachReachPopulater {
 	private TeachReachDbAdapter mTeachReachDbAdapter;
 	private ServerCommunicationHelper mServerCommunicationHelper;
 	
+	private ArrayList<Course> mCourses;
+	private ArrayList<Programme> mProgrammes;
+	private ArrayList<Part> mParts;
+	
 	public TeachReachPopulater(Context context) {
 		mTeachReachParser = new TeachReachParser();
 		mTeachReachDbAdapter = new TeachReachDbAdapter(context);
@@ -33,7 +37,10 @@ public class TeachReachPopulater {
 	public void getMainMenu(){
 		String response = mServerCommunicationHelper.getCourseList(null); //TODO Decide upon correct progress bar feedback
 		try {
-			ArrayList<Course> courses = mTeachReachParser.parseCourses(new JSONArray(response));
+				mTeachReachParser.parseCourses(new JSONArray(response));
+				mCourses = mTeachReachParser.getCourses();
+				mProgrammes = mTeachReachParser.getProgrammes();
+				mParts = mTeachReachParser.getParts();
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
