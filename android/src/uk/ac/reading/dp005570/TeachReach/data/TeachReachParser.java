@@ -73,7 +73,7 @@ public class TeachReachParser {
 				//createCourse(id, en, fr, es, updated_at);
 				
 				JSONArray programmes = course.getJSONArray(PROGRAMMES);
-				parseProgramme(programmes, id);
+				parseProgrammes(programmes, id);
 				
 			} catch (JSONException e) {
 				// Shouldn't happen unless empty response
@@ -90,7 +90,7 @@ public class TeachReachParser {
 	 * @param list The list of programmes to parse
 	 * @param course The ID of the parent course.
 	 */
-	private void parseProgramme(JSONArray list, int course){
+	private void parseProgrammes(JSONArray list, int course){
 		JSONObject programme;
 		int id, course_id = course;
 		String en, fr, es, updated_at;
