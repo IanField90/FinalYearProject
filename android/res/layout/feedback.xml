@@ -5,13 +5,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-        <TextView android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp" >
+        
+        <TextView 
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/feedback"/>
+        
+        <TextView 
+            android:id="@+id/feedback_body"
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Feedback placeholder"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            
+            />
+        
     </LinearLayout>
-
-    
 
 </ScrollView>

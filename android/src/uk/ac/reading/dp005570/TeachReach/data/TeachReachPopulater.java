@@ -35,7 +35,7 @@ public class TeachReachPopulater {
 	}
 	
 	public void getMainMenu(){
-		String response = mServerCommunicationHelper.getCourseList(null); //TODO Decide upon correct progress bar feedback
+		String response = mServerCommunicationHelper.getCourseList(null);//TODO Decide upon correct progress bar feedback operation
 		try {
 				mTeachReachParser.parseCourses(new JSONArray(response));
 				mCourses = mTeachReachParser.getCourses();

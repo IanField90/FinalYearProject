@@ -88,7 +88,6 @@ public class QuizResultsActivity extends ListActivity implements OnItemClickList
 
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		// TODO Auto-generated method stub
 		Intent i = new Intent(this, FeedbackActivity.class);
 		startActivity(i);
 	}

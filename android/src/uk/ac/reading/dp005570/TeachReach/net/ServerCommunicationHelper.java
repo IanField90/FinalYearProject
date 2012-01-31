@@ -116,18 +116,18 @@ public class ServerCommunicationHelper {
 ////				JSONArray part_content = new JSONArray(response_page);
 ////				parsePartContent(part_content);
 //			} catch (JSONException e) {
-//				// TODO Auto-generated catch block
+//				// Auto-generated catch block
 //				e.printStackTrace();
 //			}
 
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
+			Log.e(TAG, "Erroneous URI");
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
+			Log.e(TAG, "Client Protocol Exception");
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Log.e(TAG, "I/O Exception");
 			e.printStackTrace();
 		}		
 	}
