@@ -34,6 +34,7 @@ public class TeachReachPopulater {
 		mServerCommunicationHelper = new ServerCommunicationHelper();
 	}
 
+	//TODO determine between update main menu list and retrieving from the database instead
 	public void getMainMenu(){
 		String response = mServerCommunicationHelper.getCourseList(null);//TODO Decide upon correct progress bar feedback operation
 		try {
@@ -216,5 +217,32 @@ public class TeachReachPopulater {
 			}
 		}
 		return parts;
+	}
+	
+	/* DATABASE FUNCTIONS - traverse through cursor*/
+	
+	public void retriveCourseList(){
+		
+	}
+	
+	public void retrieveProgrammesList(int course_id){
+		
+	}
+	
+	public void retrievePartsList(int programme_id){
+		
+	}
+	
+	/* Utilise parser's results and for each element call DB helper function to update/create */
+	private void updateCourses(){
+		
+	}
+	
+	private void updateProgrammes(){
+		
+	}
+	
+	private void updateParts(){
+		
 	}
 }
