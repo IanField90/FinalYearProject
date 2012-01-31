@@ -23,30 +23,30 @@ public class TeachReachPopulater {
 	private TeachReachParser mTeachReachParser;
 	private TeachReachDbAdapter mTeachReachDbAdapter;
 	private ServerCommunicationHelper mServerCommunicationHelper;
-	
+
 	private ArrayList<Course> mCourses;
 	private ArrayList<Programme> mProgrammes;
 	private ArrayList<Part> mParts;
-	
+
 	public TeachReachPopulater(Context context) {
 		mTeachReachParser = new TeachReachParser();
 		mTeachReachDbAdapter = new TeachReachDbAdapter(context);
 		mServerCommunicationHelper = new ServerCommunicationHelper();
 	}
-	
+
 	public void getMainMenu(){
 		String response = mServerCommunicationHelper.getCourseList(null);//TODO Decide upon correct progress bar feedback operation
 		try {
-				mTeachReachParser.parseCourses(new JSONArray(response));
-				mCourses = mTeachReachParser.getCourses();
-				mProgrammes = mTeachReachParser.getProgrammes();
-				mParts = mTeachReachParser.getParts();
+			mTeachReachParser.parseCourses(new JSONArray(response));
+			mCourses = mTeachReachParser.getCourses();
+			mProgrammes = mTeachReachParser.getProgrammes();
+			mParts = mTeachReachParser.getParts();
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return List of courses encapsulated - rather than cursor store in memory for faster runtime
@@ -67,15 +67,15 @@ public class TeachReachPopulater {
 				String fr = cursor.getString(2);
 				String es = cursor.getString(3);
 				String updated = cursor.getString(4);
-				
+
 				Course course = new Course(id, en, fr, es, updated);
 				courses.add(course);
 			}while(cursor.moveToNext());
-			
+
 		}
 		return (courses.size() > 0) ? courses : null;
 	}
-	
+
 	/**
 	 * 
 	 * @param course_id The id of the parent course
@@ -95,15 +95,15 @@ public class TeachReachPopulater {
 				String fr = cursor.getString(2);
 				String es = cursor.getString(3);
 				String updated = cursor.getString(4);
-				
+
 				Programme programme = new Programme(id, course_id, en, fr, es, updated);
 				programmes.add(programme);
 			}while(cursor.moveToNext());
 		}
-		
+
 		return (programmes.size() > 0) ? programmes : null;
 	}
-	
+
 	/**
 	 * 
 	 * @param programme_id The id of the parent programme
@@ -123,12 +123,98 @@ public class TeachReachPopulater {
 				String fr = cursor.getString(2);
 				String es = cursor.getString(3);
 				String updated = cursor.getString(4);
-				
+
 				Part part = new Part(id, programme_id, en, fr, es, updated);
 				parts.add(part);
 			}while(cursor.moveToNext());
 		}
 		return (parts.size() > 0) ? parts : null;
 
+	}
+
+	/**
+	 * 
+	 * @param language The Language enumerator of the expected return
+	 * @return List of courses in given language
+	 */
+	public String[] getCourses(Language language){
+		//TODO return key pair: (id, value) instead so that data can be retrieved
+		String[] courses = new String[mCourses.size()];
+		int i = 0;
+		for( Course course : mCourses ){
+			switch (language){
+			case EN:
+				courses[i] = course.getEN();
+				break;
+			case FR:
+				courses[i] = course.getFR();
+				break;
+			case ES:
+				courses[i] = course.getES();
+				break;
+			}
+			i++;
+		}
+		return courses;
+	}
+
+	/**
+	 * 
+	 * @param language
+	 * @param course_id
+	 * @return
+	 */
+	public String[] getProgrammes(Language language, int course_id){
+		//TODO return key pair: (id, value) instead so that data can be retrieved
+		String[] programmes = new String[mProgrammes.size()];
+		int i = 0;
+		for(Programme programme : mProgrammes){
+			if (programme.getId() == course_id){
+				switch(language){
+				case EN:
+					programmes[i] = programme.getEN();
+					break;
+				case FR:
+					programmes[i] = programme.getFR();
+					break;
+				case ES:
+					programmes[i] = programme.getES();
+					break;
+
+				}
+				i++;
+			}
+		}
+		return programmes;
+	}
+
+	/**
+	 * 
+	 * @param language
+	 * @param programme_id
+	 * @return
+	 */
+	public String[] getParts(Language language, int programme_id){
+		//TODO return key pair: (id, value) instead so that data can be retrieved
+		String[] parts = new String[mParts.size()];
+		int i = 0;
+		for(Part part : mParts){
+			if (part.getId() == programme_id){
+				switch(language){
+				case EN:
+					parts[i] = part.getEN();
+					break;
+				case FR:
+					parts[i] = part.getFR();
+					break;
+				case ES:
+					parts[i] = part.getES();
+					break;
+
+				}
+				i++;
+			}
+		}
+		return parts;
 	}
 }
