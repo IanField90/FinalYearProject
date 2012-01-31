@@ -67,11 +67,10 @@ public class TeachReachParser {
 				Log.i(TAG, "EN: " + en);
 				Log.i(TAG, "FR: " + fr);
 				Log.i(TAG, "ES: " + es);	
+				//Add to courses list to retain information in memory
+				mCourses.add(new Course(id, en, fr, es, updated_at));
 				
-				courses.add(new Course(id, en, fr, es, updated_at));
-				//TODO Call DB helper function to insert course or update if exists
-				//createCourse(id, en, fr, es, updated_at);
-				
+				//Set up next parsing operation and call it.
 				JSONArray programmes = course.getJSONArray(PROGRAMMES);
 				parseProgrammes(programmes, id);
 				
@@ -109,10 +108,10 @@ public class TeachReachParser {
 				Log.i(TAG, "FR: " + fr);
 				Log.i(TAG, "ES: " + es);	
 				Log.i(TAG, "Course ID: " + course_id);
+				//Add to programmes list to retain information in memory
+				mProgrammes.add(new Programme(id, course_id, en, fr, es, updated_at));
 				
-				//TODO Call DB helper function to insert programme or update if exists
-//				TeachReachDbAdapter.createProgramme(id, course_id, en, fr, es, updated_at);
-				
+				//Set up next parsing operation and call it
 				JSONArray parts = programme.getJSONArray(PARTS);
 				parseParts(parts, id);
 				
@@ -147,12 +146,9 @@ public class TeachReachParser {
 				Log.i(TAG, "EN: " + en);
 				Log.i(TAG, "FR: " + fr);
 				Log.i(TAG, "ES: " + es);
-				Log.i(TAG, "Prog ID: " + programme_id);
-				
-				//TODO Array list of parts for TeachReachPopulater to then utilise DB
-				// For better encapsulation
-				//TODO Call DB helper function to insert part or update if exists
-				//createPart(id, programme_id, en, fr, es, updated_at);
+				Log.i(TAG, "Prog ID: " + programme_id);	
+				//Add to parts list to retain information in memory
+				mParts.add(new Part(id, programme_id, en, fr, es, updated_at));
 				
 			} catch (JSONException e) {
 				// Shouldn't happen unless empty response
