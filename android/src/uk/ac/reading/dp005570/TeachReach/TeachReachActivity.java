@@ -75,6 +75,7 @@ public class TeachReachActivity extends Activity implements OnClickListener{
         Button view_materials_button = (Button) findViewById(R.id.view_materials_button);
         view_materials_button.setOnClickListener(this);
         
+        mDbHelper.close();
     }
 
     private void loadSettings(){
