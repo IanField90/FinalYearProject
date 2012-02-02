@@ -42,6 +42,16 @@ public class TeachReachPopulater {
 			mCourses = mTeachReachParser.getCourses();
 			mProgrammes = mTeachReachParser.getProgrammes();
 			mParts = mTeachReachParser.getParts();
+			//TODO NOTED spinner populater control
+//			String[] parts;
+//			for(Part part : mParts){
+//				if(part.getProgrammeID() == programme_id){
+//					parts[i] = part.getEN();
+//				}
+//			}
+			updateCourses();
+			updateProgrammes();
+			updateParts();
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -234,14 +244,23 @@ public class TeachReachPopulater {
 	}
 	
 	/* Utilise parser's results and for each element call DB helper function to update/create */
+	/**
+	 * Update the database with each Course retrieved from the parser
+	 */
 	private void updateCourses(){
 		
 	}
 	
+	/**
+	 * Update the database with each Programme retrieved from the parser
+	 */
 	private void updateProgrammes(){
 		
 	}
 	
+	/**
+	 * Update the database with each Part retrieved from the parser
+	 */
 	private void updateParts(){
 		
 	}

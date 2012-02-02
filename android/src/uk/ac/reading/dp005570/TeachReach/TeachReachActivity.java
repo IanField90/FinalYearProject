@@ -29,9 +29,9 @@ public class TeachReachActivity extends Activity implements OnClickListener{
 	private ServerCommunicationHelper mSCH = new ServerCommunicationHelper();
 	private TeachReachParser mTeachReachParser = new TeachReachParser();
 	
-//	private int mSelectedCourse = 0;
-//	private int mSelectedProgramme = 0;
-//	private int mSelectedPart = 0;
+	private int mSelectedCourseId = 0;
+	private int mSelectedProgrammeId = 0;
+	private int mSelectedPartId = 0;
 
 	/** Called when the activity is first created. */
     @Override

@@ -18,6 +18,51 @@ public class TeachReachDbAdapter {
 	public static final String KEY_ROWID = "_id";
 	
 	private static final String TAG = "TeachReachDbAdapter";
+	private final String ID = "_id";
+	
+	//Courses fields
+	private final String COURSES = "courses";
+	private final String COURSE_NAME_EN = "course_name_en";
+	private final String COURSE_NAME_FR = "course_name_fr";
+	private final String COURSE_NAME_ES = "course_name_es";
+	private final String COURSE_ID = "course_id";
+	
+	//Programmes fields
+	private final String PROGRAMMES = "programmes";
+	private final String PROGRAMME_NAME_EN = "programme_name_en";
+	private final String PROGRAMME_NAME_FR = "programme_name_fr";
+	private final String PROGRAMME_NAME_ES = "programme_name_es";
+	private final String PROGRAMME_ID = "programme_id";
+	
+	//Parts fields
+	private final String PARTS = "parts";
+	private final String PART_NAME_EN = "part_name_en";
+	private final String PART_NAME_FR = "part_name_fr";
+	private final String PART_NAME_ES = "part_name_es";
+	private final String PART_ID = "part_id";
+	
+	private final String QUIZZES = "quizzes";
+	private final String QUIZ_TITLE_EN = "quiz_name_en";
+	private final String QUIZ_TITLE_FR = "quiz_name_fr";
+	private final String QUIZ_TITLE_ES = "quiz_name_es";
+	
+	private final String QUESTIONS = "questions";
+	private final String QUESTION_EN = "content_en";
+	private final String QUESTION_FR = "content_fr";
+	private final String QUESTION_ES = "content_es";
+	
+	private final String OPTIONS = "options";
+	private final String OPTION_EN = "option_en";
+	private final String OPTION_FR = "option_fr";
+	private final String OPTION_ES = "option_es";
+	private final String OPTION_ANSWER = "answer";
+	
+	private final String MATERIALS = "materials";
+	private final String MATERIAL_EN = "material_en";
+	private final String MATERIAL_FR = "material_fr";
+	private final String MATERIAL_ES = "material_es";
+	
+	
 	
 	/**
 	 * Response codes
@@ -31,6 +76,8 @@ public class TeachReachDbAdapter {
 	 * Database creation statements
 	 */
 	// TODO Update the databases to add 'changed_at' date field to each table
+	// TODO Merge feedbacks table into Questions
+	
 	// creation strings here	
 	private static final String TABLE_COURSES = "CREATE TABLE Courses(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
@@ -58,7 +105,7 @@ public class TeachReachDbAdapter {
 			"	PRIMARY KEY (_id),\n" + 
 			"	FOREIGN KEY (programme_id) REFERENCES Programmes(_id)\n" + 
 			");";
-	private static final String TABLE_QUIZES = "CREATE TABLE Quizes(\n" + 
+	private static final String TABLE_QUIZZES = "CREATE TABLE Quizzes(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
 			"	part_id INTEGER NOT NULL,\n" + 
 			"	updated_at DATE,\n" + 
@@ -92,7 +139,7 @@ public class TeachReachDbAdapter {
 			"	feedback_fr VARCHAR(1000) NOT NULL,\n" + 
 			"	feedback_es VARCHAR(1000) NOT NULL,\n" + 
 			"	PRIMARY KEY (_id),\n" + 
-			"	FOREIGN KEY (quiz_id) REFERENCES Quizes(_id)\n" + 
+			"	FOREIGN KEY (quiz_id) REFERENCES Quizzes(_id)\n" + 
 			");";
 	private static final String DATABASE_NAME = "teachreachdb";
 	private static final int DATABASE_VERSION = 4;
@@ -116,7 +163,7 @@ public class TeachReachDbAdapter {
 			db.execSQL(TABLE_COURSES);
 			db.execSQL(TABLE_PROGRAMMES);
 			db.execSQL(TABLE_PARTS);
-			db.execSQL(TABLE_QUIZES);
+			db.execSQL(TABLE_QUIZZES);
 			db.execSQL(TABLE_QUESTIONS);
 			db.execSQL(TABLE_OPTIONS);
 			db.execSQL(TABLE_FEEDBACKS);
@@ -127,10 +174,10 @@ public class TeachReachDbAdapter {
 			Log.w(TAG, "Upgrading database from version " + oldVersion + "to " + 
 					newVersion + ", which will destroy old data" );
 			// drop all tables
-			db.execSQL("DROP TABLE IF EXISTS Feedbacks;");
+			db.execSQL("DROP TABLE IF EXISTS Feedbacks;"); //TODO REMOVE
 			db.execSQL("DROP TABLE IF EXISTS Options;");
 			db.execSQL("DROP TABLE IF EXISTS Questions;");
-			db.execSQL("DROP TABLE IF EXISTS Quizes;");
+			db.execSQL("DROP TABLE IF EXISTS Quizzes;");
 			db.execSQL("DROP TABLE IF EXISTS Parts;");
 			db.execSQL("DROP TABLE IF EXISTS Programmes;");
 			db.execSQL("DROP TABLE IF EXISTS Courses;");
@@ -170,8 +217,8 @@ public class TeachReachDbAdapter {
 	 * @return All courses available from the database
 	 */
 	public Cursor fetchCourseList(){
-		Cursor cursor = mDb.query(true, "Programmes", 
-				new String[] {"programme_name_en", "programme_name_fr", "programme_name_es" }, 
+		Cursor cursor = mDb.query(true, COURSES, 
+				new String[] {COURSE_NAME_EN, COURSE_NAME_FR, COURSE_NAME_ES }, 
 				null, null, null, null, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
@@ -203,9 +250,9 @@ public class TeachReachDbAdapter {
 	 */
 	public Cursor fetchProgrammesList(int course_id){
 		//TODO Use course_id
-		Cursor cursor = mDb.query(true, "Programmes", 
-				new String[] {"programme_name_en", "programme_name_fr", "programme_name_es" }, 
-				null, null, null, "course_id="+course_id, null, null);
+		Cursor cursor = mDb.query(true, PROGRAMMES, 
+				new String[] { PROGRAMME_NAME_EN, PROGRAMME_NAME_FR, PROGRAMME_NAME_ES }, 
+				null, null, null, COURSE_ID + "=" + course_id, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}
@@ -227,11 +274,11 @@ public class TeachReachDbAdapter {
 	 * @return Cursor for selected parts
 	 */
 	public Cursor fetchPartsList(int programme_id){
-		//TODO query logic with programme_id
-		//TODO Use programme_id
-		Cursor cursor = mDb.query(true, "parts", 
-				new String[] {"part_name_en", "part_name_fr", "part_name_es" }, 
-				null, null, null, "programme_id=" + programme_id, null, null);
+		// query logic with programme_id
+		// Use programme_id
+		Cursor cursor = mDb.query(true, PARTS, 
+				new String[] {PART_NAME_EN, PART_NAME_FR, PART_NAME_ES }, 
+				null, null, null, PROGRAMME_ID + "=" + programme_id, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}
@@ -239,7 +286,10 @@ public class TeachReachDbAdapter {
 	}
 	
 	public void createPart(int id, String en, String fr, String es, Date date){
-		
+		mDb.execSQL("IF EXISTS (SELECT * FROM " + PARTS + " WHERE _id = " + id + ")"+ //TODO " AND upadated_at < date) " +
+						"UPDATE " + PARTS + "SET(...) WHERE _id = " + id +
+					"ELSE" +
+						"INSERT INTO " + PARTS + "VALUES(...)");
 	}
 	
 	public void updatePart(int id, String en, String fr, String es, Date date){
@@ -254,8 +304,14 @@ public class TeachReachDbAdapter {
 		
 	}
 	
-	public void getQuizList(){
-		
+	public Cursor getQuizList(int part_id){
+		Cursor cursor = mDb.query(true, QUIZZES,
+				new String[] { ID, QUIZ_TITLE_EN, QUIZ_TITLE_FR, QUIZ_TITLE_ES},
+				null, null, null, PART_ID + "=" + part_id, null, null);
+		if(cursor != null){
+			cursor.moveToFirst();
+		}
+		return cursor;
 	}
 	
 	public void getMaterialsList(){

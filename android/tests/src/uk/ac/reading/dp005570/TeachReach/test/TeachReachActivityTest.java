@@ -23,6 +23,7 @@ public class TeachReachActivityTest extends	ActivityInstrumentationTestCase2<Tea
 		
 		mMaterialsButton = (Button) mTeachReachActivity.findViewById(uk.ac.reading.dp005570.TeachReach.R.id.view_materials_button);
 		materialsButtonText = mTeachReachActivity.getString(uk.ac.reading.dp005570.TeachReach.R.string.view_materials_button);
+		
 	}
 
 	public void testQuizzesButtonText(){
