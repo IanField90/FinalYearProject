@@ -37,24 +37,26 @@ public class TeachReachPopulater {
 	//TODO determine between update main menu list and retrieving from the database instead
 	public void getMainMenu(){
 		String response = mServerCommunicationHelper.getCourseList(null);//TODO Decide upon correct progress bar feedback operation
-		try {
-			mTeachReachParser.parseCourses(new JSONArray(response));
-			mCourses = mTeachReachParser.getCourses();
-			mProgrammes = mTeachReachParser.getProgrammes();
-			mParts = mTeachReachParser.getParts();
-			//TODO NOTED spinner populater control
-//			String[] parts;
-//			for(Part part : mParts){
-//				if(part.getProgrammeID() == programme_id){
-//					parts[i] = part.getEN();
-//				}
-//			}
-			updateCourses();
-			updateProgrammes();
-			updateParts();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(response.length()>0){
+			try {
+				mTeachReachParser.parseCourses(new JSONArray(response));
+				mCourses = mTeachReachParser.getCourses();
+				mProgrammes = mTeachReachParser.getProgrammes();
+				mParts = mTeachReachParser.getParts();
+				//TODO NOTED spinner populater control
+				//			String[] parts;
+				//			for(Part part : mParts){
+				//				if(part.getProgrammeID() == programme_id){
+				//					parts[i] = part.getEN();
+				//				}
+				//			}
+				updateCourses();
+				updateProgrammes();
+				updateParts();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -228,40 +230,40 @@ public class TeachReachPopulater {
 		}
 		return parts;
 	}
-	
+
 	/* DATABASE FUNCTIONS - traverse through cursor*/
-	
+
 	public void retriveCourseList(){
-		
+
 	}
-	
+
 	public void retrieveProgrammesList(int course_id){
-		
+
 	}
-	
+
 	public void retrievePartsList(int programme_id){
-		
+
 	}
-	
+
 	/* Utilise parser's results and for each element call DB helper function to update/create */
 	/**
 	 * Update the database with each Course retrieved from the parser
 	 */
 	private void updateCourses(){
-		
+
 	}
-	
+
 	/**
 	 * Update the database with each Programme retrieved from the parser
 	 */
 	private void updateProgrammes(){
-		
+
 	}
-	
+
 	/**
 	 * Update the database with each Part retrieved from the parser
 	 */
 	private void updateParts(){
-		
+
 	}
 }

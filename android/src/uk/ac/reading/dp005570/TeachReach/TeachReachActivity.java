@@ -151,11 +151,16 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.refresh_lists:
+			
+			//TODO utilise TeachReachPopulator
 			final ProgressDialog progress = ProgressDialog.show(TeachReachActivity.this, "Please wait...", "Retrieving data...");
 			Thread thread = new Thread(new Runnable(){
+				
 				public void run(){
 					try {
-						mTeachReachParser.parseCourses(new JSONArray( mSCH.getCourseList(progress)));
+						if(mSCH.getCourseList(progress) != null){
+							mTeachReachParser.parseCourses(new JSONArray( mSCH.getCourseList(progress)));
+						}
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

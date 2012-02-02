@@ -65,7 +65,9 @@ public class ServerCommunicationHelper {
 			}
 
 			mIn.close();
-			response_page = sb.toString();
+			if(sb != null){
+				response_page = sb.toString();
+			}
 
 			Log.i("ServerCommunicationHelper", "Response: " + response_page);
 
@@ -79,7 +81,8 @@ public class ServerCommunicationHelper {
 		catch (HttpHostConnectException e){
 			Log.e(TAG, "Couldn't connect to server.");
 			//TODO Feedback to the user
-			e.printStackTrace();
+			//TeachReachActivity.notify("Couldn't connect to server.");
+			//e.printStackTrace();
 		}
 		catch (IOException e) {
 			Log.e(TAG, "IOException");
@@ -87,7 +90,7 @@ public class ServerCommunicationHelper {
 		}
 		
 		progress.dismiss();
-		return response_page;
+		return response_page != null ? response_page : null;
 	}
 
 	
