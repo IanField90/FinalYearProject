@@ -9,25 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:src="@drawable/logo" />
-
-<!--     <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="6dp"
-        android:text="@string/hello"
-        android:textAppearance="?android:attr/textAppearanceLarge" /> -->
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/programme_prompt" />
-
-    <Spinner
-        android:id="@+id/programme_spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:prompt="@string/programme_prompt" />
+        android:src="@drawable/logo"
+        />
 
     <TextView
         android:layout_width="fill_parent"
@@ -39,6 +22,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:prompt="@string/course_prompt" />
+    
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/programme_prompt" />
+
+    <Spinner
+        android:id="@+id/programme_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/programme_prompt" />
 
     <TextView
         android:layout_width="fill_parent"

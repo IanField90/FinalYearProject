@@ -9,11 +9,14 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -22,12 +25,14 @@ import android.widget.Spinner;
  * @author ianfield
  *
  */
-public class TeachReachActivity extends Activity implements OnClickListener{
+public class TeachReachActivity extends Activity implements OnClickListener, OnItemSelectedListener{
 	private TeachReachDbAdapter mDbHelper;
 	private Spinner mProgrammeSpinner, mCourseSpinner, mPartSpinner; 
 //	private final String SETTINGS_FILE = "TeachReachSettings.txt";
 	private ServerCommunicationHelper mSCH = new ServerCommunicationHelper();
 	private TeachReachParser mTeachReachParser = new TeachReachParser();
+	
+	private final String TAG = "TeachReachActivity";
 	
 	private int mSelectedCourseId = 0;
 	private int mSelectedProgrammeId = 0;
@@ -43,24 +48,25 @@ public class TeachReachActivity extends Activity implements OnClickListener{
         
         mDbHelper = new TeachReachDbAdapter(this);
         mDbHelper.open();
-        
+        String courses[] = { "1. Course 1", "2. Course 2" };
+
         String programmes[] = { "1. Programme 1", "2. Programme 2", "3. Programme 3",
         		"4. Programme 4", "5. Programme 5", "6. Programme 6", "7. Programme 7",
         		"8. Programme 8", "9. Programme 9", "10. Programme 10"  };
-        String courses[] = { "1. Course 1", "2. Course 2" };
         String parts[] = { "1. Part 1", "2. Part 2" };
-        
-        //Set up proramme spinner
-        mProgrammeSpinner = (Spinner) findViewById(R.id.programme_spinner);
-        ArrayAdapter<String> programme_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, programmes);
-        programme_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mProgrammeSpinner.setAdapter(programme_adapter);
         
         //Set up course spinner
         mCourseSpinner = (Spinner) findViewById(R.id.course_spinner);
         ArrayAdapter<String> course_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, courses);
         course_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mCourseSpinner.setAdapter(course_adapter);
+        mCourseSpinner.setOnItemSelectedListener(this);
+        
+        //Set up proramme spinner
+        mProgrammeSpinner = (Spinner) findViewById(R.id.programme_spinner);
+        ArrayAdapter<String> programme_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, programmes);
+        programme_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mProgrammeSpinner.setAdapter(programme_adapter);
         
         //Set up module spinner
         mPartSpinner = (Spinner) findViewById(R.id.part_spinner);
@@ -161,5 +167,31 @@ public class TeachReachActivity extends Activity implements OnClickListener{
 			return super.onOptionsItemSelected(item);
 		}
 	
+	}
+
+	public void onItemSelected(AdapterView<?> parent, View view, int position,
+			long id) {
+		if(parent == mCourseSpinner){
+			Log.i(TAG, "Courses Spinner changed.");
+			mSelectedCourseId = position + 1;
+			//TODO update programme spinner to reflect this change
+			
+		}
+		else if(parent == mProgrammeSpinner){
+			Log.i(TAG, "Programmes Spinner changed.");
+			//TODO update part spinner to reflect this change
+			//mSelectedProgrammeId =  mProgrammes.get(position).getID();
+		}
+		else if(parent == mPartSpinner){
+			Log.i(TAG, "Parts Spinner changed.");
+			
+			//mSelectedPartId = mParts.get(position).getID();
+		}
+		
+	}
+
+	public void onNothingSelected(AdapterView<?> parent) {
+		// TODO Auto-generated method stub
+		
 	}
 }

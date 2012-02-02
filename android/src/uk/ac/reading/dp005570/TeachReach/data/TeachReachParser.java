@@ -35,6 +35,27 @@ public class TeachReachParser {
 	private final String PART_NAME_FR = "part_name_fr";
 	private final String PART_NAME_ES = "part_name_es";
 	
+	private final String QUIZZES = "quizzes";
+	private final String QUIZ_TITLE_EN = "quiz_name_en";
+	private final String QUIZ_TITLE_FR = "quiz_name_fr";
+	private final String QUIZ_TITLE_ES = "quiz_name_es";
+	
+	private final String QUESTIONS = "questions";
+	private final String QUESTION_EN = "content_en";
+	private final String QUESTION_FR = "content_fr";
+	private final String QUESTION_ES = "content_es";
+	
+	private final String OPTIONS = "options";
+	private final String OPTION_EN = "option_en";
+	private final String OPTION_FR = "option_fr";
+	private final String OPTION_ES = "option_es";
+	private final String OPTION_ANSWER = "answer";
+	
+	private final String MATERIALS = "materials";
+	private final String MATERIAL_EN = "material_en";
+	private final String MATERIAL_FR = "material_fr";
+	private final String MATERIAL_ES = "material_es";
+	
 	// 1 getter for each of these - non-sent ids can still be populated.
 	private ArrayList<Course> mCourses = new ArrayList<Course>();
 	private ArrayList<Programme> mProgrammes = new ArrayList<Programme>();
