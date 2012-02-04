@@ -15,7 +15,7 @@ import android.util.Log;
  *	Handles updating and creating the database on the device.
  */
 public class TeachReachDbAdapter {
-	public static final String KEY_ROWID = "_id";
+	public static final String KEY_ROWID = "server_id";
 	
 	private static final String TAG = "TeachReachDbAdapter";
 	private final String ID = "_id";
@@ -77,72 +77,73 @@ public class TeachReachDbAdapter {
 	 */
 	// TODO Update the databases to add 'changed_at' date field to each table
 	// TODO Merge feedbacks table into Questions
-	
+	// TODO funky logic to maintain server_id in query
 	// creation strings here	
 	private static final String TABLE_COURSES = "CREATE TABLE Courses(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
+			" 	server_id INTEGER\n" +
 			"	course_name_en VARCHAR(255) NOT NULL, \n" + 
 			"	course_name_fr VARCHAR(255) NOT NULL, \n" + 
 			"	course_name_es VARCHAR(255) NOT NULL,\n" + 
-//			"	updated_at	DATETIME,\n" +
 			"	PRIMARY KEY (_id)\n" + 
 			");";
 	private static final String TABLE_PROGRAMMES = "CREATE TABLE Programmes(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
+			"   server_id INTEGER\n" +
 			"	course_id INTEGER NOT NULL,\n" + 
 			"	programme_name_en VARCHAR(255) NOT NULL, \n" + 
 			"	programme_name_fr VARCHAR(255) NOT NULL, \n" + 
 			"	programme_name_es VARCHAR(255) NOT NULL,\n" + 
-			"	PRIMARY KEY (_id),\n" + 
-			"	FOREIGN KEY (course_id) REFERENCES Courses(_id)\n" + 
+			"	PRIMARY KEY (_id)\n" + 
+//			"	FOREIGN KEY (course_id) REFERENCES Courses(_id)\n" + 
 			");";
 	private static final String TABLE_PARTS ="CREATE TABLE Parts(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
+			"   server_id INTEGER NOT NULL, \n" +
 			"	programme_id INTEGER NOT NULL,\n" + 
 			"	part_name_en VARCHAR(255) NOT NULL, \n" + 
 			"	part_name_fr VARCHAR(255) NOT NULL, \n" + 
 			"	part_name_es VARCHAR(255) NOT NULL,\n" + 
-			"	PRIMARY KEY (_id),\n" + 
-			"	FOREIGN KEY (programme_id) REFERENCES Programmes(_id)\n" + 
+			"	PRIMARY KEY (_id)\n" + 
+//			"	FOREIGN KEY (programme_id) REFERENCES Programmes(server_id)\n" + 
 			");";
 	private static final String TABLE_QUIZZES = "CREATE TABLE Quizzes(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
-			"	part_id INTEGER NOT NULL,\n" + 
-			"	updated_at DATE,\n" + 
-			"	PRIMARY KEY (_id),\n" + 
-			"	FOREIGN KEY (part_id) REFERENCES Parts(_id)\n" + 
+			"   server_id INTEGER,\n" +
+			"	part_id INTEGER NOT NULL,\n" +
+			"   name_en VARCHAR(255),\n" +
+			"   name_fr VARCHAR(255),\n" +
+			"   name_es VARCHAR(255),\n" +
+			"	PRIMARY KEY (_id)\n" + 
+//			"	FOREIGN KEY (part_id) REFERENCES Parts(server_id)\n" + 
 			");";
 	private static final String TABLE_QUESTIONS = "CREATE TABLE Questions(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
 			"	quiz_id INTEGER NOT NULL,\n" + 
+			"   server_id INTEGER, \n" +
 			"	question_en VARCHAR(1000) NOT NULL,\n" + 
 			"	question_fr VARCHAR(1000) NOT NULL,\n" + 
 			"	question_es VARCHAR(1000) NOT NULL,\n" + 
-			"	PRIMARY KEY (_id),\n" + 
-			"	FOREIGN KEY (quiz_id) REFERENCES Quizes(_id)\n" + 
+			"   feedback_en VARCHAR(1000),\n" +
+			"   feedback_fr VARCHAR(1000),\n" +
+			"   feedback_es VARCHAR(1000),\n" +
+			"	PRIMARY KEY (_id)\n" + 
+//			"	FOREIGN KEY (quiz_id) REFERENCES Quizzes(server_id)\n" + 
 			");";
 	private static final String TABLE_OPTIONS = "CREATE TABLE Options(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
+			"   server_id INTEGER, \n" +
 			"	quiz_id INTEGER NOT NULL,\n" + 
 			"	question_id INTEGER NOT NULL,\n" + 
 			"	option_en VARCHAR(255) NOT NULL,\n" + 
 			"	option_fr VARCHAR(255) NOT NULL,\n" + 
 			"	option_es VARCHAR(255) NOT NULL,\n" + 
 			"	answer BOOLEAN,\n" + 
-			"	PRIMARY KEY (_id),\n" + 
-			"	FOREIGN KEY (question_id) REFERENCES Questions(_id)\n" + 
-			");";
-	private static final String TABLE_FEEDBACKS = "CREATE TABLE Feedbacks(\n" + 
-			"	_id INTEGER NOT NULL,\n" + 
-			"	quiz_id INTEGER NOT NULL,	\n" + 
-			"	feedback_en VARCHAR(1000) NOT NULL,\n" + 
-			"	feedback_fr VARCHAR(1000) NOT NULL,\n" + 
-			"	feedback_es VARCHAR(1000) NOT NULL,\n" + 
-			"	PRIMARY KEY (_id),\n" + 
-			"	FOREIGN KEY (quiz_id) REFERENCES Quizzes(_id)\n" + 
+			"	PRIMARY KEY (_id)\n" + 
+//			"	FOREIGN KEY (question_id) REFERENCES Questions(server_id)\n" + 
 			");";
 	private static final String DATABASE_NAME = "teachreachdb";
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 5;
 	
 	private final Context mCtx;
 	private DatabaseHelper mDbHelper;
@@ -166,7 +167,6 @@ public class TeachReachDbAdapter {
 			db.execSQL(TABLE_QUIZZES);
 			db.execSQL(TABLE_QUESTIONS);
 			db.execSQL(TABLE_OPTIONS);
-			db.execSQL(TABLE_FEEDBACKS);
 		}
 
 		@Override
