@@ -1,6 +1,5 @@
 package uk.ac.reading.dp005570.TeachReach;
 
-import java.sql.Date;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -222,13 +221,12 @@ public class TeachReachDbAdapter {
 
 	}
 	
-	public void createCourse(int id, String en, String fr, String es, Date date){
+	public void createCourse(int id, String en, String fr, String es){
 		Cursor cursor = mDb.rawQuery("SELECT * FROM courses WHERE server_id=?", new String[] { ""+id });
 		String statement;
 		if(cursor.getCount() == 0){
 			//insert
-			statement = "INSERT INTO " + COURSES +// " (" + SERVER_ID + ", "+ COURSE_NAME_EN + ", " + COURSE_NAME_FR + ", " + COURSE_NAME_ES +  ") " + 
-					" VALUES( null, '" + id + "', '" + en + "', '" + fr + "', '" + es + "')";
+			statement = "INSERT INTO " + COURSES + " VALUES( null, '" + id + "', '" + en + "', '" + fr + "', '" + es + "')";
 		}else{
 			//update
 			statement = "UPDATE " + COURSES + " SET " + COURSE_NAME_EN + "='" + en + "', " + COURSE_NAME_FR + "='" + fr + "', " + COURSE_NAME_ES + "='" + es + "'" +
@@ -238,7 +236,7 @@ public class TeachReachDbAdapter {
 		mDb.execSQL(statement);
 	}
 	
-	public void updateCourse(int id, String en, String fr, String es, Date date){
+	public void updateCourse(int id, String en, String fr, String es){
 		
 	}
 
@@ -248,22 +246,21 @@ public class TeachReachDbAdapter {
 	 * @return list of programmes related to course
 	 */
 	public Cursor fetchProgrammesList(int course_id){
-		//TODO Use course_id
+		// Use course_id
 		Cursor cursor = mDb.query(true, PROGRAMMES, 
 				new String[] { PROGRAMME_NAME_EN, PROGRAMME_NAME_FR, PROGRAMME_NAME_ES }, 
 				null, null, null, SERVER_ID + "=" + course_id, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}
-		//TODO traverse cursor and construct array with IDs
 		return cursor;
 	}
 	
-	public void updateProgramme(int id, String en, String fr, String es, Date date){
+	public void updateProgramme(int id, String en, String fr, String es){
 		
 	}
 	
-	public void createProgramme(int id, String en, String fr, String es, Date date){
+	public void createProgramme(int id, String en, String fr, String es){
 		
 	}
 	
@@ -284,14 +281,14 @@ public class TeachReachDbAdapter {
 		return cursor;
 	}
 	
-	public void createPart(int id, String en, String fr, String es, Date date){
-		mDb.execSQL("IF EXISTS (SELECT * FROM " + PARTS + " WHERE _id = " + id + ")"+ //TODO " AND upadated_at < date) " +
+	public void createPart(int id, String en, String fr, String es){
+		mDb.execSQL("IF EXISTS (SELECT * FROM " + PARTS + " WHERE _id = " + id + ")" + 
 						"UPDATE " + PARTS + "SET(...) WHERE _id = " + id +
 					"ELSE" +
 						"INSERT INTO " + PARTS + "VALUES(...)");
 	}
 	
-	public void updatePart(int id, String en, String fr, String es, Date date){
+	public void updatePart(int id, String en, String fr, String es){
 		
 	}
 	

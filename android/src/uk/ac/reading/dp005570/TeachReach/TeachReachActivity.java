@@ -95,10 +95,8 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 //			
 //			
 //		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		} catch (IOException e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
         

@@ -81,8 +81,9 @@ public class ServerCommunicationHelper {
 		catch (HttpHostConnectException e){
 			Log.e(TAG, "Couldn't connect to server.");
 			//TODO Feedback to the user
-			//TeachReachActivity.notify("Couldn't connect to server.");
-			//e.printStackTrace();
+
+//			Toast toast = new Toast(getApplicationContext(), "Couldn't connect to server.", Tost.LENGTH_SHORT);
+			e.printStackTrace();
 		}
 		catch (IOException e) {
 			Log.e(TAG, "IOException");

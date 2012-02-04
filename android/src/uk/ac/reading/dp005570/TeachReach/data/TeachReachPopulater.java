@@ -19,7 +19,6 @@ import android.util.Log;
  *
  */
 public class TeachReachPopulater {
-	//TODO Check the return columns from database queries to ensure correct retrieval in traversal step.
 	private final String TAG = "POPULATER";
 	private TeachReachParser mTeachReachParser;
 	private TeachReachDbAdapter mTeachReachDbAdapter;
@@ -38,7 +37,7 @@ public class TeachReachPopulater {
 
 	//TODO determine between update main menu list and retrieving from the database instead
 	public void getMainMenu(ProgressDialog dialog){
-		String response = mServerCommunicationHelper.getCourseList(dialog);//TODO Decide upon correct progress bar feedback operation
+		String response = mServerCommunicationHelper.getCourseList(dialog);
 		if(response.length()>0){
 			try {
 				mTeachReachParser.parseCourses(new JSONArray(response));
@@ -254,7 +253,7 @@ public class TeachReachPopulater {
 	private void updateCourses(){
 		Log.i(TAG, "Number of courses: " + mCourses.size());
 		for(Course course : mCourses){
-			mTeachReachDbAdapter.createCourse(course.getId(), course.getEN(), course.getFR(), course.getES(), null); //new Date( course.getUpdated()));
+			mTeachReachDbAdapter.createCourse(course.getId(), course.getEN(), course.getFR(), course.getES());
 		}
 	}
 
@@ -270,5 +269,18 @@ public class TeachReachPopulater {
 	 */
 	private void updateParts(){
 
+	}
+	
+	//TODO Actually use cursor to create these arrays for the spinner adapter
+	public String[] getCourseItems(){
+		return null;
+	}
+	
+	public String[] getProgrammeItems(int course_id){
+		return null;
+	}
+	
+	public String[] getPartItems(int programme_id){
+		return null;
 	}
 }
