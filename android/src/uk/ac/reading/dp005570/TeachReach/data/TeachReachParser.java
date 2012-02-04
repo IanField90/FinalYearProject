@@ -73,7 +73,7 @@ public class TeachReachParser {
 		int id;
 		String en, fr, es, updated_at;
 		ArrayList<Course> courses = new ArrayList<Course>();
-		for (int i = 0; i < list.length()-1; i++){
+		for (int i = 0; i < list.length(); i++){
 			try {
 				course = list.getJSONObject(i);
 				id = (Integer) course.get(ID);				

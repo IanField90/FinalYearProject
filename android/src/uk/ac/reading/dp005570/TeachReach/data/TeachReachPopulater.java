@@ -7,6 +7,7 @@ import org.json.JSONException;
 
 import uk.ac.reading.dp005570.TeachReach.TeachReachDbAdapter;
 import uk.ac.reading.dp005570.TeachReach.net.ServerCommunicationHelper;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
@@ -31,12 +32,13 @@ public class TeachReachPopulater {
 	public TeachReachPopulater(Context context) {
 		mTeachReachParser = new TeachReachParser();
 		mTeachReachDbAdapter = new TeachReachDbAdapter(context);
+		mTeachReachDbAdapter.open();
 		mServerCommunicationHelper = new ServerCommunicationHelper();
 	}
 
 	//TODO determine between update main menu list and retrieving from the database instead
-	public void getMainMenu(){
-		String response = mServerCommunicationHelper.getCourseList(null);//TODO Decide upon correct progress bar feedback operation
+	public void getMainMenu(ProgressDialog dialog){
+		String response = mServerCommunicationHelper.getCourseList(dialog);//TODO Decide upon correct progress bar feedback operation
 		if(response.length()>0){
 			try {
 				mTeachReachParser.parseCourses(new JSONArray(response));
@@ -250,7 +252,10 @@ public class TeachReachPopulater {
 	 * Update the database with each Course retrieved from the parser
 	 */
 	private void updateCourses(){
-
+		Log.i(TAG, "Number of courses: " + mCourses.size());
+		for(Course course : mCourses){
+			mTeachReachDbAdapter.createCourse(course.getId(), course.getEN(), course.getFR(), course.getES(), null); //new Date( course.getUpdated()));
+		}
 	}
 
 	/**

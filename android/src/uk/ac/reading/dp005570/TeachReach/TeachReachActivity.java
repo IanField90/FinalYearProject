@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import uk.ac.reading.dp005570.TeachReach.data.TeachReachParser;
+import uk.ac.reading.dp005570.TeachReach.data.TeachReachPopulater;
 import uk.ac.reading.dp005570.TeachReach.net.ServerCommunicationHelper;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -151,23 +152,25 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.refresh_lists:
-			
+			TeachReachPopulater trp = new TeachReachPopulater(getApplicationContext());
 			//TODO utilise TeachReachPopulator
 			final ProgressDialog progress = ProgressDialog.show(TeachReachActivity.this, "Please wait...", "Retrieving data...");
-			Thread thread = new Thread(new Runnable(){
-				
-				public void run(){
-					try {
-						if(mSCH.getCourseList(progress) != null){
-							mTeachReachParser.parseCourses(new JSONArray( mSCH.getCourseList(progress)));
-						}
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			});
-			thread.run();
+			trp.getMainMenu(progress);
+//
+//			Thread thread = new Thread(new Runnable(){
+//				
+//				public void run(){
+//					try {
+//						if(mSCH.getCourseList(progress) != null){
+//							mTeachReachParser.parseCourses(new JSONArray( mSCH.getCourseList(progress)));
+//						}
+//					} catch (JSONException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//			});
+//			thread.run();
 		default:
 			return super.onOptionsItemSelected(item);
 		}

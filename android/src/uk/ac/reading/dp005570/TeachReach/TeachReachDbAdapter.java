@@ -20,6 +20,8 @@ public class TeachReachDbAdapter {
 	private static final String TAG = "TeachReachDbAdapter";
 	private final String ID = "_id";
 	
+	private final String SERVER_ID = "server_id";
+	
 	//Courses fields
 	private final String COURSES = "courses";
 	private final String COURSE_NAME_EN = "course_name_en";
@@ -81,7 +83,7 @@ public class TeachReachDbAdapter {
 	// creation strings here	
 	private static final String TABLE_COURSES = "CREATE TABLE Courses(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
-			" 	server_id INTEGER\n" +
+			" 	server_id INTEGER, \n" +
 			"	course_name_en VARCHAR(255) NOT NULL, \n" + 
 			"	course_name_fr VARCHAR(255) NOT NULL, \n" + 
 			"	course_name_es VARCHAR(255) NOT NULL,\n" + 
@@ -89,7 +91,7 @@ public class TeachReachDbAdapter {
 			");";
 	private static final String TABLE_PROGRAMMES = "CREATE TABLE Programmes(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
-			"   server_id INTEGER\n" +
+			"   server_id INTEGER, \n" +
 			"	course_id INTEGER NOT NULL,\n" + 
 			"	programme_name_en VARCHAR(255) NOT NULL, \n" + 
 			"	programme_name_fr VARCHAR(255) NOT NULL, \n" + 
@@ -143,7 +145,7 @@ public class TeachReachDbAdapter {
 //			"	FOREIGN KEY (question_id) REFERENCES Questions(server_id)\n" + 
 			");";
 	private static final String DATABASE_NAME = "teachreachdb";
-	private static final int DATABASE_VERSION = 5;
+	private static final int DATABASE_VERSION = 7;
 	
 	private final Context mCtx;
 	private DatabaseHelper mDbHelper;
@@ -174,7 +176,6 @@ public class TeachReachDbAdapter {
 			Log.w(TAG, "Upgrading database from version " + oldVersion + "to " + 
 					newVersion + ", which will destroy old data" );
 			// drop all tables
-			db.execSQL("DROP TABLE IF EXISTS Feedbacks;"); //TODO REMOVE
 			db.execSQL("DROP TABLE IF EXISTS Options;");
 			db.execSQL("DROP TABLE IF EXISTS Questions;");
 			db.execSQL("DROP TABLE IF EXISTS Quizzes;");
@@ -236,7 +237,29 @@ public class TeachReachDbAdapter {
 	}
 	
 	public void createCourse(int id, String en, String fr, String es, Date date){
-		
+		Cursor cursor = mDb.rawQuery("SELECT * FROM courses WHERE server_id=?", new String[] { ""+id });
+		//Cursor cursor = mDb.query(TABLE_COURSES, new String[] {"course_name_en"}, "WHERE server_id="+id, null, null, null, null);
+		String statement;
+		if(cursor.getCount() == 0){
+			//insert
+			statement = "INSERT INTO " + COURSES +// " (" + SERVER_ID + ", "+ COURSE_NAME_EN + ", " + COURSE_NAME_FR + ", " + COURSE_NAME_ES +  ") " + 
+					" VALUES( null, '" + id + "', '" + en + "', '" + fr + "', '" + es + "')";
+		}else{
+			//update
+			statement = "UPDATE " + COURSES + " SET " + COURSE_NAME_EN + "='" + en + "', " + COURSE_NAME_FR + "='" + fr + "', " + COURSE_NAME_ES + "='" + es + "'" +
+					" WHERE " + SERVER_ID +"=" + id;
+		}
+//		String statement = "IF EXISTS(SELECT _id FROM " + COURSES + " WHERE " + SERVER_ID + "=" + id + ") "+ //TODO " AND upadated_at < date) " +
+//				" THEN UPDATE " + COURSES + " SET(" + 
+//					COURSE_NAME_EN + "='" + en + "', " + 
+//					COURSE_NAME_FR + "='" + fr + "', " + 
+//					COURSE_NAME_ES + "='" + es + "')" +
+//					" WHERE " + SERVER_ID +"=" + id +
+//			" ELSE " +
+//				"INSERT INTO " + COURSES + "(" + SERVER_ID + ", "+ COURSE_NAME_EN + ", " + COURSE_NAME_FR + ", " + COURSE_NAME_ES +  ") " + 
+//					"VALUES( '" + id + "', '" + en + "', '" + fr + "', '" + es + "')";
+		Log.i(TAG, "Statement: " + statement);
+		mDb.execSQL(statement);
 	}
 	
 	public void updateCourse(int id, String en, String fr, String es, Date date){
@@ -252,7 +275,7 @@ public class TeachReachDbAdapter {
 		//TODO Use course_id
 		Cursor cursor = mDb.query(true, PROGRAMMES, 
 				new String[] { PROGRAMME_NAME_EN, PROGRAMME_NAME_FR, PROGRAMME_NAME_ES }, 
-				null, null, null, COURSE_ID + "=" + course_id, null, null);
+				null, null, null, SERVER_ID + "=" + course_id, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}
