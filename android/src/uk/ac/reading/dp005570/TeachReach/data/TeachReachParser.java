@@ -44,6 +44,9 @@ public class TeachReachParser {
 	private final String QUESTION_EN = "content_en";
 	private final String QUESTION_FR = "content_fr";
 	private final String QUESTION_ES = "content_es";
+	private final String FEEDBACK_EN = "feedback_en";
+	private final String FEEDBACK_FR = "feedback_fr";
+	private final String FEEDBACK_ES = "feedback_es";
 	
 	private final String OPTIONS = "options";
 	private final String OPTION_EN = "option_en";

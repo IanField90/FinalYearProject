@@ -1,9 +1,5 @@
 package uk.ac.reading.dp005570.TeachReach;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import uk.ac.reading.dp005570.TeachReach.data.TeachReachParser;
 import uk.ac.reading.dp005570.TeachReach.data.TeachReachPopulater;
 import uk.ac.reading.dp005570.TeachReach.net.ServerCommunicationHelper;
 import android.app.Activity;
@@ -31,7 +27,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	private Spinner mProgrammeSpinner, mCourseSpinner, mPartSpinner; 
 //	private final String SETTINGS_FILE = "TeachReachSettings.txt";
 	private ServerCommunicationHelper mSCH = new ServerCommunicationHelper();
-	private TeachReachParser mTeachReachParser = new TeachReachParser();
+	private TeachReachPopulater mTeachReachPopulater;
 	
 	private final String TAG = "TeachReachActivity";
 	
@@ -44,7 +40,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+        mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
         loadSettings();
         
         mDbHelper = new TeachReachDbAdapter(this);
@@ -121,7 +117,6 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 		saveSettings();
 	}
 	
-//    @Override
     public void onClick(View v) {
     	Intent i;
     	if(v == findViewById(R.id.view_quizzes_button)){
@@ -152,25 +147,14 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.refresh_lists:
-			TeachReachPopulater trp = new TeachReachPopulater(getApplicationContext());
-			//TODO utilise TeachReachPopulator
+			// utilise TeachReachPopulator
 			final ProgressDialog progress = ProgressDialog.show(TeachReachActivity.this, "Please wait...", "Retrieving data...");
-			trp.getMainMenu(progress);
-//
-//			Thread thread = new Thread(new Runnable(){
-//				
-//				public void run(){
-//					try {
-//						if(mSCH.getCourseList(progress) != null){
-//							mTeachReachParser.parseCourses(new JSONArray( mSCH.getCourseList(progress)));
-//						}
-//					} catch (JSONException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//				}
-//			});
-//			thread.run();
+			Thread thread = new Thread(new Runnable(){
+				public void run(){
+					mTeachReachPopulater.getMainMenu(progress);
+				}
+			});
+			thread.run();
 		default:
 			return super.onOptionsItemSelected(item);
 		}

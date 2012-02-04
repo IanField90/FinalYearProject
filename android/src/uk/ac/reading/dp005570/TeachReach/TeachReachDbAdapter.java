@@ -52,6 +52,9 @@ public class TeachReachDbAdapter {
 	private final String QUESTION_EN = "content_en";
 	private final String QUESTION_FR = "content_fr";
 	private final String QUESTION_ES = "content_es";
+	private final String FEEDBACK_EN = "feedback_en";
+	private final String FEEDBACK_FR = "feedback_fr";
+	private final String FEEDBACK_ES = "feedback_es";
 	
 	private final String OPTIONS = "options";
 	private final String OPTION_EN = "option_en";
@@ -64,21 +67,9 @@ public class TeachReachDbAdapter {
 	private final String MATERIAL_FR = "material_fr";
 	private final String MATERIAL_ES = "material_es";
 	
-	
-	
-	/**
-	 * Response codes
-	 */
-//	private final int OK = 0;
-//	private final int UPDATE_ERROR = -1;
-//	private final int INSERT_ERROR = -2;
-	
-	
 	/**
 	 * Database creation statements
 	 */
-	// TODO Update the databases to add 'changed_at' date field to each table
-	// TODO Merge feedbacks table into Questions
 	// TODO funky logic to maintain server_id in query
 	// creation strings here	
 	private static final String TABLE_COURSES = "CREATE TABLE Courses(\n" + 
@@ -97,7 +88,6 @@ public class TeachReachDbAdapter {
 			"	programme_name_fr VARCHAR(255) NOT NULL, \n" + 
 			"	programme_name_es VARCHAR(255) NOT NULL,\n" + 
 			"	PRIMARY KEY (_id)\n" + 
-//			"	FOREIGN KEY (course_id) REFERENCES Courses(_id)\n" + 
 			");";
 	private static final String TABLE_PARTS ="CREATE TABLE Parts(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
@@ -107,7 +97,6 @@ public class TeachReachDbAdapter {
 			"	part_name_fr VARCHAR(255) NOT NULL, \n" + 
 			"	part_name_es VARCHAR(255) NOT NULL,\n" + 
 			"	PRIMARY KEY (_id)\n" + 
-//			"	FOREIGN KEY (programme_id) REFERENCES Programmes(server_id)\n" + 
 			");";
 	private static final String TABLE_QUIZZES = "CREATE TABLE Quizzes(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
@@ -117,7 +106,6 @@ public class TeachReachDbAdapter {
 			"   name_fr VARCHAR(255),\n" +
 			"   name_es VARCHAR(255),\n" +
 			"	PRIMARY KEY (_id)\n" + 
-//			"	FOREIGN KEY (part_id) REFERENCES Parts(server_id)\n" + 
 			");";
 	private static final String TABLE_QUESTIONS = "CREATE TABLE Questions(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
@@ -130,7 +118,6 @@ public class TeachReachDbAdapter {
 			"   feedback_fr VARCHAR(1000),\n" +
 			"   feedback_es VARCHAR(1000),\n" +
 			"	PRIMARY KEY (_id)\n" + 
-//			"	FOREIGN KEY (quiz_id) REFERENCES Quizzes(server_id)\n" + 
 			");";
 	private static final String TABLE_OPTIONS = "CREATE TABLE Options(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
@@ -142,7 +129,6 @@ public class TeachReachDbAdapter {
 			"	option_es VARCHAR(255) NOT NULL,\n" + 
 			"	answer BOOLEAN,\n" + 
 			"	PRIMARY KEY (_id)\n" + 
-//			"	FOREIGN KEY (question_id) REFERENCES Questions(server_id)\n" + 
 			");";
 	private static final String DATABASE_NAME = "teachreachdb";
 	private static final int DATABASE_VERSION = 7;
@@ -238,7 +224,6 @@ public class TeachReachDbAdapter {
 	
 	public void createCourse(int id, String en, String fr, String es, Date date){
 		Cursor cursor = mDb.rawQuery("SELECT * FROM courses WHERE server_id=?", new String[] { ""+id });
-		//Cursor cursor = mDb.query(TABLE_COURSES, new String[] {"course_name_en"}, "WHERE server_id="+id, null, null, null, null);
 		String statement;
 		if(cursor.getCount() == 0){
 			//insert
@@ -249,15 +234,6 @@ public class TeachReachDbAdapter {
 			statement = "UPDATE " + COURSES + " SET " + COURSE_NAME_EN + "='" + en + "', " + COURSE_NAME_FR + "='" + fr + "', " + COURSE_NAME_ES + "='" + es + "'" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
-//		String statement = "IF EXISTS(SELECT _id FROM " + COURSES + " WHERE " + SERVER_ID + "=" + id + ") "+ //TODO " AND upadated_at < date) " +
-//				" THEN UPDATE " + COURSES + " SET(" + 
-//					COURSE_NAME_EN + "='" + en + "', " + 
-//					COURSE_NAME_FR + "='" + fr + "', " + 
-//					COURSE_NAME_ES + "='" + es + "')" +
-//					" WHERE " + SERVER_ID +"=" + id +
-//			" ELSE " +
-//				"INSERT INTO " + COURSES + "(" + SERVER_ID + ", "+ COURSE_NAME_EN + ", " + COURSE_NAME_FR + ", " + COURSE_NAME_ES +  ") " + 
-//					"VALUES( '" + id + "', '" + en + "', '" + fr + "', '" + es + "')";
 		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);
 	}
