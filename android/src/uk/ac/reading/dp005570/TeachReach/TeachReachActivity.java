@@ -1,7 +1,8 @@
 package uk.ac.reading.dp005570.TeachReach;
 
-import uk.ac.reading.dp005570.TeachReach.data.TeachReachPopulater;
 import uk.ac.reading.dp005570.TeachReach.net.ServerCommunicationHelper;
+import uk.ac.reading.dp005570.TeachReach.util.TeachReachDbAdapter;
+import uk.ac.reading.dp005570.TeachReach.util.TeachReachPopulater;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;

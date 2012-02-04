@@ -1,10 +1,14 @@
-package uk.ac.reading.dp005570.TeachReach.data;
+package uk.ac.reading.dp005570.TeachReach.util;
 
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import uk.ac.reading.dp005570.TeachReach.data.Course;
+import uk.ac.reading.dp005570.TeachReach.data.Part;
+import uk.ac.reading.dp005570.TeachReach.data.Programme;
 
 import android.util.Log;
 
@@ -117,7 +121,7 @@ public class TeachReachParser {
 		JSONObject programme;
 		int id, course_id = course;
 		String en, fr, es, updated_at;
-		for (int i = 0; i < list.length()-1; i++){
+		for (int i = 0; i < list.length(); i++){
 			try {
 				programme = list.getJSONObject(i);
 				id = (Integer) programme.get(ID);				
@@ -156,7 +160,7 @@ public class TeachReachParser {
 		JSONObject part;
 		int id, programme_id = programme;
 		String en, fr, es, updated_at;
-		for (int i = 0; i < list.length()-1; i++){
+		for (int i = 0; i < list.length(); i++){
 			try {
 				part = list.getJSONObject(i);
 				id = (Integer) part.get(ID);				

@@ -1,11 +1,14 @@
-package uk.ac.reading.dp005570.TeachReach.data;
+package uk.ac.reading.dp005570.TeachReach.util;
 
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import uk.ac.reading.dp005570.TeachReach.TeachReachDbAdapter;
+import uk.ac.reading.dp005570.TeachReach.data.Course;
+import uk.ac.reading.dp005570.TeachReach.data.Language;
+import uk.ac.reading.dp005570.TeachReach.data.Part;
+import uk.ac.reading.dp005570.TeachReach.data.Programme;
 import uk.ac.reading.dp005570.TeachReach.net.ServerCommunicationHelper;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -38,7 +41,8 @@ public class TeachReachPopulater {
 	//TODO determine between update main menu list and retrieving from the database instead
 	public void getMainMenu(ProgressDialog dialog){
 		String response = mServerCommunicationHelper.getCourseList(dialog);
-		if(response.length()>0){
+		//Null check first. If it is then no response from server
+		if((response != null) && (response.length() > 0)){
 			try {
 				mTeachReachParser.parseCourses(new JSONArray(response));
 				mCourses = mTeachReachParser.getCourses();
@@ -261,6 +265,11 @@ public class TeachReachPopulater {
 	 * Update the database with each Programme retrieved from the parser
 	 */
 	private void updateProgrammes(){
+		Log.i(TAG, "Number of programmes: " + mProgrammes.size());
+		for(Programme programme : mProgrammes){
+			mTeachReachDbAdapter.createProgramme(programme.getId(), programme.getCourseID(), 
+					programme.getEN(), programme.getFR(), programme.getES());
+		}
 
 	}
 
@@ -268,7 +277,11 @@ public class TeachReachPopulater {
 	 * Update the database with each Part retrieved from the parser
 	 */
 	private void updateParts(){
-
+		Log.i(TAG, "Number of parts: " + mParts.size());
+		for(Part part : mParts){
+			mTeachReachDbAdapter.createPart(part.getId(), part.getProgrammeID(), 
+					part.getEN(), part.getFR(), part.getES());
+		}
 	}
 	
 	//TODO Actually use cursor to create these arrays for the spinner adapter

@@ -1,4 +1,4 @@
-package uk.ac.reading.dp005570.TeachReach;
+package uk.ac.reading.dp005570.TeachReach.util;
 
 
 import android.content.Context;
@@ -221,23 +221,28 @@ public class TeachReachDbAdapter {
 
 	}
 	
+	/**
+	 * Creates or updates the database entry for a course
+	 * @param id Server's table ID
+	 * @param en English course title
+	 * @param fr French course title
+	 * @param es Spanish course title
+	 */
 	public void createCourse(int id, String en, String fr, String es){
 		Cursor cursor = mDb.rawQuery("SELECT * FROM courses WHERE server_id=?", new String[] { ""+id });
 		String statement;
 		if(cursor.getCount() == 0){
 			//insert
-			statement = "INSERT INTO " + COURSES + " VALUES( null, '" + id + "', '" + en + "', '" + fr + "', '" + es + "')";
+			statement = "INSERT INTO " + COURSES + " VALUES( null, " + id + 
+					", '" + en + "', '" + fr + "', '" + es + "')";
 		}else{
 			//update
-			statement = "UPDATE " + COURSES + " SET " + COURSE_NAME_EN + "='" + en + "', " + COURSE_NAME_FR + "='" + fr + "', " + COURSE_NAME_ES + "='" + es + "'" +
-					" WHERE " + SERVER_ID +"=" + id;
+			statement = "UPDATE " + COURSES + " SET " + COURSE_NAME_EN + "='" + en + "', " +
+						COURSE_NAME_FR + "='" + fr + "', " + COURSE_NAME_ES + "='" + es + "'" +
+						" WHERE " + SERVER_ID +"=" + id;
 		}
 		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);
-	}
-	
-	public void updateCourse(int id, String en, String fr, String es){
-		
 	}
 
 	/**
@@ -256,12 +261,28 @@ public class TeachReachDbAdapter {
 		return cursor;
 	}
 	
-	public void updateProgramme(int id, String en, String fr, String es){
-		
-	}
-	
-	public void createProgramme(int id, String en, String fr, String es){
-		
+	/**
+	 * Creates or updates the database entry for a programme
+	 * @param id Server's table ID
+	 * @param en English programme title
+	 * @param fr French programme title
+	 * @param es Spanish programme title
+	 */
+	public void createProgramme(int id, int course_id, String en, String fr, String es){
+		Cursor cursor = mDb.rawQuery("SELECT * FROM programmes WHERE server_id=?", new String[] { ""+id });
+		String statement;
+		if(cursor.getCount() == 0){
+			//insert
+			statement = "INSERT INTO " + PROGRAMMES + " VALUES( null, " + id + ", " + course_id + 
+					", '" + en + "', '" + fr + "', '" + es + "')";
+		}else{
+			//update
+			statement = "UPDATE " + PROGRAMMES + " SET " + PROGRAMME_NAME_EN + "='" + en + "', " +
+						PROGRAMME_NAME_FR + "='" + fr + "', " + PROGRAMME_NAME_ES + "='" + es + "'" +
+						" WHERE " + SERVER_ID +"=" + id;
+		}
+		Log.i(TAG, "Statement: " + statement);
+		mDb.execSQL(statement);
 	}
 	
 	/**
@@ -281,16 +302,30 @@ public class TeachReachDbAdapter {
 		return cursor;
 	}
 	
-	public void createPart(int id, String en, String fr, String es){
-		mDb.execSQL("IF EXISTS (SELECT * FROM " + PARTS + " WHERE _id = " + id + ")" + 
-						"UPDATE " + PARTS + "SET(...) WHERE _id = " + id +
-					"ELSE" +
-						"INSERT INTO " + PARTS + "VALUES(...)");
+	/**
+	 * Creates or updates the database entry for a part
+	 * @param id Server's table ID
+	 * @param en English part title
+	 * @param fr French part title
+	 * @param es Spanish part title
+	 */
+	public void createPart(int id, int programme_id, String en, String fr, String es){
+		Cursor cursor = mDb.rawQuery("SELECT * FROM parts WHERE server_id=?", new String[] { ""+id });
+		String statement;
+		if(cursor.getCount() == 0){
+			//insert
+			statement = "INSERT INTO " + PARTS + " VALUES( null, " + id + ", " + programme_id +
+					", '" + en + "', '" + fr + "', '" + es + "')";
+		}else{
+			//update
+			statement = "UPDATE " + PARTS + " SET " + PART_NAME_EN + "='" + en + "', " +
+						PART_NAME_FR + "='" + fr + "', " + PART_NAME_ES + "='" + es + "'" +
+						" WHERE " + SERVER_ID +"=" + id;
+		}
+		Log.i(TAG, "Statement: " + statement);
+		mDb.execSQL(statement);
 	}
-	
-	public void updatePart(int id, String en, String fr, String es){
-		
-	}
+
 	
 	/**
 	 * Return the array object for all relative parts
