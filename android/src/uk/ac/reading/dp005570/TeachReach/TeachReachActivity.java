@@ -72,12 +72,14 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
         ArrayAdapter<String> programme_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mProgrammeItems);
         programme_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mProgrammeSpinner.setAdapter(programme_adapter);
+        mProgrammeSpinner.setOnItemSelectedListener(this);
         
         //Set up module spinner
         mPartSpinner = (Spinner) findViewById(R.id.part_spinner);
         ArrayAdapter<String> module_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mPartItems);
         module_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mPartSpinner.setAdapter(module_adapter);
+        mPartSpinner.setOnItemSelectedListener(this);
         
         //Set up m
         Button view_quizzes_button = (Button) findViewById(R.id.view_quizzes_button);

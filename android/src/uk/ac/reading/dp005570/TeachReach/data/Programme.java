@@ -1,7 +1,7 @@
 package uk.ac.reading.dp005570.TeachReach.data;
 
 public class Programme {
-	private String mEN, mFR, mES, mUpdated;
+	private String mEN, mFR, mES;
 	private int mId, mCourseId;
 	
 	/**
@@ -13,12 +13,11 @@ public class Programme {
 	 * @param es The Spanish title of the programme
 	 * @param updated The date the programme was last updated on the server
 	 */
-	public Programme(int id, int course_id, String en, String fr, String es, String updated){
+	public Programme(int id, int course_id, String en, String fr, String es){
 		setId(id);
 		setEN(en);
 		setFR(fr);
 		setES(es);
-		setUpdated(updated);
 		setCourseID(course_id);
 	}
 
@@ -70,22 +69,6 @@ public class Programme {
 		this.mES = mES;
 	}
 	
-	/**
-	 * 
-	 * @return The date that the programme was last updated on the server
-	 */
-	public String getUpdated() {
-		return mUpdated;
-	}
-
-	/**
-	 * 
-	 * @param mUpdated The date that the programme was last updated on the server
-	 */
-	public void setUpdated(String mUpdated) {
-		this.mUpdated = mUpdated;
-	}
-
 	/**
 	 * 
 	 * @return The server's ID of the programme

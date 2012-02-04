@@ -84,9 +84,8 @@ public class TeachReachPopulater {
 				String en = cursor.getString(1);
 				String fr = cursor.getString(2);
 				String es = cursor.getString(3);
-				String updated = cursor.getString(4);
 
-				Course course = new Course(id, en, fr, es, updated);
+				Course course = new Course(id, en, fr, es);
 				courses.add(course);
 			}while(cursor.moveToNext());
 
@@ -112,9 +111,8 @@ public class TeachReachPopulater {
 				String en = cursor.getString(1);
 				String fr = cursor.getString(2);
 				String es = cursor.getString(3);
-				String updated = cursor.getString(4);
 
-				Programme programme = new Programme(id, course_id, en, fr, es, updated);
+				Programme programme = new Programme(id, course_id, en, fr, es);
 				programmes.add(programme);
 			}while(cursor.moveToNext());
 		}
@@ -140,9 +138,8 @@ public class TeachReachPopulater {
 				String en = cursor.getString(1);
 				String fr = cursor.getString(2);
 				String es = cursor.getString(3);
-				String updated = cursor.getString(4);
 
-				Part part = new Part(id, programme_id, en, fr, es, updated);
+				Part part = new Part(id, programme_id, en, fr, es);
 				parts.add(part);
 			}while(cursor.moveToNext());
 		}

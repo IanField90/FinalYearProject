@@ -7,7 +7,7 @@ package uk.ac.reading.dp005570.TeachReach.data;
  *
  */
 public class Part {
-	private String mEN, mFR, mES, mUpdated;
+	private String mEN, mFR, mES;
 	private int mId, mProgrammeID;
 	
 	/**
@@ -19,12 +19,11 @@ public class Part {
 	 * @param es The Spanish title of the part
 	 * @param updated The date the part was last updated on the server
 	 */
-	public Part(int id, int prog_id, String en, String fr, String es, String updated){
+	public Part(int id, int prog_id, String en, String fr, String es){
 		setId(id);
 		setEN(en);
 		setFR(fr);
 		setES(es);
-		setUpdated(updated);
 		setProgrammeID(prog_id);
 	}
 
@@ -74,22 +73,6 @@ public class Part {
 	 */
 	public void setES(String mES) {
 		this.mES = mES;
-	}
-	
-	/**
-	 * 
-	 * @return The date that the part was last updated on the server
-	 */
-	public String getUpdated() {
-		return mUpdated;
-	}
-
-	/**
-	 * 
-	 * @param mUpdated The date that the part was last updated on the server
-	 */
-	public void setUpdated(String mUpdated) {
-		this.mUpdated = mUpdated;
 	}
 
 	/**
