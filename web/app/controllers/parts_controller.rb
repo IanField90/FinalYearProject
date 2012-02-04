@@ -5,12 +5,26 @@ class PartsController < ApplicationController
     respond_to do |format|
       format.html
       #Build full JSON response so it is just one request
+      #If you're calling this then you already know the id of the part
       format.json { render :json => @part, :include => {
-          :materials => {}, 
+          :materials => {
+            :except => [ :created_at, :updated_at ]
+          }, 
           :quizzes => { 
             :include => {
-              :questions => {:include => { :options => {}}}}}
-        } 
+              :questions => {
+                :include => { 
+                  :options => { 
+                    :except => [ :created_at, :updated_at ] 
+                  }
+                },
+                :except => [ :created_at, :updated_at ]
+              }
+            },
+            :except => [ :created_at, :updated_at, :user_id, :part_id ]
+          }
+        },
+        :except => [ :created_at, :updated_at, :programme_id, :id,  :part_name_en, :part_name_fr, :part_name_es ] 
       }
     end
   end
