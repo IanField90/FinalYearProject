@@ -1,6 +1,7 @@
 package uk.ac.reading.dp005570.TeachReach;
 
-import uk.ac.reading.dp005570.TeachReach.net.ServerCommunicationHelper;
+import java.util.Locale;
+
 import uk.ac.reading.dp005570.TeachReach.util.TeachReachDbAdapter;
 import uk.ac.reading.dp005570.TeachReach.util.TeachReachPopulater;
 import android.app.Activity;
@@ -27,8 +28,10 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	private TeachReachDbAdapter mDbHelper;
 	private Spinner mProgrammeSpinner, mCourseSpinner, mPartSpinner; 
 //	private final String SETTINGS_FILE = "TeachReachSettings.txt";
-	private ServerCommunicationHelper mSCH = new ServerCommunicationHelper();
 	private TeachReachPopulater mTeachReachPopulater;
+	private String[] mCourseItems;
+	private String[] mProgrammeItems;
+	private String[] mPartItems;
 	
 	private final String TAG = "TeachReachActivity";
 	
@@ -44,31 +47,35 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
         mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
         loadSettings();
         
+        //TODO use this when getting contents for main menu items and throughout
+        // application run
+        Locale locale = getResources().getConfiguration().locale;
+        
         mDbHelper = new TeachReachDbAdapter(this);
         mDbHelper.open();
-        String courses[] = { "1. Course 1", "2. Course 2" };
+        
+        mCourseItems = new String[] { "Course 1", "Course 2" };
+//      mCourseItems = mTeachReachPopulater.getCourseItems();
 
-        String programmes[] = { "1. Programme 1", "2. Programme 2", "3. Programme 3",
-        		"4. Programme 4", "5. Programme 5", "6. Programme 6", "7. Programme 7",
-        		"8. Programme 8", "9. Programme 9", "10. Programme 10"  };
-        String parts[] = { "1. Part 1", "2. Part 2" };
+        mProgrammeItems = new String[]{};
+        mPartItems = new String[] {};
         
         //Set up course spinner
         mCourseSpinner = (Spinner) findViewById(R.id.course_spinner);
-        ArrayAdapter<String> course_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, courses);
+        ArrayAdapter<String> course_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mCourseItems);
         course_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mCourseSpinner.setAdapter(course_adapter);
         mCourseSpinner.setOnItemSelectedListener(this);
         
         //Set up proramme spinner
         mProgrammeSpinner = (Spinner) findViewById(R.id.programme_spinner);
-        ArrayAdapter<String> programme_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, programmes);
+        ArrayAdapter<String> programme_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mProgrammeItems);
         programme_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mProgrammeSpinner.setAdapter(programme_adapter);
         
         //Set up module spinner
         mPartSpinner = (Spinner) findViewById(R.id.part_spinner);
-        ArrayAdapter<String> module_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, parts);
+        ArrayAdapter<String> module_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mPartItems);
         module_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mPartSpinner.setAdapter(module_adapter);
         
@@ -165,13 +172,20 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 		if(parent == mCourseSpinner){
 			Log.i(TAG, "Courses Spinner changed.");
 			mSelectedCourseId = position + 1;
-			//TODO update programme spinner to reflect this change
+			// update programme spinner to reflect this change
+			mProgrammeItems = new String[] { "Programme 1", "Programme 2" };//TODO use: mTeachReachPopulater.getProgrammeItems(position + 1);
+			
+	        ArrayAdapter<String> programme_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mProgrammeItems);
+	        programme_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	        mProgrammeSpinner.setAdapter(programme_adapter);
 			
 		}
 		else if(parent == mProgrammeSpinner){
 			Log.i(TAG, "Programmes Spinner changed.");
 			//TODO update part spinner to reflect this change
 			//mSelectedProgrammeId =  mProgrammes.get(position).getID();
+
+			//TODO redraw spinner?
 		}
 		else if(parent == mPartSpinner){
 			Log.i(TAG, "Parts Spinner changed.");
