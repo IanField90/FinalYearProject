@@ -15,6 +15,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.ProgressDialog;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * 
@@ -48,9 +49,13 @@ public class ServerCommunicationHelper {
 
 	}
 	
+	/**
+	 * Get the course list from the server
+	 * @param progress used to feedback to user on communication progress
+	 * @return JSON response from the server
+	 */
 	public String getCourseList(ProgressDialog progress){
-		//TODO run on a different thread, and give user some feedback on progress
-		// (see list tutorial Karsten told me about)
+		// run on a different thread, and give user some feedback on progress
 		String response_page = null;
 		try {
 			mRequest.setURI(new URI(SERVER_ADDRESS + REST_COURSES));
@@ -80,9 +85,7 @@ public class ServerCommunicationHelper {
 		}
 		catch (HttpHostConnectException e){
 			Log.e(TAG, "Couldn't connect to server.");
-			//TODO Feedback to the user
-
-//			Toast toast = new Toast(getApplicationContext(), "Couldn't connect to server.", Tost.LENGTH_SHORT);
+			Toast.makeText(progress.getContext(), "Can't connect to server.", Toast.LENGTH_LONG).show(); //TODO Localised message text
 			e.printStackTrace();
 		}
 		catch (IOException e) {
@@ -94,11 +97,15 @@ public class ServerCommunicationHelper {
 		return response_page != null ? response_page : null;
 	}
 
-	
-	public void getPartContent(int id){
-		//TODO run on a different thread, and give user some feedback on progress
-		//TODO timeout handling if the server cannot be found
-		// (see list tutorial Karsten told me about)
+	/**
+	 * Get the details for the part from the server
+	 * @param id ID of the part to retrieve items for
+	 * @param progress Used to feedback to user on communication progress
+	 * @return JSON response from the server
+	 */
+	public String getPartContent(int id, ProgressDialog progress){
+		// run on a different thread, and give user some feedback on progress
+		String response_page = null;
 		try {
 			mRequest.setURI(new URI(SERVER_ADDRESS + REST_PART + id + REST_ENDING));
 			mResponse = mClient.execute(mRequest);
@@ -112,17 +119,11 @@ public class ServerCommunicationHelper {
 			}
 
 			mIn.close();
-			String response_page = sb.toString();
+			if(sb != null){
+				response_page = sb.toString();
+			}
 
 			Log.d("SERVER", "Response: " + response_page);
-
-//			try {
-////				JSONArray part_content = new JSONArray(response_page);
-////				parsePartContent(part_content);
-//			} catch (JSONException e) {
-//				// Auto-generated catch block
-//				e.printStackTrace();
-//			}
 
 		} catch (URISyntaxException e) {
 			Log.e(TAG, "Erroneous URI");
@@ -133,6 +134,8 @@ public class ServerCommunicationHelper {
 		} catch (IOException e) {
 			Log.e(TAG, "I/O Exception");
 			e.printStackTrace();
-		}		
+		}
+		return response_page != null ? response_page : null;
+
 	}
 }
