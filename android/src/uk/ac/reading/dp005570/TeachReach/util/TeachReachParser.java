@@ -7,9 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import uk.ac.reading.dp005570.TeachReach.data.Course;
+import uk.ac.reading.dp005570.TeachReach.data.Material;
 import uk.ac.reading.dp005570.TeachReach.data.Part;
 import uk.ac.reading.dp005570.TeachReach.data.Programme;
-
 import android.util.Log;
 
 /**
@@ -66,6 +66,9 @@ public class TeachReachParser {
 	private ArrayList<Course> mCourses = new ArrayList<Course>();
 	private ArrayList<Programme> mProgrammes = new ArrayList<Programme>();
 	private ArrayList<Part> mParts = new ArrayList<Part>();
+
+	private ArrayList<Material> mMaterials = new ArrayList<Material>();
+	
 	
 	/**
 	 * Extracts information for a Course list and updates/creates entry in
@@ -73,8 +76,6 @@ public class TeachReachParser {
 	 * @param list The JSON array of courses returned by the server
 	 */
 	public ArrayList<Course> parseCourses(JSONArray list){
-		//TODO IMPORTANT - recursive parsing - Retrieve courses, programmes and parts in one object
-
 		JSONObject course;
 		int id;
 		String en, fr, es;
@@ -182,10 +183,26 @@ public class TeachReachParser {
 	 * Actually get all the information from a part. That is to say that the
 	 * full quiz(questions -> options -> feedback), material should be parsed and
 	 * added locally to the database
-	 * @param part
+	 * @param part The array containing all information for a particular part.
 	 */
 	public void parsePartContent(JSONArray part){
 		//TODO triple layered parse.
+	}
+	
+	private void parseMaterials(JSONArray materials, int part_id){
+		
+	}
+	
+	private void parseQuizzes(JSONArray quizzes){
+		
+	}
+	
+	private void parseQuestion(JSONArray question){
+		
+	}
+	
+	private void parseOptions(JSONArray options){
+		
 	}
 
 

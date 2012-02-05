@@ -11,11 +11,12 @@ public class Question {
 	private String mQuestionText;
 	private QuestionType mType;
 	private ArrayList<String> mOptions;
-	private Boolean[] mCorrectOptions; //TODO 2D update as matrix
+	private Boolean[] mCorrectOptions;
 	
 	public enum QuestionType {
 		MULTIPLE_CHOICE, BLANKS, SLIDER, ORDERING, MATCH_UP
 	}
+	
 	
 	public Question(String questionText, QuestionType type, ArrayList<String> options, Boolean[] correctOptions){
 		this.mQuestionText = questionText;
