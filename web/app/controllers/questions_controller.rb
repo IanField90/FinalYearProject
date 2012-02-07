@@ -57,6 +57,7 @@ class QuestionsController < ApplicationController
         redirect_to @question, :notice => "Question was successfully updated."
       else
         render :action => "edit"
+      end
     else
       redirect_to quiz_path(@question.quiz_id)
     end
