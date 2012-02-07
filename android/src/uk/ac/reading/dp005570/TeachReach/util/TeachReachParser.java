@@ -42,9 +42,9 @@ public class TeachReachParser {
 	private final String PART_NAME_ES = "part_name_es";
 	
 	private final String QUIZZES = "quizzes";
-	private final String QUIZ_TITLE_EN = "quiz_name_en";
-	private final String QUIZ_TITLE_FR = "quiz_name_fr";
-	private final String QUIZ_TITLE_ES = "quiz_name_es";
+	private final String QUIZ_TITLE_EN = "name_en";
+	private final String QUIZ_TITLE_FR = "name_fr";
+	private final String QUIZ_TITLE_ES = "name_es";
 	
 	private final String QUESTIONS = "questions";
 	private final String QUESTION_EN = "content_en";
@@ -198,7 +198,6 @@ public class TeachReachParser {
 			parseMaterials(materials, part_id);
 			parseQuizzes(quizzes, part_id);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -230,7 +229,35 @@ public class TeachReachParser {
 	}
 	
 	private void parseQuizzes(JSONArray quizzes, int part_id){
-		
+		JSONObject quiz;
+		int id;
+		String en, fr, es;
+		Boolean published;
+		for (int i = 0; i < quizzes.length(); i++){
+			try {
+				quiz = quizzes.getJSONObject(i);
+				id = quiz.getInt(ID);
+				en = quiz.getString(QUIZ_TITLE_EN);
+				fr = quiz.getString(QUIZ_TITLE_FR);
+				es = quiz.getString(QUIZ_TITLE_ES);
+				published =  quiz.getBoolean("published");
+				Log.i(TAG, "ID: " + id);
+				Log.i(TAG, "EN: " + en);
+				Log.i(TAG, "FR: " + fr);
+				Log.i(TAG, "ES: " + es);
+				Log.i(TAG, "Published: " + published);
+				Log.i(TAG, "Part ID: " + part_id);
+				
+				if(published){
+					//TODO save and process the rest - if not disregard and don't waste computation time
+				}
+				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 	}
 	
 	private void parseQuestion(JSONArray question){
