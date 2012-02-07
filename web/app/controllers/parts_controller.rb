@@ -7,7 +7,10 @@ class PartsController < ApplicationController
       #Build full JSON response so it is just one request
       #If you're calling this then you already know the id of the part
       #TODO: Exclude unpublished quizzes - workaround - do not show on phone
-      format.json { render :json => @part, :include => {
+      format.json {
+        # @part = Part.find(params[:id], :include => {:quizzes => { :questions => :options  } }, :where =>  "quizzes.published"  )
+         @part = Part.includes( :quizzes => { :questions => :options  }).where(["quizzes.published = ? AND parts.id = ?", true, params[:id]])
+         render :json => @part, :include => {
           :materials => {
             :except => [ :created_at, :updated_at, :part_id, :material_type ]
           },
@@ -22,7 +25,8 @@ class PartsController < ApplicationController
                 :except => [ :created_at, :updated_at, :quiz_id ]
               }
             },
-            :except => [ :created_at, :updated_at, :user_id, :part_id, :published ]
+            :except => [ :created_at, :updated_at, :user_id], #:part_id, :published ],
+            # :conditions => { :published => true}
           }
         },
         :except => [ :created_at, :updated_at, :programme_id, :id,  :part_name_en, :part_name_fr, :part_name_es ] 

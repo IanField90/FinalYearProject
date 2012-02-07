@@ -23,29 +23,29 @@ import android.util.Log;
 public class TeachReachParser {
 	private final String TAG = "PARSER";
 	private final String ID = "id";
-	
+
 	//Courses JSON response fields
 	private final String COURSE_NAME_EN = "course_name_en";
 	private final String COURSE_NAME_FR = "course_name_fr";
 	private final String COURSE_NAME_ES = "course_name_es";
-	
+
 	//Programmes JSON response fields
 	private final String PROGRAMMES = "programmes";
 	private final String PROGRAMME_NAME_EN = "programme_name_en";
 	private final String PROGRAMME_NAME_FR = "programme_name_fr";
 	private final String PROGRAMME_NAME_ES = "programme_name_es";
-	
+
 	//Parts JSON response fields
 	private final String PARTS = "parts";
 	private final String PART_NAME_EN = "part_name_en";
 	private final String PART_NAME_FR = "part_name_fr";
 	private final String PART_NAME_ES = "part_name_es";
-	
+
 	private final String QUIZZES = "quizzes";
 	private final String QUIZ_TITLE_EN = "name_en";
 	private final String QUIZ_TITLE_FR = "name_fr";
 	private final String QUIZ_TITLE_ES = "name_es";
-	
+
 	private final String QUESTIONS = "questions";
 	private final String QUESTION_EN = "content_en";
 	private final String QUESTION_FR = "content_fr";
@@ -53,18 +53,18 @@ public class TeachReachParser {
 	private final String FEEDBACK_EN = "feedback_en";
 	private final String FEEDBACK_FR = "feedback_fr";
 	private final String FEEDBACK_ES = "feedback_es";
-	
+
 	private final String OPTIONS = "options";
 	private final String OPTION_EN = "option_en";
 	private final String OPTION_FR = "option_fr";
 	private final String OPTION_ES = "option_es";
 	private final String OPTION_ANSWER = "answer";
-	
+
 	private final String MATERIALS = "materials";
 	private final String MATERIAL_EN = "material_en";
 	private final String MATERIAL_FR = "material_fr";
 	private final String MATERIAL_ES = "material_es";
-	
+
 	// 1 getter for each of these - non-sent ids can still be populated.
 	private ArrayList<Course> mCourses = new ArrayList<Course>();
 	private ArrayList<Programme> mProgrammes = new ArrayList<Programme>();
@@ -92,7 +92,7 @@ public class TeachReachParser {
 				en = course.getString(COURSE_NAME_EN);
 				fr = course.getString(COURSE_NAME_FR);
 				es = course.getString(COURSE_NAME_ES);
-				
+
 				Log.i(TAG, course.toString());
 				Log.i(TAG, "ID: "+id);
 				Log.i(TAG, "EN: " + en);
@@ -100,11 +100,11 @@ public class TeachReachParser {
 				Log.i(TAG, "ES: " + es);	
 				//Add to courses list to retain information in memory
 				mCourses.add(new Course(id, en, fr, es));
-				
+
 				//Set up next parsing operation and call it.
 				JSONArray programmes = course.getJSONArray(PROGRAMMES);
 				parseProgrammes(programmes, id);
-				
+
 			} catch (JSONException e) {
 				// Shouldn't happen unless empty response
 				e.printStackTrace();
@@ -112,8 +112,8 @@ public class TeachReachParser {
 		}
 		return (courses.size() > 0) ? courses : null;
 	}
-	
-	
+
+
 	/**
 	 * Extracts information for a programme's JSON and updates/creates entry in
 	 * database.
@@ -139,11 +139,11 @@ public class TeachReachParser {
 				Log.i(TAG, "Course ID: " + course_id);
 				//Add to programmes list to retain information in memory
 				mProgrammes.add(new Programme(id, course_id, en, fr, es));
-				
+
 				//Set up next parsing operation and call it
 				JSONArray parts = programme.getJSONArray(PARTS);
 				parseParts(parts, id);
-				
+
 			} catch (JSONException e) {
 				// Shouldn't happen unless empty response
 				e.printStackTrace();
@@ -176,14 +176,14 @@ public class TeachReachParser {
 				Log.i(TAG, "Prog ID: " + programme_id);	
 				//Add to parts list to retain information in memory
 				mParts.add(new Part(id, programme_id, en, fr, es));
-				
+
 			} catch (JSONException e) {
 				// Shouldn't happen unless empty response
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	/**
 	 * Actually get all the information from a part. That is to say that the
 	 * full quiz(questions -> options -> feedback), material should be parsed and
@@ -201,7 +201,7 @@ public class TeachReachParser {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void parseMaterials(JSONArray materials, int part_id){
 		JSONObject material;
 		int id;
@@ -225,9 +225,9 @@ public class TeachReachParser {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	private void parseQuizzes(JSONArray quizzes, int part_id){
 		JSONObject quiz;
 		int id;
@@ -247,14 +247,11 @@ public class TeachReachParser {
 				Log.i(TAG, "ES: " + es);
 				Log.i(TAG, "Published: " + published);
 				Log.i(TAG, "Part ID: " + part_id);
-				
-				if(published){
-					//TODO save and process the rest - if not disregard and don't waste computation time
-//					mQuizzes.add(new Quiz());
-					JSONArray questions = quiz.getJSONArray(QUESTIONS);
-					parseQuestions(questions, id);
-				}
-				
+
+				//	mQuizzes.add(new Quiz());
+				JSONArray questions = quiz.getJSONArray(QUESTIONS);
+				parseQuestions(questions, id);
+
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -262,13 +259,13 @@ public class TeachReachParser {
 
 		}
 	}
-	
+
 	private void parseQuestions(JSONArray question, int quiz_id){
-		
+
 	}
-	
+
 	private void parseOptions(JSONArray options){
-		
+
 	}
 
 
@@ -300,8 +297,8 @@ public class TeachReachParser {
 	public void setParts(ArrayList<Part> mParts) {
 		this.mParts = mParts;
 	}
-	
-	
+
+
 	public ArrayList<Material> getMaterials() {
 		return mMaterials;
 	}
