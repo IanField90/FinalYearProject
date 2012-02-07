@@ -250,6 +250,9 @@ public class TeachReachParser {
 				
 				if(published){
 					//TODO save and process the rest - if not disregard and don't waste computation time
+//					mQuizzes.add(new Quiz());
+					JSONArray questions = quiz.getJSONArray(QUESTIONS);
+					parseQuestions(questions, id);
 				}
 				
 			} catch (JSONException e) {
@@ -260,7 +263,7 @@ public class TeachReachParser {
 		}
 	}
 	
-	private void parseQuestion(JSONArray question){
+	private void parseQuestions(JSONArray question, int quiz_id){
 		
 	}
 	

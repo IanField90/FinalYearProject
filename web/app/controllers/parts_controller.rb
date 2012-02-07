@@ -10,7 +10,7 @@ class PartsController < ApplicationController
       format.json { render :json => @part, :include => {
           :materials => {
             :except => [ :created_at, :updated_at, :part_id, :material_type ]
-          }, 
+          },
           :quizzes => { 
             :include => {
               :questions => {
@@ -22,7 +22,7 @@ class PartsController < ApplicationController
                 :except => [ :created_at, :updated_at, :quiz_id ]
               }
             },
-            :except => [ :created_at, :updated_at, :user_id, :part_id]#, :published ]
+            :except => [ :created_at, :updated_at, :user_id, :part_id, :published ]
           }
         },
         :except => [ :created_at, :updated_at, :programme_id, :id,  :part_name_en, :part_name_fr, :part_name_es ] 

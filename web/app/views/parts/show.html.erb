@@ -17,7 +17,7 @@
 	</tr>
 	<% i = 0 %>
 	<% @part.quizzes.each do |quiz| %>
-		<% if quiz.published %>
+		<% if is_user_admin || quiz.published %>
 		<tr>
 			<td><%= i += 1 %></td>
 			<td><%= quiz.name_en %></td>
