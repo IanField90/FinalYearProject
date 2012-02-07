@@ -59,7 +59,6 @@ public class TeachReachPopulater {
 				updateProgrammes();
 				updateParts();
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

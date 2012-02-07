@@ -68,8 +68,8 @@ public class TeachReachParser {
 	private ArrayList<Part> mParts = new ArrayList<Part>();
 
 	private ArrayList<Material> mMaterials = new ArrayList<Material>();
-	
-	
+
+
 	/**
 	 * Extracts information for a Course list and updates/creates entry in
 	 * database
@@ -159,7 +159,7 @@ public class TeachReachParser {
 		for (int i = 0; i < list.length(); i++){
 			try {
 				part = list.getJSONObject(i);
-				id = (Integer) part.get(ID);				
+				id = part.getInt(ID);				
 				en = part.getString(PART_NAME_EN);
 				fr = part.getString(PART_NAME_FR);
 				es = part.getString(PART_NAME_ES);
@@ -185,15 +185,46 @@ public class TeachReachParser {
 	 * added locally to the database
 	 * @param part The array containing all information for a particular part.
 	 */
-	public void parsePartContent(JSONArray part){
-		//TODO triple layered parse.
+	public void parsePartContent(JSONObject part, int part_id){
+		//TODO triple layered parse.	
+		try {
+			JSONArray quizzes = part.getJSONArray(QUIZZES);
+			JSONArray materials = part.getJSONArray(MATERIALS);
+			parseMaterials(materials, part_id);
+			parseQuizzes(quizzes, part_id);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void parseMaterials(JSONArray materials, int part_id){
+		JSONObject material;
+		int id;
+		String en, fr, es;
+		for (int i = 0; i < materials.length(); i++){
+			try{
+				material = materials.getJSONObject(i);
+				id = material.getInt(ID);
+				en = material.getString(MATERIAL_EN);
+				fr = material.getString(MATERIAL_FR);
+				es = material.getString(MATERIAL_ES);
+				Log.i(TAG, material.toString());
+				Log.i(TAG, "ID: " + id);
+				Log.i(TAG, "EN: " + en);
+				Log.i(TAG, "FR: " + fr);
+				Log.i(TAG, "ES: " + es);
+				Log.i(TAG, "Part ID: " + part_id);
+				mMaterials.add(new Material(id, part_id, en, fr, es));
+			}
+			catch(JSONException e){
+				e.printStackTrace();
+			}
+		}
 		
 	}
 	
-	private void parseQuizzes(JSONArray quizzes){
+	private void parseQuizzes(JSONArray quizzes, int part_id){
 		
 	}
 	
@@ -233,5 +264,15 @@ public class TeachReachParser {
 
 	public void setParts(ArrayList<Part> mParts) {
 		this.mParts = mParts;
+	}
+	
+	
+	public ArrayList<Material> getMaterials() {
+		return mMaterials;
+	}
+
+
+	public void setMaterials(ArrayList<Material> materials) {
+		this.mMaterials = materials;
 	}
 }
