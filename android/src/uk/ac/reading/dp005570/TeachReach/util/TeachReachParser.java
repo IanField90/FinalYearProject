@@ -8,8 +8,11 @@ import org.json.JSONObject;
 
 import uk.ac.reading.dp005570.TeachReach.data.Course;
 import uk.ac.reading.dp005570.TeachReach.data.Material;
+import uk.ac.reading.dp005570.TeachReach.data.Option;
 import uk.ac.reading.dp005570.TeachReach.data.Part;
 import uk.ac.reading.dp005570.TeachReach.data.Programme;
+import uk.ac.reading.dp005570.TeachReach.data.Question;
+import uk.ac.reading.dp005570.TeachReach.data.Quiz;
 import android.util.Log;
 
 /**
@@ -68,7 +71,9 @@ public class TeachReachParser {
 	private ArrayList<Part> mParts = new ArrayList<Part>();
 
 	private ArrayList<Material> mMaterials = new ArrayList<Material>();
-
+	private ArrayList<Question> mQuestions = new ArrayList<Question>();
+	private ArrayList<Quiz> mQuizzes = new ArrayList<Quiz>();
+	private ArrayList<Option> mOptions = new ArrayList<Option>();
 
 	/**
 	 * Extracts information for a Course list and updates/creates entry in
@@ -274,5 +279,25 @@ public class TeachReachParser {
 
 	public void setMaterials(ArrayList<Material> materials) {
 		this.mMaterials = materials;
+	}
+
+
+	public ArrayList<Quiz> getQuizzes() {
+		return mQuizzes;
+	}
+
+
+	public void setQuizzes(ArrayList<Quiz> mQuizzes) {
+		this.mQuizzes = mQuizzes;
+	}
+
+
+	public ArrayList<Option> getOptions() {
+		return mOptions;
+	}
+
+
+	public void setOptions(ArrayList<Option> mOptions) {
+		this.mOptions = mOptions;
 	}
 }
