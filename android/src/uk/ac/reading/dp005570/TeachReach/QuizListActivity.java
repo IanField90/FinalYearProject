@@ -16,6 +16,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class QuizListActivity extends ListActivity implements OnItemClickListener{
 	
@@ -29,6 +30,9 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
         getListView().setTextFilterEnabled(false);
         getListView().setOnItemClickListener(this);
         mQuizzes = new ArrayList<QuizStatus>();
+		int part = getIntent().getIntExtra("Part", 0);
+		Toast.makeText(this.getApplicationContext(), "Selected ID: " + part, Toast.LENGTH_LONG).show(); //TODO Localised message text
+
         
         // TODO ProgressDialog here while retrieving from online if chosen
         populateQuizList();

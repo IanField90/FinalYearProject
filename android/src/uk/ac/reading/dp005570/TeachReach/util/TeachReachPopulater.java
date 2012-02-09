@@ -1,6 +1,7 @@
 package uk.ac.reading.dp005570.TeachReach.util;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,16 +27,19 @@ public class TeachReachPopulater {
 	private TeachReachParser mTeachReachParser;
 	private TeachReachDbAdapter mTeachReachDbAdapter;
 	private ServerCommunicationHelper mServerCommunicationHelper;
-
+	//Used to determine which string sets to return
+	private Locale mLocale;
+	
 	private ArrayList<Course> mCourses;
 	private ArrayList<Programme> mProgrammes;
 	private ArrayList<Part> mParts;
 
-	public TeachReachPopulater(Context context) {
+	public TeachReachPopulater(Context context, Locale locale) {
 		mTeachReachParser = new TeachReachParser();
 		mTeachReachDbAdapter = new TeachReachDbAdapter(context);
 		mTeachReachDbAdapter.open();
 		mServerCommunicationHelper = new ServerCommunicationHelper();
+		mLocale = locale;
 	}
 
 	//TODO determine between update main menu list and retrieving from the database instead
@@ -48,13 +52,6 @@ public class TeachReachPopulater {
 				mCourses = mTeachReachParser.getCourses();
 				mProgrammes = mTeachReachParser.getProgrammes();
 				mParts = mTeachReachParser.getParts();
-				//TODO NOTED spinner populater control
-				//			String[] parts;
-				//			for(Part part : mParts){
-				//				if(part.getProgrammeID() == programme_id){
-				//					parts[i] = part.getEN();
-				//				}
-				//			}
 				updateCourses();
 				updateProgrammes();
 				updateParts();

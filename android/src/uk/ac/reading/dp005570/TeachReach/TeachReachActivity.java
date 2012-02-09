@@ -2,7 +2,6 @@ package uk.ac.reading.dp005570.TeachReach;
 
 import java.util.Locale;
 
-import uk.ac.reading.dp005570.TeachReach.util.TeachReachDbAdapter;
 import uk.ac.reading.dp005570.TeachReach.util.TeachReachPopulater;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -26,9 +25,7 @@ import android.widget.Spinner;
  *
  */
 public class TeachReachActivity extends Activity implements OnClickListener, OnItemSelectedListener{
-	private TeachReachDbAdapter mDbHelper;
 	private Spinner mProgrammeSpinner, mCourseSpinner, mPartSpinner; 
-	private final String PREFS_NAME = "TeachReachSettings";
 	private TeachReachPopulater mTeachReachPopulater;
 	private String[] mCourseItems;
 	private String[] mProgrammeItems;
@@ -37,6 +34,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	private final String TAG = "TeachReachActivity";
 	
 	//Fields to be used in the settings file
+	public static final String PREFS_NAME = "TeachReachSettings";
 	public static final String COURSE_ID = "courseID";
 	public static final String PROGRAMME_ID = "programmeID";
 	public static final String PART_ID = "partID";
@@ -52,22 +50,19 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
-        mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
-        loadSettings();
-        
-        //TODO use this when getting contents for main menu items and throughout
-        // application run
         Locale locale = getResources().getConfiguration().locale;
-        
-        mDbHelper = new TeachReachDbAdapter(this);
-        mDbHelper.open();
+
+        mTeachReachPopulater = new TeachReachPopulater(getApplicationContext(), locale);
+        loadSettings();
+        //TODO switch to this when ready
+//        mCourseItems = mTeachReachPopulater.getCourseItems();
+//        mProgrammeItems = mTeachReachPopulater.getProgrammeItems(mSelectedCourseId);
+//        mPartItems = mTeachReachPopulater.getPartItems(mSelectedProgrammeId);
+
         
         mCourseItems = new String[] { "Course 1", "Course 2" };
-//      mCourseItems = mTeachReachPopulater.getCourseItems();
-
         mProgrammeItems = new String[]{};
-        mPartItems = new String[] {};
+        mPartItems = new String[] {"a", "b", "c"};
         
         //Set up course spinner
         mCourseSpinner = (Spinner) findViewById(R.id.course_spinner);
@@ -97,7 +92,6 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
         Button view_materials_button = (Button) findViewById(R.id.view_materials_button);
         view_materials_button.setOnClickListener(this);
         
-        mDbHelper.close();
     }
 
     private void loadSettings(){
@@ -134,18 +128,18 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     public void onClick(View v) {
     	Intent i;
     	if(v == findViewById(R.id.view_quizzes_button)){
+    		saveSettings();
         	//Create an intent and start activity
         	i = new Intent(this, QuizListActivity.class);
-        	i.putExtra("Programme", mProgrammeSpinner.getSelectedItemPosition()+1);
-        	i.putExtra("Course", mCourseSpinner.getSelectedItemPosition()+1);
-        	i.putExtra("Part", mPartSpinner.getSelectedItemPosition()+1);
+//    		mParts.get(mPartSpinner.getSelectedItemPosition())
+        	i.putExtra(PART_ID, mPartSpinner.getSelectedItemPosition()+1); //TODO use actual partID here instead
         	startActivity(i);
     	}
     	else if(v == findViewById(R.id.view_materials_button)){
+    		saveSettings();
     		i = new Intent(this, MaterialListActivity.class);
-    		i.putExtra("Programme", mProgrammeSpinner.getSelectedItemPosition()+1);
-        	i.putExtra("Course", mCourseSpinner.getSelectedItemPosition()+1);
-        	i.putExtra("Part", mPartSpinner.getSelectedItemPosition()+1);
+//    		mParts.get(mPartSpinner.getSelectedItemPosition())
+        	i.putExtra(PART_ID, mPartSpinner.getSelectedItemPosition()+1); //TODO use actual partID here instead
         	startActivity(i);
     	}
     }
