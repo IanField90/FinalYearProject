@@ -288,7 +288,24 @@ public class TeachReachParser {
 	}
 
 	private void parseOptions(JSONArray options, int question_id){
-
+		JSONObject option;
+		int id;
+		String en, fr, es;
+		Boolean answer;
+		for (int i = 0; i < options.length(); i++){
+			try{
+				option = options.getJSONObject(i);
+				id = option.getInt(ID);
+				en = option.getString(OPTION_EN);
+				fr = option.getString(OPTION_FR);
+				es = option.getString(OPTION_ES);
+				answer = option.getBoolean(OPTION_ANSWER);
+//				mOptions.add(new Option(id, question_id, en, fr, es, answer));
+			}
+			catch(JSONException e){
+				e.printStackTrace();
+			}
+		}
 	}
 
 
@@ -297,8 +314,8 @@ public class TeachReachParser {
 	}
 
 
-	public void setCourses(ArrayList<Course> mCourses) {
-		this.mCourses = mCourses;
+	public void setCourses(ArrayList<Course> courses) {
+		this.mCourses = courses;
 	}
 
 
@@ -307,8 +324,8 @@ public class TeachReachParser {
 	}
 
 
-	public void setProgrammes(ArrayList<Programme> mProgrammes) {
-		this.mProgrammes = mProgrammes;
+	public void setProgrammes(ArrayList<Programme> programmes) {
+		this.mProgrammes = programmes;
 	}
 
 
@@ -317,8 +334,8 @@ public class TeachReachParser {
 	}
 
 
-	public void setParts(ArrayList<Part> mParts) {
-		this.mParts = mParts;
+	public void setParts(ArrayList<Part> parts) {
+		this.mParts = parts;
 	}
 
 
@@ -337,17 +354,24 @@ public class TeachReachParser {
 	}
 
 
-	public void setQuizzes(ArrayList<Quiz> mQuizzes) {
-		this.mQuizzes = mQuizzes;
+	public void setQuizzes(ArrayList<Quiz> quizzes) {
+		this.mQuizzes = quizzes;
 	}
 
+	public ArrayList<Question> getQuesitons(){
+		return mQuestions;
+	}
+	
+	public void setQuestions(ArrayList<Question> questions){
+		this.mQuestions = questions;
+	}
 
 	public ArrayList<Option> getOptions() {
 		return mOptions;
 	}
 
 
-	public void setOptions(ArrayList<Option> mOptions) {
-		this.mOptions = mOptions;
+	public void setOptions(ArrayList<Option> options) {
+		this.mOptions = options;
 	}
 }

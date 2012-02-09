@@ -29,17 +29,18 @@ public class TeachReachPopulater {
 	private ServerCommunicationHelper mServerCommunicationHelper;
 	//Used to determine which string sets to return
 	private Locale mLocale;
-	
-	private ArrayList<Course> mCourses;
-	private ArrayList<Programme> mProgrammes;
-	private ArrayList<Part> mParts;
 
-	public TeachReachPopulater(Context context, Locale locale) {
+	private ArrayList<Course> mCourses;
+	private ArrayList<Programme> mProgrammes, mCurrentProgrammes;
+	private ArrayList<Part> mParts, mCurrentParts;
+
+	public TeachReachPopulater(Context context, Locale locale, int slelectedCourseId, int selectedProgrammeId, int selectedPartId) {
 		mTeachReachParser = new TeachReachParser();
 		mTeachReachDbAdapter = new TeachReachDbAdapter(context);
 		mTeachReachDbAdapter.open();
 		mServerCommunicationHelper = new ServerCommunicationHelper();
 		mLocale = locale;
+		//		mCourses = mTe
 	}
 
 	//TODO determine between update main menu list and retrieving from the database instead
@@ -149,7 +150,6 @@ public class TeachReachPopulater {
 	 * @return List of courses in given language
 	 */
 	public String[] getCourses(Language language){
-		//TODO return key pair: (id, value) instead so that data can be retrieved
 		String[] courses = new String[mCourses.size()];
 		int i = 0;
 		for( Course course : mCourses ){
@@ -177,9 +177,9 @@ public class TeachReachPopulater {
 	 */
 	public String[] getProgrammes(Language language, int course_id){
 		//TODO return key pair: (id, value) instead so that data can be retrieved
-		String[] programmes = new String[mProgrammes.size()];
+		String[] programmes = new String[mCurrentProgrammes.size()];
 		int i = 0;
-		for(Programme programme : mProgrammes){
+		for(Programme programme : mCurrentProgrammes){
 			if (programme.getId() == course_id){
 				switch(language){
 				case EN:
@@ -205,26 +205,23 @@ public class TeachReachPopulater {
 	 * @param programme_id
 	 * @return
 	 */
-	public String[] getParts(Language language, int programme_id){
-		//TODO return key pair: (id, value) instead so that data can be retrieved
-		String[] parts = new String[mParts.size()];
+	public String[] getParts(int programme_id){
+		//TODO check locale language strings
+		String[] parts = new String[mCurrentParts.size()];
 		int i = 0;
-		for(Part part : mParts){
-			if (part.getId() == programme_id){
-				switch(language){
-				case EN:
-					parts[i] = part.getEN();
-					break;
-				case FR:
-					parts[i] = part.getFR();
-					break;
-				case ES:
-					parts[i] = part.getES();
-					break;
-
-				}
-				i++;
+		for(Part part : mCurrentParts){
+			if ( mLocale == Locale.FRENCH){
+				parts[i] = part.getFR();
 			}
+			else if(mLocale == new Locale("es")){//.getDisplayLanguage() == "es"){
+				parts[i] = part.getES();
+			}
+			else{
+				parts[i] = part.getEN();
+			}
+
+			i++;
+
 		}
 		return parts;
 	}
@@ -232,15 +229,24 @@ public class TeachReachPopulater {
 	/* DATABASE FUNCTIONS - traverse through cursor*/
 
 	public void retriveCourseList(){
+		Cursor cursor = mTeachReachDbAdapter.fetchCourseList();
+		if(cursor != null){
+			do{
+				//TODO process items
+				//				mCourses.add(object)
 
+			}while(!cursor.isLast());
+		}
 	}
 
 	public void retrieveProgrammesList(int course_id){
-
+		mTeachReachDbAdapter.fetchProgrammesList(course_id);
+		//		mCurrentProgrammes.add(ne)
 	}
 
 	public void retrievePartsList(int programme_id){
-
+		mTeachReachDbAdapter.fetchPartsList(programme_id);
+		//		mCurrentParts.add(object)
 	}
 
 	/* Utilise parser's results and for each element call DB helper function to update/create */
@@ -277,15 +283,31 @@ public class TeachReachPopulater {
 		}
 	}
 	
+	public ArrayList<Programme> getCurrentProgrammes() {
+		return mCurrentProgrammes;
+	}
+
+	public ArrayList<Part> getCurrentParts() {
+		return mCurrentParts;
+	}
+
+	public void setCurrentParts(ArrayList<Part> mCurrentParts) {
+		this.mCurrentParts = mCurrentParts;
+	}
+
+	public void setCurrentProgrammes(ArrayList<Programme> mCurrentProgrammes) {
+		this.mCurrentProgrammes = mCurrentProgrammes;
+	}
+
 	//TODO Actually use cursor to create these arrays for the spinner adapter
 	public String[] getCourseItems(){
 		return null;
 	}
-	
+
 	public String[] getProgrammeItems(int course_id){
 		return null;
 	}
-	
+
 	public String[] getPartItems(int programme_id){
 		return null;
 	}

@@ -52,7 +52,8 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
         setContentView(R.layout.main);
         Locale locale = getResources().getConfiguration().locale;
 
-        mTeachReachPopulater = new TeachReachPopulater(getApplicationContext(), locale);
+        mTeachReachPopulater = new TeachReachPopulater(getApplicationContext(), locale, 
+        		mSelectedCourseId, mSelectedProgrammeId, mSelectedPartId);
         loadSettings();
         //TODO switch to this when ready
 //        mCourseItems = mTeachReachPopulater.getCourseItems();
@@ -131,7 +132,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     		saveSettings();
         	//Create an intent and start activity
         	i = new Intent(this, QuizListActivity.class);
-//    		mParts.get(mPartSpinner.getSelectedItemPosition())
+//    		mTeachReachPopulator.getCurrentParts().get(mPartSpinner.getSelectedItemPosition()).getID();
         	i.putExtra(PART_ID, mPartSpinner.getSelectedItemPosition()+1); //TODO use actual partID here instead
         	startActivity(i);
     	}
@@ -186,6 +187,10 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 			Log.i(TAG, "Programmes Spinner changed.");
 			//TODO update part spinner to reflect this change
 			//mSelectedProgrammeId =  mProgrammes.get(position).getID();
+			
+			ArrayAdapter<String> part_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mPartItems);
+			part_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			mPartSpinner.setAdapter(part_adapter);
 
 			//TODO redraw spinner?
 		}

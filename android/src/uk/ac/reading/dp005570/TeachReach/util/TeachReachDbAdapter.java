@@ -15,57 +15,59 @@ import android.util.Log;
  */
 public class TeachReachDbAdapter {
 	public static final String KEY_ROWID = "server_id";
-	
+
 	private static final String TAG = "TeachReachDbAdapter";
-	private final String ID = "_id";
-	
+//	private final String ID = "_id";
+
 	private final String SERVER_ID = "server_id";
-	
+
 	//Courses fields
 	private final String COURSES = "courses";
 	private final String COURSE_NAME_EN = "course_name_en";
 	private final String COURSE_NAME_FR = "course_name_fr";
 	private final String COURSE_NAME_ES = "course_name_es";
 	private final String COURSE_ID = "course_id";
-	
+
 	//Programmes fields
 	private final String PROGRAMMES = "programmes";
 	private final String PROGRAMME_NAME_EN = "programme_name_en";
 	private final String PROGRAMME_NAME_FR = "programme_name_fr";
 	private final String PROGRAMME_NAME_ES = "programme_name_es";
 	private final String PROGRAMME_ID = "programme_id";
-	
+
 	//Parts fields
 	private final String PARTS = "parts";
 	private final String PART_NAME_EN = "part_name_en";
 	private final String PART_NAME_FR = "part_name_fr";
 	private final String PART_NAME_ES = "part_name_es";
 	private final String PART_ID = "part_id";
-	
+
 	private final String QUIZZES = "quizzes";
 	private final String QUIZ_TITLE_EN = "quiz_name_en";
 	private final String QUIZ_TITLE_FR = "quiz_name_fr";
 	private final String QUIZ_TITLE_ES = "quiz_name_es";
-	
+	private final String QUIZ_ID = "quiz_id";
+
 	private final String QUESTIONS = "questions";
+	private final String QUESTION_ID = "question_id";
 	private final String QUESTION_EN = "content_en";
 	private final String QUESTION_FR = "content_fr";
 	private final String QUESTION_ES = "content_es";
 	private final String FEEDBACK_EN = "feedback_en";
 	private final String FEEDBACK_FR = "feedback_fr";
 	private final String FEEDBACK_ES = "feedback_es";
-	
+
 	private final String OPTIONS = "options";
 	private final String OPTION_EN = "option_en";
 	private final String OPTION_FR = "option_fr";
 	private final String OPTION_ES = "option_es";
 	private final String OPTION_ANSWER = "answer";
-	
+
 	private final String MATERIALS = "materials";
 	private final String MATERIAL_EN = "material_en";
 	private final String MATERIAL_FR = "material_fr";
 	private final String MATERIAL_ES = "material_es";
-	
+
 	/**
 	 * Database creation statements
 	 */
@@ -131,17 +133,17 @@ public class TeachReachDbAdapter {
 			");";
 	private static final String DATABASE_NAME = "teachreachdb";
 	private static final int DATABASE_VERSION = 7;
-	
+
 	private final Context mCtx;
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
-	
+
 	/**
 	 * @author ianfield
 	 *	Handles updates and changes to the database schema
 	 */
 	private static class DatabaseHelper extends SQLiteOpenHelper{
-		
+
 		DatabaseHelper(Context context){
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		}
@@ -170,7 +172,7 @@ public class TeachReachDbAdapter {
 			onCreate(db);
 		}
 	}
-	
+
 	/**
 	 * Allows the database to be created.
 	 * @param ctx the context to work in.
@@ -178,7 +180,7 @@ public class TeachReachDbAdapter {
 	public TeachReachDbAdapter(Context ctx){
 		this.mCtx = ctx;
 	}
-	
+
 	/**
 	 * Open database connection.
 	 * @return class instance with opened connection.
@@ -189,38 +191,29 @@ public class TeachReachDbAdapter {
 		mDb = mDbHelper.getWritableDatabase();
 		return this;
 	}
-	
+
 	/**
 	 * close database connection.
 	 */
 	public void close(){
 		mDbHelper.close();
 	}
-	
-	
+
+
 	/**
 	 * Query the database for a list of courses
 	 * @return All courses available from the database
 	 */
 	public Cursor fetchCourseList(){
 		Cursor cursor = mDb.query(true, COURSES, 
-				new String[] {COURSE_NAME_EN, COURSE_NAME_FR, COURSE_NAME_ES }, 
+				new String[] {COURSE_ID, COURSE_NAME_EN, COURSE_NAME_FR, COURSE_NAME_ES }, 
 				null, null, null, null, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}
 		return cursor;
-
 	}
-	
-	/**
-	 * Utilises provides a string array of all courses from the database
-	 */
-	public void getCoursesList(){
-		// TODO Utilise query helper and produce an array of courses but maintain IDs
 
-	}
-	
 	/**
 	 * Creates or updates the database entry for a course
 	 * @param id Server's table ID
@@ -238,8 +231,8 @@ public class TeachReachDbAdapter {
 		}else{
 			//update
 			statement = "UPDATE " + COURSES + " SET " + COURSE_NAME_EN + "='" + en + "', " +
-						COURSE_NAME_FR + "='" + fr + "', " + COURSE_NAME_ES + "='" + es + "'" +
-						" WHERE " + SERVER_ID +"=" + id;
+					COURSE_NAME_FR + "='" + fr + "', " + COURSE_NAME_ES + "='" + es + "'" +
+					" WHERE " + SERVER_ID +"=" + id;
 		}
 		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);
@@ -253,14 +246,14 @@ public class TeachReachDbAdapter {
 	public Cursor fetchProgrammesList(int course_id){
 		// Use course_id
 		Cursor cursor = mDb.query(true, PROGRAMMES, 
-				new String[] { PROGRAMME_NAME_EN, PROGRAMME_NAME_FR, PROGRAMME_NAME_ES }, 
+				new String[] { PROGRAMME_ID, PROGRAMME_NAME_EN, PROGRAMME_NAME_FR, PROGRAMME_NAME_ES }, 
 				null, null, null, SERVER_ID + "=" + course_id, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}
 		return cursor;
 	}
-	
+
 	/**
 	 * Creates or updates the database entry for a programme
 	 * @param id Server's table ID
@@ -278,13 +271,13 @@ public class TeachReachDbAdapter {
 		}else{
 			//update
 			statement = "UPDATE " + PROGRAMMES + " SET " + PROGRAMME_NAME_EN + "='" + en + "', " +
-						PROGRAMME_NAME_FR + "='" + fr + "', " + PROGRAMME_NAME_ES + "='" + es + "'" +
-						" WHERE " + SERVER_ID +"=" + id;
+					PROGRAMME_NAME_FR + "='" + fr + "', " + PROGRAMME_NAME_ES + "='" + es + "'" +
+					" WHERE " + SERVER_ID +"=" + id;
 		}
 		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);
 	}
-	
+
 	/**
 	 * Fetch list of parts specific to the programme_id specified
 	 * @param programme_id Corresponding programme id to retrieve list of parts for
@@ -294,14 +287,14 @@ public class TeachReachDbAdapter {
 		// query logic with programme_id
 		// Use programme_id
 		Cursor cursor = mDb.query(true, PARTS, 
-				new String[] {PART_NAME_EN, PART_NAME_FR, PART_NAME_ES }, 
+				new String[] {PART_ID, PART_NAME_EN, PART_NAME_FR, PART_NAME_ES }, 
 				null, null, null, PROGRAMME_ID + "=" + programme_id, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}
 		return cursor;
 	}
-	
+
 	/**
 	 * Creates or updates the database entry for a part
 	 * @param id Server's table ID
@@ -319,25 +312,16 @@ public class TeachReachDbAdapter {
 		}else{
 			//update
 			statement = "UPDATE " + PARTS + " SET " + PART_NAME_EN + "='" + en + "', " +
-						PART_NAME_FR + "='" + fr + "', " + PART_NAME_ES + "='" + es + "'" +
-						" WHERE " + SERVER_ID +"=" + id;
+					PART_NAME_FR + "='" + fr + "', " + PART_NAME_ES + "='" + es + "'" +
+					" WHERE " + SERVER_ID +"=" + id;
 		}
 		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);
 	}
 
-	
-	/**
-	 * Return the array object for all relative parts
-	 */
-	public void getPartsList(){
-		// TODO Utilise query helper and produce an array of parts but maintain IDs
-		
-	}
-	
 	public Cursor getQuizList(int part_id){
 		Cursor cursor = mDb.query(true, QUIZZES,
-				new String[] { ID, QUIZ_TITLE_EN, QUIZ_TITLE_FR, QUIZ_TITLE_ES},
+				new String[] { SERVER_ID, QUIZ_TITLE_EN, QUIZ_TITLE_FR, QUIZ_TITLE_ES},
 				null, null, null, PART_ID + "=" + part_id, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
@@ -345,12 +329,52 @@ public class TeachReachDbAdapter {
 		return cursor;
 	}
 	
-	public void getMaterialsList(){
-		
+	public Cursor fetchQuiz(int part_id){
+		Cursor cursor = mDb.query(true, QUIZZES,
+				new String[] { SERVER_ID, QUIZ_TITLE_EN, QUIZ_TITLE_FR, QUIZ_TITLE_ES},
+				null, null, null, PART_ID + "=" + part_id, null, null);
+		if(cursor != null){
+			cursor.moveToFirst();
+		}
+		return cursor;
+	}
+	
+	public Cursor fetchQuestions(int quiz_id){
+		Cursor cursor = mDb.query(true, QUESTIONS,
+				new String[] { SERVER_ID, QUESTION_EN, QUESTION_FR, QUESTION_ES, FEEDBACK_EN, FEEDBACK_FR, FEEDBACK_ES},
+				null, null, null, QUIZ_ID + "=" + quiz_id, null, null);
+		if(cursor != null){
+			cursor.moveToFirst();
+		}
+		return cursor;
+	}
+	
+	public Cursor fetchOptions(int question_id){
+		Cursor cursor = mDb.query(true, OPTIONS,
+				new String[] { SERVER_ID, OPTION_EN, OPTION_FR, OPTION_ES, OPTION_ANSWER},
+				null, null, null, QUESTION_ID + "=" + question_id, null, null);
+		if(cursor != null){
+			cursor.moveToFirst();
+		}
+		return cursor;
+	}
+
+	public Cursor getMaterialsList(int part_id){
+		Cursor cursor = mDb.query(true, MATERIALS,
+				new String[] { SERVER_ID, MATERIAL_EN, MATERIAL_FR, MATERIAL_ES},
+				null, null, null, PART_ID + "=" + part_id, null, null);
+		if(cursor != null){
+			cursor.moveToFirst();
+		}
+		return cursor;
+	}
+	
+	public Cursor fetchMaterial(int material_id){
+		return null;
 	}
 
 	public void getQuiz(){
-		
+
 	}
-	
+
 }
