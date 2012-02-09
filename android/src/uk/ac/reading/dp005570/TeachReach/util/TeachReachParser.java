@@ -53,6 +53,7 @@ public class TeachReachParser {
 	private final String FEEDBACK_EN = "feedback_en";
 	private final String FEEDBACK_FR = "feedback_fr";
 	private final String FEEDBACK_ES = "feedback_es";
+	private final String QUESTION_TYPE = "type_id";
 
 	private final String OPTIONS = "options";
 	private final String OPTION_EN = "option_en";
@@ -253,18 +254,40 @@ public class TeachReachParser {
 				parseQuestions(questions, id);
 
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 		}
 	}
 
-	private void parseQuestions(JSONArray question, int quiz_id){
+	private void parseQuestions(JSONArray questions, int quiz_id){
+		JSONObject question;
+		int id, type;
+		String en, fr, es, feedback_en, feedback_fr, feedback_es;
+		for (int i = 0; i < questions.length(); i++){
+			try{
+				question = questions.getJSONObject(i);
+				id = question.getInt(ID);
+				en = question.getString(QUESTION_EN);
+				fr = question.getString(QUESTION_FR);
+				es = question.getString(QUESTION_ES);
+				type = question.getInt(QUESTION_TYPE);
+				feedback_en = question.getString(FEEDBACK_EN);
+				feedback_fr = question.getString(FEEDBACK_FR);
+				feedback_es = question.getString(FEEDBACK_ES);
+				
+//				mQuestions.add(new Question(id, quiz_id, type, en, fr, es, feedback_en, feedback_fr, feedback_es));
+				JSONArray options = question.getJSONArray(OPTIONS);
+				parseOptions(options, id);
+			}
+			catch(JSONException e){
+				e.printStackTrace();
+			}
 
+		}
 	}
 
-	private void parseOptions(JSONArray options){
+	private void parseOptions(JSONArray options, int question_id){
 
 	}
 

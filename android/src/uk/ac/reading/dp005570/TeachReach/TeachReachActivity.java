@@ -7,6 +7,7 @@ import uk.ac.reading.dp005570.TeachReach.util.TeachReachPopulater;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,13 +28,20 @@ import android.widget.Spinner;
 public class TeachReachActivity extends Activity implements OnClickListener, OnItemSelectedListener{
 	private TeachReachDbAdapter mDbHelper;
 	private Spinner mProgrammeSpinner, mCourseSpinner, mPartSpinner; 
-//	private final String SETTINGS_FILE = "TeachReachSettings.txt";
+	private final String PREFS_NAME = "TeachReachSettings";
 	private TeachReachPopulater mTeachReachPopulater;
 	private String[] mCourseItems;
 	private String[] mProgrammeItems;
 	private String[] mPartItems;
 	
 	private final String TAG = "TeachReachActivity";
+	
+	//Fields to be used in the settings file
+	public static final String COURSE_ID = "courseID";
+	public static final String PROGRAMME_ID = "programmeID";
+	public static final String PART_ID = "partID";
+	public static final String QUIZ_ID = "quizID";
+	public static final String MATERIAL_ID = "materialID";
 	
 	private int mSelectedCourseId = 0;
 	private int mSelectedProgrammeId = 0;
@@ -44,6 +52,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
         mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
         loadSettings();
         
@@ -92,24 +101,12 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     }
 
     private void loadSettings(){
-//        try {
-//        	char[] line = new char[10];
-//			FileReader fr = new FileReader(SETTINGS_FILE);
-//			fr.read(line);
-//			
-//			String string_line = line.toString();
-//			String[] options = string_line.split(",", 2);
-//			selected_course = Integer.parseInt(options[0]);
-//			selected_programme = Integer.parseInt(options[1]);
-//			selected_part = Integer.parseInt(options[2]);
-//			
-//			
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-        
+    	SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+    	mSelectedCourseId = settings.getInt(COURSE_ID, 0);
+    	mSelectedProgrammeId = settings.getInt(PROGRAMME_ID, 0);
+    	mSelectedPartId = settings.getInt(PART_ID, 0);
+    	
+    	//TODO load spinners
     }
     
     /**
@@ -117,6 +114,15 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
      */
     private void saveSettings(){
     	//TODO Get corresponding ID from db
+    	SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+    	SharedPreferences.Editor editor = settings.edit();
+    	
+    	editor.putInt(COURSE_ID, mSelectedCourseId);
+    	editor.putInt(PROGRAMME_ID, mSelectedProgrammeId);
+    	editor.putInt(PART_ID, mSelectedPartId);
+    	
+    	//Save changes
+    	editor.commit();
     }
     
 	@Override
