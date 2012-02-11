@@ -17,6 +17,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 /**
  * @author ianfield
@@ -165,10 +166,16 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 		switch (item.getItemId()) {
 		case R.id.refresh_lists:
 			// utilise TeachReachPopulator
-			final ProgressDialog progress = ProgressDialog.show(TeachReachActivity.this, "Please wait...", "Retrieving data...");
+			String wait = getString(R.string.please_wait);
+			String retrieve = getString(R.string.server_retrieval);
+			final ProgressDialog progress = ProgressDialog.show(TeachReachActivity.this, wait, retrieve);
+			final Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_error), Toast.LENGTH_LONG);
+
 			Thread thread = new Thread(new Runnable(){
 				public void run(){
-					mTeachReachPopulater.refreshMainMenu(progress);
+					if(!mTeachReachPopulater.refreshMainMenu(progress)){
+						toast.show();
+					}
 				}
 			});
 			thread.start();			

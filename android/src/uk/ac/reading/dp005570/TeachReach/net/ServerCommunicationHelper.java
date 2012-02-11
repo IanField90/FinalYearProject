@@ -15,7 +15,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.ProgressDialog;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * 
@@ -29,32 +28,32 @@ public class ServerCommunicationHelper {
 	private HttpGet mRequest = new HttpGet();
 	private HttpResponse mResponse;
 	private BufferedReader mIn;
-	
+
 	//Constants in case these fields change at a later date
-	
+
 	//Universal JSON response fields
 	private final String TAG = "SERVER_COMS";
-	
+
 	//TODO This does not work...
 	//Resources.getSystem().getString(uk.ac.reading.dp005570.TeachReach.R.string.server_uri);
 	private final String SERVER_ADDRESS = "http://10.0.2.2:3000/"; //Default emulator server address
 	private final String REST_ENDING = ".json";
 	private final String REST_COURSES = "courses" + REST_ENDING;
 	private final String REST_PART = "part/";
-	
+
 	/**
 	 * 
 	 */
 	public ServerCommunicationHelper(){
 
 	}
-	
+
 	/**
 	 * Get the course list from the server
 	 * @param progress used to feedback to user on communication progress
 	 * @return JSON response from the server
 	 */
-	public String getCourseList(ProgressDialog progress){
+	public String getCourseList(){
 		// run on a different thread, and give user some feedback on progress
 		String response_page = null;
 		try {
@@ -85,15 +84,13 @@ public class ServerCommunicationHelper {
 		}
 		catch (HttpHostConnectException e){
 			Log.e(TAG, "Couldn't connect to server.");
-			Toast.makeText(progress.getContext(), "Can't connect to server.", Toast.LENGTH_LONG).show(); //TODO Localised message text
 			e.printStackTrace();
 		}
 		catch (IOException e) {
 			Log.e(TAG, "IOException");
 			e.printStackTrace();
 		}
-		
-//		progress.dismiss();
+
 		return response_page != null ? response_page : null;
 	}
 

@@ -14,6 +14,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Controller for populating the database and providing information to
@@ -45,9 +46,12 @@ public class TeachReachPopulater {
 		mTeachReachDbAdapter.close();
 	}
 
-	//TODO determine between update main menu list and retrieving from the database instead
-	public void refreshMainMenu(ProgressDialog dialog){
-		String response = mServerCommunicationHelper.getCourseList(dialog);
+	public boolean refreshMainMenu(ProgressDialog dialog){
+		String response = mServerCommunicationHelper.getCourseList();
+		if(response == null){
+			dialog.dismiss();
+			return false;
+		}
 		//Null check first. If it is then no response from server
 		if((response != null) && (response.length() > 0)){
 			try {
@@ -63,7 +67,7 @@ public class TeachReachPopulater {
 				e.printStackTrace();
 			}
 		}
-
+		return true;
 
 	}
 

@@ -25,4 +25,7 @@
     <string name="server_uri">http://10.0.2.2:3000/</string>
     <string name="next_question">Next Question</string>
     
+    <string name="please_wait">Please wait...</string>
+    <string name="server_retrieval">Retrieving data...</string>
+    <string name="server_error">Couldn\'t connect to server</string>
 </resources>
