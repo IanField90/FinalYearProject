@@ -196,7 +196,6 @@ public class TeachReachPopulater {
 		String[] programmes;
 		if(mCurrentProgrammes.size() > 0){
 			programmes = new String[mCurrentProgrammes.size()];
-			Log.i(TAG, mCurrentProgrammes.get(0).getEN());
 			int i = 0;
 			for(Programme programme : mCurrentProgrammes){
 				if(mLocale.equals("Français")){
