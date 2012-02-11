@@ -246,8 +246,8 @@ public class TeachReachDbAdapter {
 	public Cursor fetchProgrammesList(int course_id){
 		// Use course_id
 		Cursor cursor = mDb.query(true, PROGRAMMES, 
-				new String[] { PROGRAMME_ID, PROGRAMME_NAME_EN, PROGRAMME_NAME_FR, PROGRAMME_NAME_ES }, 
-				null, null, null, COURSE_ID + "=" + course_id, null, null);
+				new String[] { SERVER_ID, PROGRAMME_NAME_EN, PROGRAMME_NAME_FR, PROGRAMME_NAME_ES }, 
+				COURSE_ID + "=" + course_id, null, null, null, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}
@@ -287,8 +287,8 @@ public class TeachReachDbAdapter {
 		// query logic with programme_id
 		// Use programme_id
 		Cursor cursor = mDb.query(true, PARTS, 
-				new String[] {PART_ID, PART_NAME_EN, PART_NAME_FR, PART_NAME_ES }, 
-				null, null, null, PROGRAMME_ID + "=" + programme_id, null, null);
+				new String[] {SERVER_ID, PART_NAME_EN, PART_NAME_FR, PART_NAME_ES }, 
+				PROGRAMME_ID + "=" + programme_id, null, null, null, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}
@@ -332,7 +332,7 @@ public class TeachReachDbAdapter {
 	public Cursor fetchQuiz(int part_id){
 		Cursor cursor = mDb.query(true, QUIZZES,
 				new String[] { SERVER_ID, QUIZ_TITLE_EN, QUIZ_TITLE_FR, QUIZ_TITLE_ES},
-				null, null, null, PART_ID + "=" + part_id, null, null);
+				PART_ID + "=" + part_id, null, null, null, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}
@@ -342,7 +342,7 @@ public class TeachReachDbAdapter {
 	public Cursor fetchQuestions(int quiz_id){
 		Cursor cursor = mDb.query(true, QUESTIONS,
 				new String[] { SERVER_ID, QUESTION_EN, QUESTION_FR, QUESTION_ES, FEEDBACK_EN, FEEDBACK_FR, FEEDBACK_ES},
-				null, null, null, QUIZ_ID + "=" + quiz_id, null, null);
+				QUIZ_ID + "=" + quiz_id, null, null, null, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}
@@ -352,7 +352,7 @@ public class TeachReachDbAdapter {
 	public Cursor fetchOptions(int question_id){
 		Cursor cursor = mDb.query(true, OPTIONS,
 				new String[] { SERVER_ID, OPTION_EN, OPTION_FR, OPTION_ES, OPTION_ANSWER},
-				null, null, null, QUESTION_ID + "=" + question_id, null, null);
+				QUESTION_ID + "=" + question_id, null, null, null, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}
@@ -362,7 +362,7 @@ public class TeachReachDbAdapter {
 	public Cursor getMaterialsList(int part_id){
 		Cursor cursor = mDb.query(true, MATERIALS,
 				new String[] { SERVER_ID, MATERIAL_EN, MATERIAL_FR, MATERIAL_ES},
-				null, null, null, PART_ID + "=" + part_id, null, null);
+				PART_ID + "=" + part_id, null, null, null, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}

@@ -38,6 +38,9 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	public static final String PART_ID = "partID";
 	public static final String QUIZ_ID = "quizID";
 	public static final String MATERIAL_ID = "materialID";
+	public static final String COURSE_SPINNER_POS = "courseSpinnerPos";
+	public static final String PROGRAMME_SPINNER_POS = "programmeSpinnerPos";
+	public static final String PART_SPINNER_POS = "partSpinnerPos";
 	
 	private int mSelectedCourseId = 0;
 	private int mSelectedProgrammeId = 0;
@@ -50,16 +53,10 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
         setContentView(R.layout.main);
         mTeachReachPopulater = new TeachReachPopulater(getApplicationContext(), 
         		mSelectedCourseId, mSelectedProgrammeId, mSelectedPartId);
-        loadSettings();
-        //TODO switch to this when ready
+        loadSettings(); //Can cause crash on re-open
         mCourseItems = mTeachReachPopulater.getCourses();
-//        mProgrammeItems = mTeachReachPopulater.getProgrammeItems(mSelectedCourseId);
-//        mPartItems = mTeachReachPopulater.getPartItems(mSelectedProgrammeId);
-
-        
-//        mCourseItems = new String[] { "Course 1", "Course 2" };
-        mProgrammeItems = new String[]{};
-        mPartItems = new String[] {"a", "b", "c"};
+        mProgrammeItems = mTeachReachPopulater.getProgrammes(mSelectedCourseId);
+        mPartItems = mTeachReachPopulater.getParts(mSelectedProgrammeId);
         
         //Set up course spinner
         mCourseSpinner = (Spinner) findViewById(R.id.course_spinner);
@@ -89,15 +86,25 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
         Button view_materials_button = (Button) findViewById(R.id.view_materials_button);
         view_materials_button.setOnClickListener(this);
         
+        setUpSpinners(); 
     }
-
+    
+    private void setUpSpinners(){
+    	SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+    	mCourseSpinner.setSelection(settings.getInt(COURSE_SPINNER_POS, 0), true);
+    	mProgrammeSpinner.setSelection(settings.getInt(PROGRAMME_SPINNER_POS, 0), true);
+    	mPartSpinner.setSelection(settings.getInt(PART_SPINNER_POS, 0), true);
+    }
+    
     private void loadSettings(){
     	SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
     	mSelectedCourseId = settings.getInt(COURSE_ID, 0);
     	mSelectedProgrammeId = settings.getInt(PROGRAMME_ID, 0);
     	mSelectedPartId = settings.getInt(PART_ID, 0);
     	
-    	//TODO load spinners
+    	Log.i(TAG, "Saved course ID: " + mSelectedCourseId);
+    	Log.i(TAG, "Saved programme ID: " + mSelectedProgrammeId);
+    	Log.i(TAG, "Saved part ID: " + mSelectedPartId);
     }
     
     /**
@@ -111,6 +118,10 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     	editor.putInt(COURSE_ID, mSelectedCourseId);
     	editor.putInt(PROGRAMME_ID, mSelectedProgrammeId);
     	editor.putInt(PART_ID, mSelectedPartId);
+    	editor.putInt(COURSE_SPINNER_POS, mCourseSpinner.getSelectedItemPosition());
+    	editor.putInt(PROGRAMME_SPINNER_POS, mProgrammeSpinner.getSelectedItemPosition());
+    	editor.putInt(PART_SPINNER_POS, mPartSpinner.getSelectedItemPosition());
+    	
     	
     	//Save changes
     	editor.commit();
@@ -119,6 +130,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	@Override
 	protected void onStop(){
 		super.onStop();
+		mTeachReachPopulater.closeDB();
 		saveSettings();
 	}
 	
@@ -166,36 +178,47 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	
 	}
 
-	public void onItemSelected(AdapterView<?> parent, View view, int position,
-			long id) {
+	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		if(parent == mCourseSpinner){
 			Log.i(TAG, "Courses Spinner changed.");
-			mSelectedCourseId = position + 1;
-			// update programme spinner to reflect this change
-			mProgrammeItems = new String[] { "Programme 1", "Programme 2" };//TODO use: mTeachReachPopulater.getProgrammeItems(position + 1);
-			
-	        ArrayAdapter<String> programme_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mProgrammeItems);
-	        programme_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	        mProgrammeSpinner.setAdapter(programme_adapter);
-			
+			mSelectedCourseId = mTeachReachPopulater.getCourseList().get(position).getId();
+			updateProgrammeSpinner();
+			if(mTeachReachPopulater.getCurrentProgrammes().size() > 0) {
+				mSelectedProgrammeId = mTeachReachPopulater.getCurrentProgrammes().get(mProgrammeSpinner.getSelectedItemPosition()).getId();
+			}
+			else{
+				mSelectedProgrammeId = 0;
+			}
+			updatePartSpinner();
+//			mSelectedPartId = mTeachReachPopulater.getCurrentParts().get(mPartSpinner.getSelectedItemPosition()).getId();
+
 		}
 		else if(parent == mProgrammeSpinner){
 			Log.i(TAG, "Programmes Spinner changed.");
-			//TODO update part spinner to reflect this change
-			//mSelectedProgrammeId =  mProgrammes.get(position).getID();
-			
-			ArrayAdapter<String> part_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mPartItems);
-			part_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			mPartSpinner.setAdapter(part_adapter);
-
-			//TODO redraw spinner?
+			mSelectedProgrammeId = mTeachReachPopulater.getCurrentProgrammes().get(position).getId();
+			updatePartSpinner();
 		}
 		else if(parent == mPartSpinner){
 			Log.i(TAG, "Parts Spinner changed.");
-			
-			//mSelectedPartId = mParts.get(position).getID();
+			mSelectedPartId = mTeachReachPopulater.getCurrentParts().get(position).getId();
 		}
 		
+	}
+	
+	private void updateProgrammeSpinner(){
+		// update programme spinner to reflect this change
+		mProgrammeItems = mTeachReachPopulater.getProgrammes(mSelectedCourseId);
+        ArrayAdapter<String> programme_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mProgrammeItems);
+        programme_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mProgrammeSpinner.setAdapter(programme_adapter);
+	}
+	
+	private void updatePartSpinner(){
+		// update part spinner to reflect this change
+		mPartItems = mTeachReachPopulater.getParts(mSelectedProgrammeId);
+		ArrayAdapter<String> part_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mPartItems);
+		part_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		mPartSpinner.setAdapter(part_adapter);
 	}
 
 	public void onNothingSelected(AdapterView<?> parent) {

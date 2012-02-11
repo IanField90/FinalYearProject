@@ -7,7 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import uk.ac.reading.dp005570.TeachReach.data.Course;
-import uk.ac.reading.dp005570.TeachReach.data.Language;
 import uk.ac.reading.dp005570.TeachReach.data.Part;
 import uk.ac.reading.dp005570.TeachReach.data.Programme;
 import uk.ac.reading.dp005570.TeachReach.net.ServerCommunicationHelper;
@@ -42,6 +41,10 @@ public class TeachReachPopulater {
 		mLocale = Locale.getDefault().getDisplayLanguage();
 	}
 
+	public void closeDB(){
+		mTeachReachDbAdapter.close();
+	}
+
 	//TODO determine between update main menu list and retrieving from the database instead
 	public void refreshMainMenu(ProgressDialog dialog){
 		String response = mServerCommunicationHelper.getCourseList(dialog);
@@ -60,8 +63,8 @@ public class TeachReachPopulater {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
+
 	}
 
 	/**
@@ -103,6 +106,9 @@ public class TeachReachPopulater {
 		if (cursor == null){
 			Log.i(TAG, "Programmes cursor empty.");
 		}
+		else if(cursor.getCount() == 0){
+			Log.i(TAG, "Programme count is zero.");
+		}
 		else{
 			//Can traverse through content
 			do{
@@ -137,7 +143,6 @@ public class TeachReachPopulater {
 				String en = cursor.getString(1);
 				String fr = cursor.getString(2);
 				String es = cursor.getString(3);
-
 				Part part = new Part(id, programme_id, en, fr, es);
 				parts.add(part);
 			}while(cursor.moveToNext());
@@ -151,23 +156,27 @@ public class TeachReachPopulater {
 	 * @return List of courses in given language
 	 */
 	public String[] getCourses(){
-		if(mCourses == null){
-			retrieveCourseList();
+		retrieveCourseList();
+		String[] courses;
+		if(mCourses.size() > 0){
+			courses = new String[mCourses.size()];
+			int i = 0;
+			for( Course course : mCourses ){
+				if(mLocale.equals("Français")){
+					courses[i] = course.getFR();
+				}
+				else if(mLocale.equals("español")){
+					courses[i] = course.getES();
+				}
+				else{
+					//Default to english
+					courses[i] = course.getEN();
+				}
+				i++;
+			}
 		}
-		String[] courses = new String[mCourses.size()];
-		int i = 0;
-		for( Course course : mCourses ){
-			if(mLocale.equals("Français")){
-				courses[i] = course.getFR();
-			}
-			else if(mLocale.equals("español")){
-				courses[i] = course.getES();
-			}
-			else{
-				//Default to english
-				courses[i] = course.getEN();
-			}
-			i++;
+		else{
+			courses = new String[]{};
 		}
 		return courses;
 	}
@@ -179,10 +188,13 @@ public class TeachReachPopulater {
 	 * @return
 	 */
 	public String[] getProgrammes(int course_id){
-		String[] programmes = new String[mCurrentProgrammes.size()];
-		int i = 0;
-		for(Programme programme : mCurrentProgrammes){
-			if (programme.getId() == course_id){
+		retrieveProgrammesList(course_id);
+		String[] programmes;
+		if(mCurrentProgrammes.size() > 0){
+			programmes = new String[mCurrentProgrammes.size()];
+			Log.i(TAG, mCurrentProgrammes.get(0).getEN());
+			int i = 0;
+			for(Programme programme : mCurrentProgrammes){
 				if(mLocale.equals("Français")){
 					programmes[i] = programme.getFR();
 				}
@@ -196,6 +208,10 @@ public class TeachReachPopulater {
 				i++;
 			}
 		}
+		else{
+			// Make sure UI building doesn't crash trying to populate with null
+			programmes = new String[]{};
+		}
 		return programmes;
 	}
 
@@ -207,20 +223,27 @@ public class TeachReachPopulater {
 	 */
 	public String[] getParts(int programme_id){
 		// check locale language strings
-		String[] parts = new String[mCurrentParts.size()];
-		int i = 0;
-		for(Part part : mCurrentParts){
-			if(mLocale.equals("Français")){
-				parts[i] = part.getFR();
+		retrievePartsList(programme_id);
+		String[] parts;
+		if(mCurrentParts.size() > 0){
+			parts = new String[mCurrentParts.size()];
+			int i = 0;
+			for(Part part : mCurrentParts){
+				if(mLocale.equals("Français")){
+					parts[i] = part.getFR();
+				}
+				else if(mLocale.equals("español")){
+					parts[i] = part.getES();
+				}
+				else{
+					//Default to english
+					parts[i] = part.getEN();
+				}
+				i++;
 			}
-			else if(mLocale.equals("español")){
-				parts[i] = part.getES();
-			}
-			else{
-				//Default to english
-				parts[i] = part.getEN();
-			}
-			i++;
+		}
+		else{
+			parts = new String[]{};
 		}
 		return parts;
 	}
@@ -232,27 +255,41 @@ public class TeachReachPopulater {
 		Cursor cursor = mTeachReachDbAdapter.fetchCourseList();
 		if(cursor != null){
 			do{
-				//TODO process items
-				//				mCourses.add(object)
 				int id = cursor.getInt(0);
 				String en = cursor.getString(1);
 				String fr = cursor.getString(2);
 				String es = cursor.getString(3);
 				mCourses.add(new Course(id, en, fr, es));
-				cursor.moveToNext();
-
-			}while(!cursor.isAfterLast());
+			}while(cursor.moveToNext());
 		}
 	}
 
 	public void retrieveProgrammesList(int course_id){
-		mTeachReachDbAdapter.fetchProgrammesList(course_id);
-		//		mCurrentProgrammes.add(ne)
+		mCurrentProgrammes = new ArrayList<Programme>();
+		Cursor cursor = mTeachReachDbAdapter.fetchProgrammesList(course_id);
+		if(cursor.getCount() > 0 ){//!= null){//CRASH
+			do{
+				int id = cursor.getInt(0);
+				String en = cursor.getString(1);
+				String fr = cursor.getString(2);
+				String es = cursor.getString(3);
+				mCurrentProgrammes.add(new Programme(id, course_id, en, fr, es));
+			}while(cursor.moveToNext());
+		}
 	}
 
 	public void retrievePartsList(int programme_id){
-		mTeachReachDbAdapter.fetchPartsList(programme_id);
-		//		mCurrentParts.add(object)
+		mCurrentParts = new ArrayList<Part>();
+		Cursor cursor = mTeachReachDbAdapter.fetchPartsList(programme_id);
+		if(cursor.getCount() > 0 ){//!= null){//CRASH
+			do{
+				int id = cursor.getInt(0);
+				String en = cursor.getString(1);
+				String fr = cursor.getString(2);
+				String es = cursor.getString(3);
+				mCurrentParts.add(new Part(id, programme_id, en, fr, es));
+			}while(cursor.moveToNext());
+		}
 	}
 
 	/* Utilise parser's results and for each element call DB helper function to update/create */
@@ -288,7 +325,7 @@ public class TeachReachPopulater {
 					part.getEN(), part.getFR(), part.getES());
 		}
 	}
-	
+
 	public ArrayList<Programme> getCurrentProgrammes() {
 		return mCurrentProgrammes;
 	}
