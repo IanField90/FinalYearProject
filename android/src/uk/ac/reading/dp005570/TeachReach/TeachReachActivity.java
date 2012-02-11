@@ -1,7 +1,5 @@
 package uk.ac.reading.dp005570.TeachReach;
 
-import java.util.Locale;
-
 import uk.ac.reading.dp005570.TeachReach.util.TeachReachPopulater;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -50,18 +48,16 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        Locale locale = getResources().getConfiguration().locale;
-
-        mTeachReachPopulater = new TeachReachPopulater(getApplicationContext(), locale, 
+        mTeachReachPopulater = new TeachReachPopulater(getApplicationContext(), 
         		mSelectedCourseId, mSelectedProgrammeId, mSelectedPartId);
         loadSettings();
         //TODO switch to this when ready
-//        mCourseItems = mTeachReachPopulater.getCourseItems();
+        mCourseItems = mTeachReachPopulater.getCourses();
 //        mProgrammeItems = mTeachReachPopulater.getProgrammeItems(mSelectedCourseId);
 //        mPartItems = mTeachReachPopulater.getPartItems(mSelectedProgrammeId);
 
         
-        mCourseItems = new String[] { "Course 1", "Course 2" };
+//        mCourseItems = new String[] { "Course 1", "Course 2" };
         mProgrammeItems = new String[]{};
         mPartItems = new String[] {"a", "b", "c"};
         
@@ -160,10 +156,10 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 			final ProgressDialog progress = ProgressDialog.show(TeachReachActivity.this, "Please wait...", "Retrieving data...");
 			Thread thread = new Thread(new Runnable(){
 				public void run(){
-					mTeachReachPopulater.getMainMenu(progress);
+					mTeachReachPopulater.refreshMainMenu(progress);
 				}
 			});
-			thread.run();
+			thread.start();			
 		default:
 			return super.onOptionsItemSelected(item);
 		}

@@ -93,7 +93,7 @@ public class ServerCommunicationHelper {
 			e.printStackTrace();
 		}
 		
-		progress.dismiss();
+//		progress.dismiss();
 		return response_page != null ? response_page : null;
 	}
 

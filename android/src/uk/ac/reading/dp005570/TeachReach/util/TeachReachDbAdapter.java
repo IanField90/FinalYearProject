@@ -206,7 +206,7 @@ public class TeachReachDbAdapter {
 	 */
 	public Cursor fetchCourseList(){
 		Cursor cursor = mDb.query(true, COURSES, 
-				new String[] {COURSE_ID, COURSE_NAME_EN, COURSE_NAME_FR, COURSE_NAME_ES }, 
+				new String[] {SERVER_ID, COURSE_NAME_EN, COURSE_NAME_FR, COURSE_NAME_ES }, 
 				null, null, null, null, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
@@ -247,7 +247,7 @@ public class TeachReachDbAdapter {
 		// Use course_id
 		Cursor cursor = mDb.query(true, PROGRAMMES, 
 				new String[] { PROGRAMME_ID, PROGRAMME_NAME_EN, PROGRAMME_NAME_FR, PROGRAMME_NAME_ES }, 
-				null, null, null, SERVER_ID + "=" + course_id, null, null);
+				null, null, null, COURSE_ID + "=" + course_id, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}

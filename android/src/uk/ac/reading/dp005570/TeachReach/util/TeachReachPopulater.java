@@ -28,23 +28,22 @@ public class TeachReachPopulater {
 	private TeachReachDbAdapter mTeachReachDbAdapter;
 	private ServerCommunicationHelper mServerCommunicationHelper;
 	//Used to determine which string sets to return
-	private Locale mLocale;
+	private String mLocale;
 
 	private ArrayList<Course> mCourses;
 	private ArrayList<Programme> mProgrammes, mCurrentProgrammes;
 	private ArrayList<Part> mParts, mCurrentParts;
 
-	public TeachReachPopulater(Context context, Locale locale, int slelectedCourseId, int selectedProgrammeId, int selectedPartId) {
+	public TeachReachPopulater(Context context, int slelectedCourseId, int selectedProgrammeId, int selectedPartId) {
 		mTeachReachParser = new TeachReachParser();
 		mTeachReachDbAdapter = new TeachReachDbAdapter(context);
 		mTeachReachDbAdapter.open();
 		mServerCommunicationHelper = new ServerCommunicationHelper();
-		mLocale = locale;
-		//		mCourses = mTe
+		mLocale = Locale.getDefault().getDisplayLanguage();
 	}
 
 	//TODO determine between update main menu list and retrieving from the database instead
-	public void getMainMenu(ProgressDialog dialog){
+	public void refreshMainMenu(ProgressDialog dialog){
 		String response = mServerCommunicationHelper.getCourseList(dialog);
 		//Null check first. If it is then no response from server
 		if((response != null) && (response.length() > 0)){
@@ -56,10 +55,13 @@ public class TeachReachPopulater {
 				updateCourses();
 				updateProgrammes();
 				updateParts();
+				dialog.dismiss();
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
+		
+		
 	}
 
 	/**
@@ -146,23 +148,24 @@ public class TeachReachPopulater {
 
 	/**
 	 * 
-	 * @param language The Language enumerator of the expected return
 	 * @return List of courses in given language
 	 */
-	public String[] getCourses(Language language){
+	public String[] getCourses(){
+		if(mCourses == null){
+			retrieveCourseList();
+		}
 		String[] courses = new String[mCourses.size()];
 		int i = 0;
 		for( Course course : mCourses ){
-			switch (language){
-			case EN:
-				courses[i] = course.getEN();
-				break;
-			case FR:
+			if(mLocale.equals("Français")){
 				courses[i] = course.getFR();
-				break;
-			case ES:
+			}
+			else if(mLocale.equals("español")){
 				courses[i] = course.getES();
-				break;
+			}
+			else{
+				//Default to english
+				courses[i] = course.getEN();
 			}
 			i++;
 		}
@@ -175,23 +178,20 @@ public class TeachReachPopulater {
 	 * @param course_id
 	 * @return
 	 */
-	public String[] getProgrammes(Language language, int course_id){
-		//TODO return key pair: (id, value) instead so that data can be retrieved
+	public String[] getProgrammes(int course_id){
 		String[] programmes = new String[mCurrentProgrammes.size()];
 		int i = 0;
 		for(Programme programme : mCurrentProgrammes){
 			if (programme.getId() == course_id){
-				switch(language){
-				case EN:
-					programmes[i] = programme.getEN();
-					break;
-				case FR:
+				if(mLocale.equals("Français")){
 					programmes[i] = programme.getFR();
-					break;
-				case ES:
+				}
+				else if(mLocale.equals("español")){
 					programmes[i] = programme.getES();
-					break;
-
+				}
+				else{
+					//Default to english
+					programmes[i] = programme.getEN();
 				}
 				i++;
 			}
@@ -206,36 +206,42 @@ public class TeachReachPopulater {
 	 * @return
 	 */
 	public String[] getParts(int programme_id){
-		//TODO check locale language strings
+		// check locale language strings
 		String[] parts = new String[mCurrentParts.size()];
 		int i = 0;
 		for(Part part : mCurrentParts){
-			if ( mLocale == Locale.FRENCH){
+			if(mLocale.equals("Français")){
 				parts[i] = part.getFR();
 			}
-			else if(mLocale == new Locale("es")){//.getDisplayLanguage() == "es"){
+			else if(mLocale.equals("español")){
 				parts[i] = part.getES();
 			}
 			else{
+				//Default to english
 				parts[i] = part.getEN();
 			}
-
 			i++;
-
 		}
 		return parts;
 	}
 
 	/* DATABASE FUNCTIONS - traverse through cursor*/
 
-	public void retriveCourseList(){
+	public void retrieveCourseList(){
+		mCourses = new ArrayList<Course>();
 		Cursor cursor = mTeachReachDbAdapter.fetchCourseList();
 		if(cursor != null){
 			do{
 				//TODO process items
 				//				mCourses.add(object)
+				int id = cursor.getInt(0);
+				String en = cursor.getString(1);
+				String fr = cursor.getString(2);
+				String es = cursor.getString(3);
+				mCourses.add(new Course(id, en, fr, es));
+				cursor.moveToNext();
 
-			}while(!cursor.isLast());
+			}while(!cursor.isAfterLast());
 		}
 	}
 
@@ -297,18 +303,5 @@ public class TeachReachPopulater {
 
 	public void setCurrentProgrammes(ArrayList<Programme> mCurrentProgrammes) {
 		this.mCurrentProgrammes = mCurrentProgrammes;
-	}
-
-	//TODO Actually use cursor to create these arrays for the spinner adapter
-	public String[] getCourseItems(){
-		return null;
-	}
-
-	public String[] getProgrammeItems(int course_id){
-		return null;
-	}
-
-	public String[] getPartItems(int programme_id){
-		return null;
 	}
 }
