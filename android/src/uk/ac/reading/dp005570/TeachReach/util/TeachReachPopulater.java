@@ -7,8 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import uk.ac.reading.dp005570.TeachReach.data.Course;
+import uk.ac.reading.dp005570.TeachReach.data.Option;
 import uk.ac.reading.dp005570.TeachReach.data.Part;
 import uk.ac.reading.dp005570.TeachReach.data.Programme;
+import uk.ac.reading.dp005570.TeachReach.data.Question;
+import uk.ac.reading.dp005570.TeachReach.data.Quiz;
 import uk.ac.reading.dp005570.TeachReach.net.ServerCommunicationHelper;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -32,6 +35,10 @@ public class TeachReachPopulater {
 	private ArrayList<Course> mCourses;
 	private ArrayList<Programme> mProgrammes, mCurrentProgrammes;
 	private ArrayList<Part> mParts, mCurrentParts;
+
+	private ArrayList<Quiz> mQuizzes;
+	private ArrayList<Question> mQuestions;
+	private ArrayList<Option> mOptions;
 
 	public TeachReachPopulater(Context context, int slelectedCourseId, int selectedProgrammeId, int selectedPartId) {
 		mTeachReachParser = new TeachReachParser();
@@ -219,7 +226,6 @@ public class TeachReachPopulater {
 
 	/**
 	 * 
-	 * @param language
 	 * @param programme_id
 	 * @return
 	 */
@@ -294,7 +300,54 @@ public class TeachReachPopulater {
 		}
 	}
 
-	/* Utilise parser's results and for each element call DB helper function to update/create */
+	public void retrieveQuizList(int part_id){
+		mQuizzes = new ArrayList<Quiz>();
+		Cursor cursor = mTeachReachDbAdapter.fetchQuiz(part_id);
+
+		if(cursor != null && cursor.getCount() > 0){
+			do{
+				int id = cursor.getInt(0);
+				String en = cursor.getString(1);
+				String fr = cursor.getString(2);
+				String es = cursor.getString(3);
+				mQuizzes.add(new Quiz(id, part_id, en, fr, es));
+			}while(cursor.moveToNext());
+		}
+	}
+	
+	public void retrieveQuestionList(int quiz_id){
+		mQuestions = new ArrayList<Question>();
+		Cursor cursor = mTeachReachDbAdapter.fetchQuestions(quiz_id);
+		if(cursor != null && cursor.getCount() > 0){
+			do{
+				int id = cursor.getInt(0);
+				int type = cursor.getInt(1);
+				String en = cursor.getString(2);
+				String fr = cursor.getString(3);
+				String es = cursor.getString(4);
+				String feedback_en = cursor.getString(5);
+				String feedback_fr = cursor.getString(6);
+				String feedback_es = cursor.getString(7);
+				mQuestions.add(new Question(id, quiz_id, type, en, fr, es, feedback_en, feedback_fr, feedback_es));
+			}while(cursor.moveToNext());
+		}
+	}
+	
+	public void retrieveOptionList(int question_id){
+		mOptions = new ArrayList<Option>();
+		Cursor cursor = mTeachReachDbAdapter.fetchOptions(question_id);
+		if(cursor != null && cursor.getCount() > 0){
+			do{
+				int id = cursor.getInt(0);
+				String en = cursor.getString(1);
+				String fr = cursor.getString(2);
+				String es = cursor.getString(3);
+				Boolean answer = (cursor.getInt(4) > 0); // SQLite does not directly do datatype so this is a fix
+				mOptions.add(new Option(id, question_id, en, fr, es, answer));
+			}while(cursor.moveToNext());
+		}
+	}
+
 	/**
 	 * Update the database with each Course retrieved from the parser
 	 */

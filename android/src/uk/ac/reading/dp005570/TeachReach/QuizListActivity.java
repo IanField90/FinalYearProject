@@ -3,7 +3,7 @@ package uk.ac.reading.dp005570.TeachReach;
 import java.util.ArrayList;
 
 import uk.ac.reading.dp005570.TeachReach.data.QuizStatus;
-
+import uk.ac.reading.dp005570.TeachReach.util.TeachReachPopulater;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,12 +16,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class QuizListActivity extends ListActivity implements OnItemClickListener{
 	
 	private ArrayList<QuizStatus> mQuizzes = null;
 	private QuizItemAdapter mAdapter;
+	private TeachReachPopulater mTeachReachPopulater;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,10 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
         getListView().setOnItemClickListener(this);
         mQuizzes = new ArrayList<QuizStatus>();
 		int part = getIntent().getIntExtra("Part", 0);
-		Toast.makeText(this.getApplicationContext(), "Selected ID: " + part, Toast.LENGTH_LONG).show(); //TODO Localised message text
+//		mTeachReachPopulater.get
+//		getIntent().getExtras().getSerializable(key)
+		
+//		Toast.makeText(this.getApplicationContext(), "Selected ID: " + part, Toast.LENGTH_LONG).show(); //TODO Localised message text
 
         
         // TODO ProgressDialog here while retrieving from online if chosen

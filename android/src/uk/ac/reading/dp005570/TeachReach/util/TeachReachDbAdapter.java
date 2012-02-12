@@ -131,8 +131,18 @@ public class TeachReachDbAdapter {
 			"	answer BOOLEAN,\n" + 
 			"	PRIMARY KEY (_id)\n" + 
 			");";
+	
+	private static final String TABLE_MATERIALS = "CREATE TABLE Materials(\n" +
+			"   _id INTEGER NOT NULL,\n" +
+			"   server_id INTEGER, \n" +
+			"   material_en VARCHAR(1000), \n" +
+			"	material_fr VARCHAR(1000), \n" +
+			"	material_es VARCHAR(1000), \n" +
+			"	PRIMARY KEY (_id)\n" +
+			");";
+	
 	private static final String DATABASE_NAME = "teachreachdb";
-	private static final int DATABASE_VERSION = 7;
+	private static final int DATABASE_VERSION = 8;
 
 	private final Context mCtx;
 	private DatabaseHelper mDbHelper;
@@ -156,6 +166,7 @@ public class TeachReachDbAdapter {
 			db.execSQL(TABLE_QUIZZES);
 			db.execSQL(TABLE_QUESTIONS);
 			db.execSQL(TABLE_OPTIONS);
+			db.execSQL(TABLE_MATERIALS);
 		}
 
 		@Override
@@ -163,6 +174,7 @@ public class TeachReachDbAdapter {
 			Log.w(TAG, "Upgrading database from version " + oldVersion + "to " + 
 					newVersion + ", which will destroy old data" );
 			// drop all tables
+			db.execSQL("DROP TABLE IF EXISTS Materials;");
 			db.execSQL("DROP TABLE IF EXISTS Options;");
 			db.execSQL("DROP TABLE IF EXISTS Questions;");
 			db.execSQL("DROP TABLE IF EXISTS Quizzes;");
@@ -198,7 +210,6 @@ public class TeachReachDbAdapter {
 	public void close(){
 		mDbHelper.close();
 	}
-
 
 	/**
 	 * Query the database for a list of courses
@@ -317,16 +328,6 @@ public class TeachReachDbAdapter {
 		}
 		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);
-	}
-
-	public Cursor getQuizList(int part_id){
-		Cursor cursor = mDb.query(true, QUIZZES,
-				new String[] { SERVER_ID, QUIZ_TITLE_EN, QUIZ_TITLE_FR, QUIZ_TITLE_ES},
-				null, null, null, PART_ID + "=" + part_id, null, null);
-		if(cursor != null){
-			cursor.moveToFirst();
-		}
-		return cursor;
 	}
 	
 	public Cursor fetchQuiz(int part_id){
