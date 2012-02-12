@@ -257,7 +257,10 @@ public class TeachReachPopulater {
 	}
 
 	/* DATABASE FUNCTIONS - traverse through cursor*/
-
+	
+	/**
+	 * Get the course list from the database ready to use.
+	 */
 	public void retrieveCourseList(){
 		mCourses = new ArrayList<Course>();
 		Cursor cursor = mTeachReachDbAdapter.fetchCourseList();
@@ -271,7 +274,11 @@ public class TeachReachPopulater {
 			}while(cursor.moveToNext());
 		}
 	}
-
+	
+	/**
+	 * Get the programmes list from the database ready to use.
+	 * @param course_id The server's ID of the course to select programmes for.
+	 */
 	public void retrieveProgrammesList(int course_id){
 		mCurrentProgrammes = new ArrayList<Programme>();
 		Cursor cursor = mTeachReachDbAdapter.fetchProgrammesList(course_id);
@@ -285,7 +292,11 @@ public class TeachReachPopulater {
 			}while(cursor.moveToNext());
 		}
 	}
-
+	
+	/**
+	 * Get the parts list from the database ready to use.
+	 * @param programme_id The server's ID of the programme to select parts for.
+	 */
 	public void retrievePartsList(int programme_id){
 		mCurrentParts = new ArrayList<Part>();
 		Cursor cursor = mTeachReachDbAdapter.fetchPartsList(programme_id);
@@ -299,7 +310,11 @@ public class TeachReachPopulater {
 			}while(cursor.moveToNext());
 		}
 	}
-
+	
+	/**
+	 * Get the quizzes list from the database ready to use.
+	 * @param part_id The server's ID for the part to select quizzes for.
+	 */
 	public void retrieveQuizList(int part_id){
 		mQuizzes = new ArrayList<Quiz>();
 		Cursor cursor = mTeachReachDbAdapter.fetchQuizzes(part_id);
@@ -315,6 +330,10 @@ public class TeachReachPopulater {
 		}
 	}
 	
+	/**
+	 * Get the questions list from the database ready to use.
+	 * @param quiz_id The server's ID for the quiz to select questions for.
+	 */
 	public void retrieveQuestionList(int quiz_id){
 		mQuestions = new ArrayList<Question>();
 		Cursor cursor = mTeachReachDbAdapter.fetchQuestions(quiz_id);
@@ -333,6 +352,10 @@ public class TeachReachPopulater {
 		}
 	}
 	
+	/**
+	 * Get the options list from the database ready to use.
+	 * @param question_id The server's ID for the question to select options for.
+	 */
 	public void retrieveOptionList(int question_id){
 		mOptions = new ArrayList<Option>();
 		Cursor cursor = mTeachReachDbAdapter.fetchOptions(question_id);
@@ -381,19 +404,20 @@ public class TeachReachPopulater {
 		}
 	}
 
+	/**
+	 * Get the actual list of Programmes currently selected.
+	 * @return The list of currently selected Programmes (belonging to a Course).
+	 */
 	public ArrayList<Programme> getCurrentProgrammes() {
 		return mCurrentProgrammes;
 	}
-
+	
+	/**
+	 * Get the actual list of parts currently selected.
+	 * @return The list of currently selected Parts (belonging to a Programme).
+	 */
 	public ArrayList<Part> getCurrentParts() {
 		return mCurrentParts;
 	}
 
-	public void setCurrentParts(ArrayList<Part> mCurrentParts) {
-		this.mCurrentParts = mCurrentParts;
-	}
-
-	public void setCurrentProgrammes(ArrayList<Programme> mCurrentProgrammes) {
-		this.mCurrentProgrammes = mCurrentProgrammes;
-	}
 }

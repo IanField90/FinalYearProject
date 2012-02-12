@@ -387,8 +387,4 @@ public class TeachReachDbAdapter {
 		return cursor;
 	}
 
-	public void getQuiz(int quiz_id){
-
-	}
-
 }
