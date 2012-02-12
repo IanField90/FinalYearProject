@@ -302,7 +302,7 @@ public class TeachReachPopulater {
 
 	public void retrieveQuizList(int part_id){
 		mQuizzes = new ArrayList<Quiz>();
-		Cursor cursor = mTeachReachDbAdapter.fetchQuiz(part_id);
+		Cursor cursor = mTeachReachDbAdapter.fetchQuizzes(part_id);
 
 		if(cursor != null && cursor.getCount() > 0){
 			do{

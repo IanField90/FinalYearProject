@@ -15,10 +15,7 @@ import android.util.Log;
  */
 public class TeachReachDbAdapter {
 	public static final String KEY_ROWID = "server_id";
-
 	private static final String TAG = "TeachReachDbAdapter";
-//	private final String ID = "_id";
-
 	private final String SERVER_ID = "server_id";
 
 	//Courses fields
@@ -330,7 +327,12 @@ public class TeachReachDbAdapter {
 		mDb.execSQL(statement);
 	}
 	
-	public Cursor fetchQuiz(int part_id){
+	/**
+	 * Retrieves the details for a quiz
+	 * @param part_id The server's Part ID the quiz belongs to
+	 * @return All quizzes belonging to a given Part.
+	 */
+	public Cursor fetchQuizzes(int part_id){
 		Cursor cursor = mDb.query(true, QUIZZES,
 				new String[] { SERVER_ID, QUIZ_TITLE_EN, QUIZ_TITLE_FR, QUIZ_TITLE_ES},
 				PART_ID + "=" + part_id, null, null, null, null, null);
@@ -340,6 +342,11 @@ public class TeachReachDbAdapter {
 		return cursor;
 	}
 	
+	/**
+	 * Retrieves questions for a quiz
+	 * @param quiz_id The server's Quiz ID the questions belongs to
+	 * @return All questions belonging to a given Quiz.
+	 */
 	public Cursor fetchQuestions(int quiz_id){
 		Cursor cursor = mDb.query(true, QUESTIONS,
 				new String[] { SERVER_ID, QUESTION_EN, QUESTION_FR, QUESTION_ES, FEEDBACK_EN, FEEDBACK_FR, FEEDBACK_ES},
@@ -350,6 +357,11 @@ public class TeachReachDbAdapter {
 		return cursor;
 	}
 	
+	/**
+	 * Retrieves options for a question
+	 * @param question_id The server's Question ID the options belong to
+	 * @return All questions belonging to a given Quiz.
+	 */
 	public Cursor fetchOptions(int question_id){
 		Cursor cursor = mDb.query(true, OPTIONS,
 				new String[] { SERVER_ID, OPTION_EN, OPTION_FR, OPTION_ES, OPTION_ANSWER},
@@ -360,7 +372,12 @@ public class TeachReachDbAdapter {
 		return cursor;
 	}
 
-	public Cursor getMaterialsList(int part_id){
+	/**
+	 * Retrievs all materials for a Part
+	 * @param part_id The server's Part ID the materials belong to
+	 * @return All materials belonging to a given Part
+	 */
+	public Cursor fetchMaterials(int part_id){
 		Cursor cursor = mDb.query(true, MATERIALS,
 				new String[] { SERVER_ID, MATERIAL_EN, MATERIAL_FR, MATERIAL_ES},
 				PART_ID + "=" + part_id, null, null, null, null, null);
@@ -369,12 +386,8 @@ public class TeachReachDbAdapter {
 		}
 		return cursor;
 	}
-	
-	public Cursor fetchMaterial(int material_id){
-		return null;
-	}
 
-	public void getQuiz(){
+	public void getQuiz(int quiz_id){
 
 	}
 
