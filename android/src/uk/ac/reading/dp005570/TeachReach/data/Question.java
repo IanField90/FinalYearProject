@@ -72,4 +72,40 @@ public class Question {
 		return mCorrectOptions;
 	}
 	
+	public int getId(){
+		return mId;
+	}
+	
+	public int getQuizId(){
+		return mQuizId;
+	}
+	
+	public int getTypeId(){
+		return mType;
+	}
+	
+	public String getEN(){
+		return mQuestionEN;
+	}
+	
+	public String getFR(){
+		return mQuestionFR;
+	}
+	
+	public String getES(){
+		return mQuestionES;
+	}
+	
+	public String getFeedbackEN(){
+		return mFeedbackEN;
+	}
+	
+	public String getFeedbackFR(){
+		return mFeedbackFR;
+	}
+	
+	public String getFeedbackES(){
+		return mFeedbackES;
+	}
+	
 }

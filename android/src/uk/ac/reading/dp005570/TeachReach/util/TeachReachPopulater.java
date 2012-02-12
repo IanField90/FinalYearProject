@@ -14,7 +14,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Controller for populating the database and providing information to
