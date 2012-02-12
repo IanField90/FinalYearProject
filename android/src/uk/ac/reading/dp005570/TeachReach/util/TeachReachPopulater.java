@@ -58,7 +58,7 @@ public class TeachReachPopulater {
 	public void openDB(){
 		mTeachReachDbAdapter.open();
 	}
-
+	
 	public boolean refreshMainMenu(ProgressDialog dialog){
 		String response = mServerCommunicationHelper.getCourseList();
 		if(response == null){
