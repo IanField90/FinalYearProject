@@ -52,8 +52,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        mTeachReachPopulater = new TeachReachPopulater(getApplicationContext(), 
-        		mSelectedCourseId, mSelectedProgrammeId, mSelectedPartId);
+        mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
         loadSettings(); //Can cause crash on re-open
         mCourseItems = mTeachReachPopulater.getCourses();
         mProgrammeItems = mTeachReachPopulater.getProgrammes(mSelectedCourseId);
@@ -112,7 +111,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
      * Save the id for course, programme, and part
      */
     private void saveSettings(){
-    	//TODO Get corresponding ID from db
+    	// Get corresponding ID from db
     	SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
     	SharedPreferences.Editor editor = settings.edit();
     	
@@ -134,6 +133,26 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 		mTeachReachPopulater.closeDB();
 		saveSettings();
 	}
+	
+	@Override
+	protected void onPause(){
+		super.onPause();
+		mTeachReachPopulater.closeDB();
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		mTeachReachPopulater.openDB();
+	}
+	
+	@Override
+	protected void onRestart(){
+		super.onResume();
+		mTeachReachPopulater.openDB();
+	}
+	
+	
 	
     public void onClick(View v) {
     	Intent i;
@@ -178,7 +197,14 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 					}
 				}
 			});
-			thread.start();			
+			thread.start();	
+			// redraw spinners - test this
+			mSelectedCourseId = 0;
+			mSelectedProgrammeId = 0;
+			mSelectedPartId = 0;
+			updateCourseSpinner();
+			updateProgrammeSpinner();
+			updatePartSpinner();
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -212,6 +238,14 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 		
 	}
 	
+	private void updateCourseSpinner(){
+		mCourseItems = mTeachReachPopulater.getCourses();
+        ArrayAdapter<String> course_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mCourseItems);
+        course_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mCourseSpinner.setAdapter(course_adapter);
+        mCourseSpinner.setOnItemSelectedListener(this);
+	}
+	
 	private void updateProgrammeSpinner(){
 		// update programme spinner to reflect this change
 		mProgrammeItems = mTeachReachPopulater.getProgrammes(mSelectedCourseId);
@@ -229,7 +263,6 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	}
 
 	public void onNothingSelected(AdapterView<?> parent) {
-		// TODO Auto-generated method stub
 		
 	}
 }

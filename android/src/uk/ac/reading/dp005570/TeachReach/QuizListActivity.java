@@ -3,7 +3,6 @@ package uk.ac.reading.dp005570.TeachReach;
 import java.util.ArrayList;
 
 import uk.ac.reading.dp005570.TeachReach.data.QuizStatus;
-import uk.ac.reading.dp005570.TeachReach.util.TeachReachPopulater;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,16 +20,19 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
 	
 	private ArrayList<QuizStatus> mQuizzes = null;
 	private QuizItemAdapter mAdapter;
-	private TeachReachPopulater mTeachReachPopulater;
+//	private TeachReachPopulater mTeachReachPopulater;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
+        
+//        mQuizzes = mTeachReachPopulater.getCurrentQuizzes();
         setContentView(R.layout.quiz_list);
         getListView().setTextFilterEnabled(false);
         getListView().setOnItemClickListener(this);
         mQuizzes = new ArrayList<QuizStatus>();
-		int part = getIntent().getIntExtra("Part", 0);
+//		int part = getIntent().getIntExtra("Part", 0);
 //		mTeachReachPopulater.get
 //		getIntent().getExtras().getSerializable(key)
 		

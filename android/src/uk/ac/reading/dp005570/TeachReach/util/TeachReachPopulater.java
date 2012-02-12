@@ -5,8 +5,10 @@ import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import uk.ac.reading.dp005570.TeachReach.data.Course;
+import uk.ac.reading.dp005570.TeachReach.data.Material;
 import uk.ac.reading.dp005570.TeachReach.data.Option;
 import uk.ac.reading.dp005570.TeachReach.data.Part;
 import uk.ac.reading.dp005570.TeachReach.data.Programme;
@@ -22,7 +24,6 @@ import android.util.Log;
  * Controller for populating the database and providing information to
  * views for proper population. Cursor traversal etc.
  * @author Ian Field
- *
  */
 public class TeachReachPopulater {
 	private final String TAG = "POPULATER";
@@ -35,12 +36,14 @@ public class TeachReachPopulater {
 	private ArrayList<Course> mCourses;
 	private ArrayList<Programme> mProgrammes, mCurrentProgrammes;
 	private ArrayList<Part> mParts, mCurrentParts;
-
+	
+	private ArrayList<Material> mMaterials;
+	
 	private ArrayList<Quiz> mQuizzes;
 	private ArrayList<Question> mQuestions;
 	private ArrayList<Option> mOptions;
 
-	public TeachReachPopulater(Context context, int slelectedCourseId, int selectedProgrammeId, int selectedPartId) {
+	public TeachReachPopulater(Context context) {
 		mTeachReachParser = new TeachReachParser();
 		mTeachReachDbAdapter = new TeachReachDbAdapter(context);
 		mTeachReachDbAdapter.open();
@@ -50,6 +53,10 @@ public class TeachReachPopulater {
 
 	public void closeDB(){
 		mTeachReachDbAdapter.close();
+	}
+	
+	public void openDB(){
+		mTeachReachDbAdapter.open();
 	}
 
 	public boolean refreshMainMenu(ProgressDialog dialog){
@@ -75,6 +82,25 @@ public class TeachReachPopulater {
 		}
 		return true;
 
+	}
+	
+	public boolean refreshPart(ProgressDialog dialog, int part_id){
+		String response = mServerCommunicationHelper.getPartContent(part_id, dialog);
+		if(response == null){
+			dialog.dismiss();
+			return false;
+		}
+		
+		if((response != null) && (response.length() > 0)){
+			try{
+				mTeachReachParser.parsePartContent(new JSONObject(response), part_id);
+				
+			} catch (JSONException e){
+				e.printStackTrace();
+			}
+		}
+		
+		return true;
 	}
 
 	/**
@@ -264,7 +290,7 @@ public class TeachReachPopulater {
 	public void retrieveCourseList(){
 		mCourses = new ArrayList<Course>();
 		Cursor cursor = mTeachReachDbAdapter.fetchCourseList();
-		if(cursor != null){
+		if(cursor != null && cursor.getCount() > 0 ){ //Stops crash if first run
 			do{
 				int id = cursor.getInt(0);
 				String en = cursor.getString(1);
@@ -300,13 +326,31 @@ public class TeachReachPopulater {
 	public void retrievePartsList(int programme_id){
 		mCurrentParts = new ArrayList<Part>();
 		Cursor cursor = mTeachReachDbAdapter.fetchPartsList(programme_id);
-		if(cursor.getCount() > 0 ){//!= null){//CRASH
+		if(cursor != null && cursor.getCount() > 0 ){//CRASH
 			do{
 				int id = cursor.getInt(0);
 				String en = cursor.getString(1);
 				String fr = cursor.getString(2);
 				String es = cursor.getString(3);
 				mCurrentParts.add(new Part(id, programme_id, en, fr, es));
+			}while(cursor.moveToNext());
+		}
+	}
+	
+	/**
+	 * Get the materials from the database ready to use.
+	 * @param part_id The server's ID of the part to select materials for.
+	 */
+	public void retrieveMaterials(int part_id){
+		mMaterials = new ArrayList<Material>();
+		Cursor cursor = mTeachReachDbAdapter.fetchMaterials(part_id);
+		if(cursor != null && cursor.getCount() > 0){
+			do{
+				int id = cursor.getInt(0);
+				String en = cursor.getString(1);
+				String fr = cursor.getString(2);
+				String es = cursor.getString(3);
+				mMaterials.add(new Material(id, part_id, en, fr, es));
 			}while(cursor.moveToNext());
 		}
 	}
@@ -418,6 +462,22 @@ public class TeachReachPopulater {
 	 */
 	public ArrayList<Part> getCurrentParts() {
 		return mCurrentParts;
+	}
+	
+	/**
+	 * Get the actual list of materials for current part.
+	 * @return The list of currently selected Materials (belonging to a Part).
+	 */
+	public ArrayList<Material> getCurrentMaterials(){
+		return mMaterials;
+	}
+	
+	/**
+	 * Get the actual list of quizzes for current part.
+	 * @return The list of currently selected Quizzes (belonging to a Part).
+	 */
+	public ArrayList<Quiz> getCurrentQuizzes(){
+		return mQuizzes;
 	}
 
 }
