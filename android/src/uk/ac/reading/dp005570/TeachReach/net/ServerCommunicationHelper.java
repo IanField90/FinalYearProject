@@ -18,7 +18,7 @@ import android.util.Log;
 
 /**
  * 
- * @author ianfield
+ * @author Ian Field
  *	Allows the communication and requests from the server.
  *	Leverages the TeachReachDbAdapter class to update the database, 
  *	which allows the population of the main Menu's selection ranges.

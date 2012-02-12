@@ -10,7 +10,7 @@ import android.util.Log;
 
 /**
  * 
- * @author ianfield
+ * @author Ian Field
  *	Handles updating and creating the database on the device.
  */
 public class TeachReachDbAdapter {
@@ -139,7 +139,7 @@ public class TeachReachDbAdapter {
 	private SQLiteDatabase mDb;
 
 	/**
-	 * @author ianfield
+	 * @author Ian Field
 	 *	Handles updates and changes to the database schema
 	 */
 	private static class DatabaseHelper extends SQLiteOpenHelper{

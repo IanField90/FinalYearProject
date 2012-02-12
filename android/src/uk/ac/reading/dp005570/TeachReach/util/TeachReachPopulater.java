@@ -19,7 +19,7 @@ import android.widget.Toast;
 /**
  * Controller for populating the database and providing information to
  * views for proper population. Cursor traversal etc.
- * @author ianfield
+ * @author Ian Field
  *
  */
 public class TeachReachPopulater {

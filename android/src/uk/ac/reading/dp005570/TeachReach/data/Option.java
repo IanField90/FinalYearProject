@@ -1,7 +1,7 @@
 package uk.ac.reading.dp005570.TeachReach.data;
 /**
  * 
- * @author ianfield
+ * @author Ian Field
  *
  */
 public class Option {

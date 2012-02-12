@@ -3,7 +3,7 @@ package uk.ac.reading.dp005570.TeachReach.data;
 /**
  * Stores the information for a Part's Database entry for
  * storage within parsing a Server response
- * @author ianfield
+ * @author Ian Field
  *
  */
 public class Part {

@@ -4,12 +4,15 @@ import java.util.ArrayList;
 
 /**
  * 
- * @author ianfield
+ * @author Ian Field
  * Class to store the information for a particular question
  */
 public class Question {
-	private String mQuestionText;
-	private QuestionType mType;
+	//TODO remove unused fields and alter quiz activity to reflect this
+	private String mQuestionEN, mQuestionFR, mQuestionES;
+	private String mFeedbackEN, mFeedbackFR, mFeedbackES;
+	private int mId, mQuizId, mType;
+	private QuestionType mQType;
 	private ArrayList<String> mOptions;
 	private Boolean[] mCorrectOptions;
 	
@@ -17,28 +20,40 @@ public class Question {
 		MULTIPLE_CHOICE, BLANKS, SLIDER, ORDERING, MATCH_UP
 	}
 	
+	public Question(int id, int quiz_id, int type, String en, String fr, String es, 
+			String feedback_en, String feedback_fr, String feedback_es){
+		mId = id;
+		mQuizId = quiz_id;
+		mType = type;
+		mQuestionEN = en;
+		mQuestionFR = fr;
+		mQuestionES = es;
+		mFeedbackEN = feedback_en;
+		mFeedbackFR = feedback_fr;
+		mFeedbackES = feedback_es;
+	}
 	
 	public Question(String questionText, QuestionType type, ArrayList<String> options, Boolean[] correctOptions){
-		this.mQuestionText = questionText;
-		this.mType = type;
+		this.mQuestionEN = questionText;
+		this.mQType = type;
 		this.mOptions = options;
 		this.setCorrectOptions(correctOptions);
 	}
 	
 	public void setQuestionText(String questionText) {
-		this.mQuestionText = questionText;
+		this.mQuestionEN = questionText;
 	}
 	
 	public String getQuestionText() {
-		return mQuestionText;
+		return mQuestionEN;
 	}
 	
 	public void setType(QuestionType type) {
-		this.mType = type;
+		this.mQType = type;
 	}
 	
 	public QuestionType getType() {
-		return mType;
+		return mQType;
 	}
 	
 	public void setOptions(ArrayList<String> options) {

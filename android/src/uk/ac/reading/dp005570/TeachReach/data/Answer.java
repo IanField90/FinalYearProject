@@ -1,5 +1,10 @@
 package uk.ac.reading.dp005570.TeachReach.data;
 
+/**
+ * 
+ * @author Ian Field
+ *
+ */
 public class Answer {
 	private Integer mAnswer; //Number of the answer within the question
 	private AnswerStatus mStatus;

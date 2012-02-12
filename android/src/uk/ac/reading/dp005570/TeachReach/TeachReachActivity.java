@@ -20,7 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 /**
- * @author ianfield
+ * @author Ian Field
  *
  */
 public class TeachReachActivity extends Activity implements OnClickListener, OnItemSelectedListener{

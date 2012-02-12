@@ -51,7 +51,7 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
 
 	/**
 	 * 
-	 * @author ianfield
+	 * @author Ian Field
 	 * Class to handle custom list item display
 	 */
 	private class QuizItemAdapter extends ArrayAdapter<QuizStatus>{

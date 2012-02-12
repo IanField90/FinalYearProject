@@ -17,7 +17,7 @@ import android.util.Log;
 
 /**
  * 
- * @author ianfield
+ * @author Ian Field
  * Handles the parsing of the data retrieved from the server.
  */
 public class TeachReachParser {
@@ -203,6 +203,11 @@ public class TeachReachParser {
 		}
 	}
 
+	/**
+	 * Go through and parse all materials for a part. Add materials to the material list
+	 * @param materials The array of materials from the server
+	 * @param part_id The server's ID for the part being parsed
+	 */
 	private void parseMaterials(JSONArray materials, int part_id){
 		JSONObject material;
 		int id;
@@ -229,6 +234,11 @@ public class TeachReachParser {
 
 	}
 
+	/**
+	 * Go through and parse all quizzes for a part. Add details to quiz list.
+	 * @param quizzes The Array of quizzes from the server
+	 * @param part_id The server's ID for the part being parsed
+	 */
 	private void parseQuizzes(JSONArray quizzes, int part_id){
 		JSONObject quiz;
 		int id;
@@ -260,6 +270,12 @@ public class TeachReachParser {
 		}
 	}
 
+	/**
+	 * Go through and translate all questions relating to a quiz.
+	 * Add to total question list
+	 * @param questions Array of all question objects
+	 * @param quiz_id The Server's ID of the quiz
+	 */
 	private void parseQuestions(JSONArray questions, int quiz_id){
 		JSONObject question;
 		int id, type;
@@ -276,7 +292,7 @@ public class TeachReachParser {
 				feedback_fr = question.getString(FEEDBACK_FR);
 				feedback_es = question.getString(FEEDBACK_ES);
 				
-//				mQuestions.add(new Question(id, quiz_id, type, en, fr, es, feedback_en, feedback_fr, feedback_es));
+				mQuestions.add(new Question(id, quiz_id, type, en, fr, es, feedback_en, feedback_fr, feedback_es));
 				JSONArray options = question.getJSONArray(OPTIONS);
 				parseOptions(options, id);
 			}
@@ -300,7 +316,7 @@ public class TeachReachParser {
 				fr = option.getString(OPTION_FR);
 				es = option.getString(OPTION_ES);
 				answer = option.getBoolean(OPTION_ANSWER);
-//				mOptions.add(new Option(id, question_id, en, fr, es, answer));
+				mOptions.add(new Option(id, question_id, en, fr, es, answer));
 			}
 			catch(JSONException e){
 				e.printStackTrace();
@@ -309,69 +325,60 @@ public class TeachReachParser {
 	}
 
 
+	/**
+	 * 
+	 * @return List of all Courses
+	 */
 	public ArrayList<Course> getCourses() {
 		return mCourses;
 	}
-
-
-	public void setCourses(ArrayList<Course> courses) {
-		this.mCourses = courses;
-	}
-
-
+	
+	/**
+	 * 
+	 * @return List of all Programmes
+	 */
 	public ArrayList<Programme> getProgrammes() {
 		return mProgrammes;
 	}
-
-
-	public void setProgrammes(ArrayList<Programme> programmes) {
-		this.mProgrammes = programmes;
-	}
-
-
+	
+	/**
+	 * 
+	 * @return List of all Parts
+	 */
 	public ArrayList<Part> getParts() {
 		return mParts;
 	}
 
-
-	public void setParts(ArrayList<Part> parts) {
-		this.mParts = parts;
-	}
-
-
+	/**
+	 * 
+	 * @return List of all Materials
+	 */
 	public ArrayList<Material> getMaterials() {
 		return mMaterials;
 	}
-
-
-	public void setMaterials(ArrayList<Material> materials) {
-		this.mMaterials = materials;
-	}
-
-
+	
+	/**
+	 * 
+	 * @return List of all Materials
+	 */
 	public ArrayList<Quiz> getQuizzes() {
 		return mQuizzes;
 	}
-
-
-	public void setQuizzes(ArrayList<Quiz> quizzes) {
-		this.mQuizzes = quizzes;
-	}
-
+	
+	/**
+	 * 
+	 * @return List of all Questions
+	 */
 	public ArrayList<Question> getQuesitons(){
 		return mQuestions;
 	}
 	
-	public void setQuestions(ArrayList<Question> questions){
-		this.mQuestions = questions;
-	}
-
+	/**
+	 * 
+	 * @return List of all Options
+	 */
 	public ArrayList<Option> getOptions() {
 		return mOptions;
 	}
 
-
-	public void setOptions(ArrayList<Option> options) {
-		this.mOptions = options;
-	}
 }
