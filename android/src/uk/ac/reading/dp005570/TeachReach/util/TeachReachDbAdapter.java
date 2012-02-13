@@ -223,6 +223,40 @@ public class TeachReachDbAdapter {
 	}
 
 	/**
+	 * Retrieves the list of programmes for a given course
+	 * @param course_id The ID of the course to list programmes for.
+	 * @return list of programmes related to course
+	 */
+	public Cursor fetchProgrammesList(int course_id){
+		// Use course_id
+		Cursor cursor = mDb.query(true, PROGRAMMES, 
+				new String[] { SERVER_ID, PROGRAMME_NAME_EN, PROGRAMME_NAME_FR, PROGRAMME_NAME_ES }, 
+				COURSE_ID + "=" + course_id, null, null, null, null, null);
+		if(cursor != null){
+			cursor.moveToFirst();
+		}
+		return cursor;
+	}
+
+	/**
+	 * Fetch list of parts specific to the programme_id specified
+	 * @param programme_id Corresponding programme id to retrieve list of parts for
+	 * @return Cursor for selected parts
+	 */
+	public Cursor fetchPartsList(int programme_id){
+		// query logic with programme_id
+		// Use programme_id
+		Cursor cursor = mDb.query(true, PARTS, 
+				new String[] {SERVER_ID, PART_NAME_EN, PART_NAME_FR, PART_NAME_ES }, 
+				PROGRAMME_ID + "=" + programme_id, null, null, null, null, null);
+		if(cursor != null){
+			cursor.moveToFirst();
+		}
+		return cursor;
+	}
+	
+
+	/**
 	 * Creates or updates the database entry for a course
 	 * @param id Server's table ID
 	 * @param en English course title
@@ -247,22 +281,6 @@ public class TeachReachDbAdapter {
 	}
 
 	/**
-	 * Retrieves the list of programmes for a given course
-	 * @param course_id The ID of the course to list programmes for.
-	 * @return list of programmes related to course
-	 */
-	public Cursor fetchProgrammesList(int course_id){
-		// Use course_id
-		Cursor cursor = mDb.query(true, PROGRAMMES, 
-				new String[] { SERVER_ID, PROGRAMME_NAME_EN, PROGRAMME_NAME_FR, PROGRAMME_NAME_ES }, 
-				COURSE_ID + "=" + course_id, null, null, null, null, null);
-		if(cursor != null){
-			cursor.moveToFirst();
-		}
-		return cursor;
-	}
-
-	/**
 	 * Creates or updates the database entry for a programme
 	 * @param id Server's table ID
 	 * @param en English programme title
@@ -284,23 +302,6 @@ public class TeachReachDbAdapter {
 		}
 		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);
-	}
-
-	/**
-	 * Fetch list of parts specific to the programme_id specified
-	 * @param programme_id Corresponding programme id to retrieve list of parts for
-	 * @return Cursor for selected parts
-	 */
-	public Cursor fetchPartsList(int programme_id){
-		// query logic with programme_id
-		// Use programme_id
-		Cursor cursor = mDb.query(true, PARTS, 
-				new String[] {SERVER_ID, PART_NAME_EN, PART_NAME_FR, PART_NAME_ES }, 
-				PROGRAMME_ID + "=" + programme_id, null, null, null, null, null);
-		if(cursor != null){
-			cursor.moveToFirst();
-		}
-		return cursor;
 	}
 
 	/**

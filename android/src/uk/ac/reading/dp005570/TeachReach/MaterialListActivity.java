@@ -36,8 +36,10 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 		Log.i(TAG, "Part ID: " + mPartId);
 		if(mPartId != 0){
 			mTeachReachPopulater.retrieveMaterials(mPartId);
+			
 			if(mTeachReachPopulater.getCurrentMaterials().size() > 0){
 				mMaterials = new String[mTeachReachPopulater.getCurrentMaterials().size()];
+				
 				for(int i = 0; i < mTeachReachPopulater.getCurrentMaterials().size(); i++){
 					mMaterials[i] = getString(R.string.material) + " " + (i+1);
 				}

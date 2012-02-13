@@ -93,6 +93,10 @@ public class TeachReachPopulater {
 		if((response != null) && (response.length() > 0)){
 			try{
 				mTeachReachParser.parsePartContent(new JSONArray(response), part_id);
+				mMaterials = mTeachReachParser.getMaterials();
+				mQuizzes = mTeachReachParser.getQuizzes();
+				mQuestions = mTeachReachParser.getQuesitons();
+				mOptions = mTeachReachParser.getOptions();
 				updateMaterials();
 				updateQuizzes();
 				updateQuestions();

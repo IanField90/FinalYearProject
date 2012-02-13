@@ -195,8 +195,8 @@ public class TeachReachParser {
 		//TODO triple layered parse.	
 		try {
 			JSONObject object = jsonArray.getJSONObject(0);
-			JSONArray quizzes = object.getJSONArray(QUIZZES);
 			JSONArray materials = object.getJSONArray(MATERIALS);
+			JSONArray quizzes = object.getJSONArray(QUIZZES);
 			parseMaterials(materials, part_id);
 			parseQuizzes(quizzes, part_id);
 		} catch (JSONException e) {
@@ -213,6 +213,7 @@ public class TeachReachParser {
 		JSONObject material;
 		int id;
 		String en, fr, es;
+		Log.i(TAG, "Parsing materials.");
 		for (int i = 0; i < materials.length(); i++){
 			try{
 				material = materials.getJSONObject(i);
@@ -221,17 +222,19 @@ public class TeachReachParser {
 				fr = material.getString(MATERIAL_FR);
 				es = material.getString(MATERIAL_ES);
 				Log.i(TAG, material.toString());
-				Log.i(TAG, "ID: " + id);
-				Log.i(TAG, "EN: " + en);
-				Log.i(TAG, "FR: " + fr);
-				Log.i(TAG, "ES: " + es);
-				Log.i(TAG, "Part ID: " + part_id);
+				Log.i(TAG, "Material ID: " + id);
+				Log.i(TAG, "Material EN: " + en);
+				Log.i(TAG, "Material FR: " + fr);
+				Log.i(TAG, "Material ES: " + es);
+				Log.i(TAG, "Material Part ID: " + part_id);
 				mMaterials.add(new Material(id, part_id, en, fr, es));
+				Log.i(TAG, "Number of materials: " + mMaterials.size());
 			}
 			catch(JSONException e){
 				e.printStackTrace();
 			}
 		}
+		Log.i(TAG, "Finished parsing materials.");
 
 	}
 
@@ -260,7 +263,7 @@ public class TeachReachParser {
 				Log.i(TAG, "Published: " + published);
 				Log.i(TAG, "Part ID: " + part_id);
 
-				//	mQuizzes.add(new Quiz());
+				mQuizzes.add(new Quiz(id, part_id, en, fr, es));
 				JSONArray questions = quiz.getJSONArray(QUESTIONS);
 				parseQuestions(questions, id);
 
