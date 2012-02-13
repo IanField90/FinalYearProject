@@ -68,7 +68,6 @@ public class TeachReachDbAdapter {
 	/**
 	 * Database creation statements
 	 */
-	// TODO funky logic to maintain server_id in query
 	// creation strings here	
 	private static final String TABLE_COURSES = "CREATE TABLE Courses(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
@@ -338,8 +337,7 @@ public class TeachReachDbAdapter {
 	 */
 	public void createMaterial(int id, int part_id, String en, String fr,
 			String es) {
-		//TODO make sure this is correct
-		Cursor cursor = mDb.rawQuery("SELECT * FROM materials WHERE server_id=?", new String[] { ""+id });
+		Cursor cursor = mDb.rawQuery("SELECT * FROM " + MATERIALS + " WHERE server_id=?", new String[] { ""+id });
 		String statement;
 		if(cursor.getCount() == 0){
 			//insert
@@ -347,8 +345,8 @@ public class TeachReachDbAdapter {
 					", '" + en + "', '" + fr + "', '" + es + "')";
 		}else{
 			//update
-			statement = "UPDATE " + PARTS + " SET " + PART_NAME_EN + "='" + en + "', " +
-					PART_NAME_FR + "='" + fr + "', " + PART_NAME_ES + "='" + es + "'" +
+			statement = "UPDATE " + MATERIALS + " SET " + MATERIAL_EN + "='" + en + "', " +
+					MATERIAL_FR + "='" + fr + "', " + MATERIAL_ES + "='" + es + "'" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
 		Log.i(TAG, "Statement: " + statement);
@@ -364,17 +362,16 @@ public class TeachReachDbAdapter {
 	 * @param es Spanish quiz title
 	 */
 	public void createQuiz(int id, int part_id, String en, String fr, String es) {
-		//TODO make sure this is correct
-		Cursor cursor = mDb.rawQuery("SELECT * FROM materials WHERE server_id=?", new String[] { ""+id });
+		Cursor cursor = mDb.rawQuery("SELECT * FROM " + QUIZZES + " WHERE server_id=?", new String[] { ""+id });
 		String statement;
 		if(cursor.getCount() == 0){
 			//insert
-			statement = "INSERT INTO " + MATERIALS + " VALUES( null, " + id + ", " + part_id +
+			statement = "INSERT INTO " + QUIZZES + " VALUES( null, " + id + ", " + part_id +
 					", '" + en + "', '" + fr + "', '" + es + "')";
 		}else{
 			//update
-			statement = "UPDATE " + PARTS + " SET " + PART_NAME_EN + "='" + en + "', " +
-					PART_NAME_FR + "='" + fr + "', " + PART_NAME_ES + "='" + es + "'" +
+			statement = "UPDATE " + QUIZZES + " SET " + QUIZ_TITLE_EN + "='" + en + "', " +
+					QUIZ_TITLE_FR + "='" + fr + "', " + QUIZ_TITLE_ES + "='" + es + "'" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
 		Log.i(TAG, "Statement: " + statement);
@@ -393,18 +390,20 @@ public class TeachReachDbAdapter {
 	 * @param feedbackES Spanish feedback
 	 */
 	public void createQuestion(int id, int quiz_id, String en, String fr,
-			String es, String feedbackEN, String feedbackFR, String feedbackES) {
-		//TODO make sure this is correct
-		Cursor cursor = mDb.rawQuery("SELECT * FROM materials WHERE server_id=?", new String[] { ""+id });
+			String es, String feedback_en, String feedback_fr, String feedback_es) {
+		Cursor cursor = mDb.rawQuery("SELECT * FROM " + QUESTIONS + " WHERE server_id=?", new String[] { ""+id });
 		String statement;
 		if(cursor.getCount() == 0){
 			//insert
-			statement = "INSERT INTO " + MATERIALS + " VALUES( null, " + id + ", " + quiz_id +
-					", '" + en + "', '" + fr + "', '" + es + "')";
+			statement = "INSERT INTO " + QUESTIONS + " VALUES( null, " + id + ", " + quiz_id +
+					", '" + en + "', '" + fr + "', '" + es + "', '" + feedback_en + 
+					"', '" + feedback_fr + "', '" + feedback_es + "')";
 		}else{
 			//update
-			statement = "UPDATE " + PARTS + " SET " + PART_NAME_EN + "='" + en + "', " +
-					PART_NAME_FR + "='" + fr + "', " + PART_NAME_ES + "='" + es + "'" +
+			statement = "UPDATE " + QUESTIONS + " SET " + QUESTION_EN + "='" + en + "', " +
+					QUESTION_FR + "='" + fr + "', " + QUESTION_ES + "='" + es + "'" +
+					FEEDBACK_EN + "='" + feedback_en + "', " + FEEDBACK_FR + "='" + 
+					feedback_fr + "', " + FEEDBACK_ES + "='" + feedback_es + "' "+
 					" WHERE " + SERVER_ID +"=" + id;
 		}
 		Log.i(TAG, "Statement: " + statement);
@@ -422,17 +421,18 @@ public class TeachReachDbAdapter {
 	 */
 	public void createOption(int id, int question_id, String en, String fr,
 			String es, Boolean answer) {
-		//TODO make sure this is correct
-		Cursor cursor = mDb.rawQuery("SELECT * FROM materials WHERE server_id=?", new String[] { ""+id });
+		//TODO verify how booleans are added
+		Cursor cursor = mDb.rawQuery("SELECT * FROM " + OPTIONS + " WHERE server_id=?", new String[] { ""+id });
 		String statement;
 		if(cursor.getCount() == 0){
 			//insert
-			statement = "INSERT INTO " + MATERIALS + " VALUES( null, " + id + ", " + question_id +
-					", '" + en + "', '" + fr + "', '" + es + "')";
+			statement = "INSERT INTO " + OPTIONS + " VALUES( null, " + id + ", " + question_id +
+					", '" + en + "', '" + fr + "', '" + es + "', '" + answer + "')";
 		}else{
 			//update
-			statement = "UPDATE " + PARTS + " SET " + PART_NAME_EN + "='" + en + "', " +
-					PART_NAME_FR + "='" + fr + "', " + PART_NAME_ES + "='" + es + "'" +
+			statement = "UPDATE " + OPTIONS + " SET " + OPTION_EN + "='" + en + "', " +
+					OPTION_FR + "='" + fr + "', " + OPTION_ES + "='" + es + "'" +
+					OPTION_ANSWER + "='" + answer +"'" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
 		Log.i(TAG, "Statement: " + statement);
