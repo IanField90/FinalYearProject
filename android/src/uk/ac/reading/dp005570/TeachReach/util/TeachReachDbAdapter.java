@@ -329,6 +329,117 @@ public class TeachReachDbAdapter {
 	}
 	
 	/**
+	 * Creates or updates the database entry for a material
+	 * @param id Server's table ID
+	 * @param part_id Server's Part ID
+	 * @param en English material
+	 * @param fr French material
+	 * @param es Spanish material
+	 */
+	public void createMaterial(int id, int part_id, String en, String fr,
+			String es) {
+		//TODO make sure this is correct
+		Cursor cursor = mDb.rawQuery("SELECT * FROM materials WHERE server_id=?", new String[] { ""+id });
+		String statement;
+		if(cursor.getCount() == 0){
+			//insert
+			statement = "INSERT INTO " + MATERIALS + " VALUES( null, " + id + ", " + part_id +
+					", '" + en + "', '" + fr + "', '" + es + "')";
+		}else{
+			//update
+			statement = "UPDATE " + PARTS + " SET " + PART_NAME_EN + "='" + en + "', " +
+					PART_NAME_FR + "='" + fr + "', " + PART_NAME_ES + "='" + es + "'" +
+					" WHERE " + SERVER_ID +"=" + id;
+		}
+		Log.i(TAG, "Statement: " + statement);
+		mDb.execSQL(statement);
+	}
+
+	/**
+	 * Creates or updates the database entry for a quiz
+	 * @param id Server's table ID
+	 * @param part_id Server's Part ID
+	 * @param en English quiz title
+	 * @param fr French quiz title
+	 * @param es Spanish quiz title
+	 */
+	public void createQuiz(int id, int part_id, String en, String fr, String es) {
+		//TODO make sure this is correct
+		Cursor cursor = mDb.rawQuery("SELECT * FROM materials WHERE server_id=?", new String[] { ""+id });
+		String statement;
+		if(cursor.getCount() == 0){
+			//insert
+			statement = "INSERT INTO " + MATERIALS + " VALUES( null, " + id + ", " + part_id +
+					", '" + en + "', '" + fr + "', '" + es + "')";
+		}else{
+			//update
+			statement = "UPDATE " + PARTS + " SET " + PART_NAME_EN + "='" + en + "', " +
+					PART_NAME_FR + "='" + fr + "', " + PART_NAME_ES + "='" + es + "'" +
+					" WHERE " + SERVER_ID +"=" + id;
+		}
+		Log.i(TAG, "Statement: " + statement);
+		mDb.execSQL(statement);
+	}
+
+	/**
+	 * Creates or updates the database entry for a question
+	 * @param id Server's table ID
+	 * @param quiz_id Server's question ID
+	 * @param en English question
+	 * @param fr French question
+	 * @param es Spanish question
+	 * @param feedbackEN English feedback
+	 * @param feedbackFR French feedback
+	 * @param feedbackES Spanish feedback
+	 */
+	public void createQuestion(int id, int quiz_id, String en, String fr,
+			String es, String feedbackEN, String feedbackFR, String feedbackES) {
+		//TODO make sure this is correct
+		Cursor cursor = mDb.rawQuery("SELECT * FROM materials WHERE server_id=?", new String[] { ""+id });
+		String statement;
+		if(cursor.getCount() == 0){
+			//insert
+			statement = "INSERT INTO " + MATERIALS + " VALUES( null, " + id + ", " + quiz_id +
+					", '" + en + "', '" + fr + "', '" + es + "')";
+		}else{
+			//update
+			statement = "UPDATE " + PARTS + " SET " + PART_NAME_EN + "='" + en + "', " +
+					PART_NAME_FR + "='" + fr + "', " + PART_NAME_ES + "='" + es + "'" +
+					" WHERE " + SERVER_ID +"=" + id;
+		}
+		Log.i(TAG, "Statement: " + statement);
+		mDb.execSQL(statement);
+	}
+
+	/**
+	 * Creates or updates the database entry for an option
+	 * @param id Server's table ID
+	 * @param question_id Server's question ID
+	 * @param en English option
+	 * @param fr French option
+	 * @param es Spanish option
+	 * @param answer Whether the option is the answer to the question
+	 */
+	public void createOption(int id, int question_id, String en, String fr,
+			String es, Boolean answer) {
+		//TODO make sure this is correct
+		Cursor cursor = mDb.rawQuery("SELECT * FROM materials WHERE server_id=?", new String[] { ""+id });
+		String statement;
+		if(cursor.getCount() == 0){
+			//insert
+			statement = "INSERT INTO " + MATERIALS + " VALUES( null, " + id + ", " + question_id +
+					", '" + en + "', '" + fr + "', '" + es + "')";
+		}else{
+			//update
+			statement = "UPDATE " + PARTS + " SET " + PART_NAME_EN + "='" + en + "', " +
+					PART_NAME_FR + "='" + fr + "', " + PART_NAME_ES + "='" + es + "'" +
+					" WHERE " + SERVER_ID +"=" + id;
+		}
+		Log.i(TAG, "Statement: " + statement);
+		mDb.execSQL(statement);		
+	}
+	
+	/**
 	 * Retrieves the details for a quiz
 	 * @param part_id The server's Part ID the quiz belongs to
 	 * @return All quizzes belonging to a given Part.
@@ -374,7 +485,7 @@ public class TeachReachDbAdapter {
 	}
 
 	/**
-	 * Retrievs all materials for a Part
+	 * Retrieves all materials for a Part
 	 * @param part_id The server's Part ID the materials belong to
 	 * @return All materials belonging to a given Part
 	 */
@@ -386,29 +497,6 @@ public class TeachReachDbAdapter {
 			cursor.moveToFirst();
 		}
 		return cursor;
-	}
-
-	public void createMaterial(int id, int partId, String en, String fr,
-			String es) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void createQuiz(int id, int partId, String en, String fr, String es) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void createQuestion(int id, int quizId, String en, String fr,
-			String es, String feedbackEN, String feedbackFR, String feedbackES) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void createOption(int id, int questionId, String en, String fr,
-			String es, Boolean answer) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
