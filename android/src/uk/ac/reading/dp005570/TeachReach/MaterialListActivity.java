@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,7 +22,8 @@ import android.widget.Toast;
  *
  */
 public class MaterialListActivity extends ListActivity implements OnItemClickListener {
-	static final String[] materials = new String[] { "Introduction", "Material 2" };
+	private String[] mMaterials;
+	private final String TAG = "MaterialListActivity";
 	private TeachReachPopulater mTeachReachPopulater;
 	private int mPartId;
 
@@ -29,24 +31,35 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.material_list);
-		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
-		//TODO handle more lifecycle events for DB.
-		
-//		mPartId = getIntent().getIntExtra("PART_ID", 0);// TODO handle properly
-		
-		setListAdapter(new ArrayAdapter<String>(this, R.layout.material_item, materials));
-		ListView lv = getListView();
-		//Allows user typing to navigate through list bad for backtracing
-		//lv.setTextFilterEnabled(true);
-		lv.setOnItemClickListener(this); 
-		
+		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());		
+		mPartId = getIntent().getIntExtra(TeachReachActivity.PART_ID, 0);// TODO handle properly
+		Log.i(TAG, "Part ID: " + mPartId);
+		if(mPartId != 0){
+			mTeachReachPopulater.retrieveMaterials(mPartId);
+			if(mTeachReachPopulater.getCurrentMaterials().size() > 0){
+				mMaterials = new String[mTeachReachPopulater.getCurrentMaterials().size()];
+				for(int i = 0; i < mTeachReachPopulater.getCurrentMaterials().size(); i++){
+					mMaterials[i] = getString(R.string.material) + " " + (i+1);
+				}
+				
+				setListAdapter(new ArrayAdapter<String>(this, R.layout.material_item, mMaterials));
+				ListView lv = getListView();
+				//Allows user typing to navigate through list bad for backtracing
+				//lv.setTextFilterEnabled(true);
+				lv.setOnItemClickListener(this); 
+			}
+			else{
+				Toast.makeText(this.getApplicationContext(), getString(R.string.material_apology), Toast.LENGTH_LONG).show();
+			}
+		}
 	}
 
 //	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// When a quiz item is clicked
 		Intent intent = new Intent(this, MaterialActivity.class);
-		//TODO intent.setData once content provider is set up
+		intent.putExtra(TeachReachActivity.PART_ID, mPartId);
+//		intent.putExtra(TeachReachActivity.MATERIAL_ID, value); //TODO Add material id
 		startActivity(intent);
 	}
 	

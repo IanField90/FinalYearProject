@@ -132,6 +132,7 @@ public class TeachReachDbAdapter {
 	private static final String TABLE_MATERIALS = "CREATE TABLE Materials(\n" +
 			"   _id INTEGER NOT NULL,\n" +
 			"   server_id INTEGER, \n" +
+			"   part_id INTEGER, \n" +
 			"   material_en VARCHAR(1000), \n" +
 			"	material_fr VARCHAR(1000), \n" +
 			"	material_es VARCHAR(1000), \n" +
@@ -139,7 +140,7 @@ public class TeachReachDbAdapter {
 			");";
 	
 	private static final String DATABASE_NAME = "teachreachdb";
-	private static final int DATABASE_VERSION = 8;
+	private static final int DATABASE_VERSION = 9;
 
 	private final Context mCtx;
 	private DatabaseHelper mDbHelper;
@@ -385,6 +386,29 @@ public class TeachReachDbAdapter {
 			cursor.moveToFirst();
 		}
 		return cursor;
+	}
+
+	public void createMaterial(int id, int partId, String en, String fr,
+			String es) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void createQuiz(int id, int partId, String en, String fr, String es) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void createQuestion(int id, int quizId, String en, String fr,
+			String es, String feedbackEN, String feedbackFR, String feedbackES) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void createOption(int id, int questionId, String en, String fr,
+			String es, Boolean answer) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

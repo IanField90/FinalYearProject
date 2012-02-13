@@ -28,4 +28,9 @@
     <string name="please_wait">Please wait...</string>
     <string name="server_retrieval">Retrieving data...</string>
     <string name="server_error">Couldn\'t connect to server</string>
+    
+    <string name="material_apology">Sorry, no materials available.</string>
+    <string name="quiz_apology">Sorry, no quizzes available.</string>
+    <string name="material">Material: </string>
+    
 </resources>

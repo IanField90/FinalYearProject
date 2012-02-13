@@ -189,13 +189,14 @@ public class TeachReachParser {
 	 * Actually get all the information from a part. That is to say that the
 	 * full quiz(questions -> options -> feedback), material should be parsed and
 	 * added locally to the database
-	 * @param part The array containing all information for a particular part.
+	 * @param jsonArray The array containing all information for a particular part.
 	 */
-	public void parsePartContent(JSONObject part, int part_id){
+	public void parsePartContent(JSONArray jsonArray, int part_id){
 		//TODO triple layered parse.	
 		try {
-			JSONArray quizzes = part.getJSONArray(QUIZZES);
-			JSONArray materials = part.getJSONArray(MATERIALS);
+			JSONObject object = jsonArray.getJSONObject(0);
+			JSONArray quizzes = object.getJSONArray(QUIZZES);
+			JSONArray materials = object.getJSONArray(MATERIALS);
 			parseMaterials(materials, part_id);
 			parseQuizzes(quizzes, part_id);
 		} catch (JSONException e) {
@@ -278,7 +279,7 @@ public class TeachReachParser {
 	 */
 	private void parseQuestions(JSONArray questions, int quiz_id){
 		JSONObject question;
-		int id, type;
+		int id = 0, type = 0;
 		String en, fr, es, feedback_en, feedback_fr, feedback_es;
 		for (int i = 0; i < questions.length(); i++){
 			try{
@@ -292,6 +293,7 @@ public class TeachReachParser {
 				feedback_fr = question.getString(FEEDBACK_FR);
 				feedback_es = question.getString(FEEDBACK_ES);
 				
+				//May be skipped if a field is empty - Warning error in log
 				mQuestions.add(new Question(id, quiz_id, type, en, fr, es, feedback_en, feedback_fr, feedback_es));
 				JSONArray options = question.getJSONArray(OPTIONS);
 				parseOptions(options, id);

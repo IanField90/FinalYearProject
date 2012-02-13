@@ -5,7 +5,6 @@ import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import uk.ac.reading.dp005570.TeachReach.data.Course;
 import uk.ac.reading.dp005570.TeachReach.data.Material;
@@ -93,13 +92,16 @@ public class TeachReachPopulater {
 		
 		if((response != null) && (response.length() > 0)){
 			try{
-				mTeachReachParser.parsePartContent(new JSONObject(response), part_id);
-				
+				mTeachReachParser.parsePartContent(new JSONArray(response), part_id);
+				updateMaterials();
+				updateQuizzes();
+				updateQuestions();
+				updateOptions();
 			} catch (JSONException e){
 				e.printStackTrace();
 			}
 		}
-		
+		dialog.dismiss();
 		return true;
 	}
 
@@ -445,6 +447,51 @@ public class TeachReachPopulater {
 		for(Part part : mParts){
 			mTeachReachDbAdapter.createPart(part.getId(), part.getProgrammeID(), 
 					part.getEN(), part.getFR(), part.getES());
+		}
+	}
+	
+	/**
+	 * Update the database with each Material retrieved from the parser
+	 */
+	private void updateMaterials(){
+		Log.i(TAG, "Number of Materials: " + mMaterials.size());
+		for(Material material : mMaterials){
+			mTeachReachDbAdapter.createMaterial(material.getId(), material.getPartId(),
+					material.getEN(), material.getFR(), material.getES());
+		}
+	}
+	
+	/**
+	 * Update the database with each Quiz retrieved from the parser
+	 */
+	private void updateQuizzes(){
+		Log.i(TAG, "Number of Quizzes: " + mQuizzes.size());
+		for(Quiz quiz : mQuizzes){
+			mTeachReachDbAdapter.createQuiz(quiz.getId(), quiz.getPartId(), 
+					quiz.getEN(), quiz.getFR(), quiz.getES());
+		}
+	}
+	
+	/**
+	 * Update the database with each Question retrieved from the parser
+	 */
+	private void updateQuestions(){
+		Log.i(TAG, "Number of Questions: " + mQuestions.size());
+		for(Question question : mQuestions){
+			mTeachReachDbAdapter.createQuestion(question.getId(), question.getQuizId(),
+					question.getEN(), question.getFR(), question.getES(), 
+					question.getFeedbackEN(), question.getFeedbackFR(), question.getFeedbackES());
+		}
+	}
+	
+	/**
+	 * Update the database with each Option retrieved from the parser
+	 */
+	private void updateOptions(){
+		Log.i(TAG, "Number of Optoins: " + mOptions.size());
+		for(Option option : mOptions){
+			mTeachReachDbAdapter.createOption(option.getId(), option.getQuestionId(),
+					option.getEN(), option.getFR(), option.getES(), option.isAnswer());
 		}
 	}
 

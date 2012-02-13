@@ -39,7 +39,7 @@ public class ServerCommunicationHelper {
 	private final String SERVER_ADDRESS = "http://10.0.2.2:3000/"; //Default emulator server address
 	private final String REST_ENDING = ".json";
 	private final String REST_COURSES = "courses" + REST_ENDING;
-	private final String REST_PART = "part/";
+	private final String REST_PART = "parts/";
 
 	/**
 	 * 

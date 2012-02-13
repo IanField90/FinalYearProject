@@ -160,15 +160,13 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     		saveSettings();
         	//Create an intent and start activity
         	i = new Intent(this, QuizListActivity.class);
-//    		mTeachReachPopulator.getCurrentParts().get(mPartSpinner.getSelectedItemPosition()).getID();
-        	i.putExtra(PART_ID, mPartSpinner.getSelectedItemPosition()+1); //TODO use actual partID here instead
+        	i.putExtra(PART_ID, mSelectedPartId); // use actual partID here
         	startActivity(i);
     	}
     	else if(v == findViewById(R.id.view_materials_button)){
     		saveSettings();
     		i = new Intent(this, MaterialListActivity.class);
-//    		mParts.get(mPartSpinner.getSelectedItemPosition())
-        	i.putExtra(PART_ID, mPartSpinner.getSelectedItemPosition()+1); //TODO use actual partID here instead
+        	i.putExtra(PART_ID, mSelectedPartId); // use actual partID here
         	startActivity(i);
     	}
     }
@@ -232,8 +230,8 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 			updatePartSpinner();
 		}
 		else if(parent == mPartSpinner){
-			Log.i(TAG, "Parts Spinner changed.");
 			mSelectedPartId = mTeachReachPopulater.getCurrentParts().get(position).getId();
+			Log.i(TAG, "Parts Spinner changed. ID: " + mSelectedPartId);
 		}
 		
 	}
