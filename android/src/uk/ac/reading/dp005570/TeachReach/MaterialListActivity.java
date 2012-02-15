@@ -61,7 +61,11 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 		// When a quiz item is clicked
 		Intent intent = new Intent(this, MaterialActivity.class);
 		intent.putExtra(TeachReachActivity.PART_ID, mPartId);
-//		intent.putExtra(TeachReachActivity.MATERIAL_ID, value); //TODO Add material id
+		intent.putExtra("Material_Content_EN", mTeachReachPopulater.getCurrentMaterials().get(position).getEN());
+		intent.putExtra("Material_Content_FR", mTeachReachPopulater.getCurrentMaterials().get(position).getFR());
+		intent.putExtra("Material_Content_ES", mTeachReachPopulater.getCurrentMaterials().get(position).getES());
+		intent.putExtra("Material_title", mMaterials[position]);
+		intent.putExtra(TeachReachActivity.MATERIAL_ID, mTeachReachPopulater.getCurrentMaterials().get(position).getId()); // Add material id
 		startActivity(intent);
 	}
 	
