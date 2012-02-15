@@ -241,46 +241,6 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	}
 
 //	@Override
-//	public boolean onCreateOptionsMenu(Menu menu){
-//		MenuInflater mi = getMenuInflater();
-//		mi.inflate(R.menu.quiz_menu, menu);
-//		return true;
-//	}
-//
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		// Handle item selection
-//		switch (item.getItemId()) {
-//		case R.id.previous:
-//			if(mQuestionNumber > 1){
-//				mQuestionNumber--;
-//				mQuestionProgress.setText(mQuestionNumber + " / " + mNumberOfQuestions);
-//				mLl.removeAllViews();
-//				loadQuestion(mQuiz.get(mQuestionNumber-1));
-//				return true;
-//			}
-//			else{
-//				return false;
-//			}
-//		case R.id.next:
-//			if(mQuestionNumber < mNumberOfQuestions){
-//				mQuestionNumber++;
-//				mQuestionProgress.setText(mQuestionNumber + " / " + mNumberOfQuestions);
-//				mLl.removeAllViews();
-//				loadQuestion(mQuiz.get(mQuestionNumber-1));
-//				return true;
-//			}else {
-//				// Load final results screen
-//				Intent intent = new Intent(this, QuizResultsActivity.class);
-//				startActivity(intent);
-//				return false;
-//			}
-//		default:
-//			return super.onOptionsItemSelected(item);
-//		}
-//	}
-
-//	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
 		Question current_question = mQuiz.get(mQuestionNumber-1);
