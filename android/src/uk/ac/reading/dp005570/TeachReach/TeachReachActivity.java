@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,7 +30,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	private String[] mPartItems;
 	
 	//TODO Boolean flag for seeing if DB is open already or not?
-	private final String TAG = "TeachReachActivity";
+//	private final String TAG = "TeachReachActivity";
 	
 	//Fields to be used in the settings file
 	public static final String PREFS_NAME = "TeachReachSettings";
@@ -102,10 +101,9 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     	mSelectedCourseId = settings.getInt(COURSE_ID, 0);
     	mSelectedProgrammeId = settings.getInt(PROGRAMME_ID, 0);
     	mSelectedPartId = settings.getInt(PART_ID, 0);
-    	
-    	Log.i(TAG, "Saved course ID: " + mSelectedCourseId);
-    	Log.i(TAG, "Saved programme ID: " + mSelectedProgrammeId);
-    	Log.i(TAG, "Saved part ID: " + mSelectedPartId);
+//    	Log.i(TAG, "Saved course ID: " + mSelectedCourseId);
+//    	Log.i(TAG, "Saved programme ID: " + mSelectedProgrammeId);
+//    	Log.i(TAG, "Saved part ID: " + mSelectedPartId);
     }
     
     /**
@@ -154,7 +152,9 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	}
 	
 	
-	
+	/**
+	 * Onclick of a button
+	 */
     public void onClick(View v) {
     	Intent i;
     	if(v == findViewById(R.id.view_quizzes_button)){
@@ -172,6 +172,9 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     	}
     }
     
+    /**
+     * Create the options menu
+     */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
 		MenuInflater mi = getMenuInflater();
@@ -179,6 +182,9 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 		return true;
 	}
 	
+	/**
+	 * Handle an options menu item selection
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -209,10 +215,13 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 		}
 	
 	}
-
+	
+	/**
+	 * Handle selection of a spinner item
+	 */
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		if(parent == mCourseSpinner){
-			Log.i(TAG, "Courses Spinner changed.");
+//			Log.i(TAG, "Courses Spinner changed.");
 			mSelectedCourseId = mTeachReachPopulater.getCourseList().get(position).getId();
 			updateProgrammeSpinner();
 			if(mTeachReachPopulater.getCurrentProgrammes().size() > 0) {
@@ -226,17 +235,20 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 
 		}
 		else if(parent == mProgrammeSpinner){
-			Log.i(TAG, "Programmes Spinner changed.");
+//			Log.i(TAG, "Programmes Spinner changed.");
 			mSelectedProgrammeId = mTeachReachPopulater.getCurrentProgrammes().get(position).getId();
 			updatePartSpinner();
 		}
 		else if(parent == mPartSpinner){
 			mSelectedPartId = mTeachReachPopulater.getCurrentParts().get(position).getId();
-			Log.i(TAG, "Parts Spinner changed. ID: " + mSelectedPartId);
+//			Log.i(TAG, "Parts Spinner changed. ID: " + mSelectedPartId);
 		}
 		
 	}
 	
+	/**
+	 * Redraw the course spinner
+	 */
 	private void updateCourseSpinner(){
 		mCourseItems = mTeachReachPopulater.getCourses();
         ArrayAdapter<String> course_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mCourseItems);
@@ -245,6 +257,9 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
         mCourseSpinner.setOnItemSelectedListener(this);
 	}
 	
+	/**
+	 * Redraw the Programme spinner based on selected course
+	 */
 	private void updateProgrammeSpinner(){
 		// update programme spinner to reflect this change
 		mProgrammeItems = mTeachReachPopulater.getProgrammes(mSelectedCourseId);
@@ -253,6 +268,9 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
         mProgrammeSpinner.setAdapter(programme_adapter);
 	}
 	
+	/**
+	 * Redraw the part spinner based on selected programme
+	 */
 	private void updatePartSpinner(){
 		// update part spinner to reflect this change
 		mPartItems = mTeachReachPopulater.getParts(mSelectedProgrammeId);
@@ -260,7 +278,10 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 		part_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		mPartSpinner.setAdapter(part_adapter);
 	}
-
+	
+	/**
+	 * Unused
+	 */
 	public void onNothingSelected(AdapterView<?> parent) {
 		
 	}

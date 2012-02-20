@@ -17,7 +17,6 @@ import uk.ac.reading.dp005570.TeachReach.net.ServerCommunicationHelper;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 /**
  * Controller for populating the database and providing information to
@@ -25,7 +24,7 @@ import android.util.Log;
  * @author Ian Field
  */
 public class TeachReachPopulater {
-	private final String TAG = "POPULATER";
+//	private final String TAG = "POPULATER";
 	private TeachReachParser mTeachReachParser;
 	private TeachReachDbAdapter mTeachReachDbAdapter;
 	private ServerCommunicationHelper mServerCommunicationHelper;
@@ -119,7 +118,7 @@ public class TeachReachPopulater {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		Cursor cursor = mTeachReachDbAdapter.fetchCourseList();
 		if(cursor == null){
-			Log.i(TAG, "Courses cursor empty.");
+//			Log.i(TAG, "Courses cursor empty.");
 		}
 		else{
 			//Can traverse through content
@@ -146,10 +145,10 @@ public class TeachReachPopulater {
 		ArrayList<Programme> programmes = new ArrayList<Programme>();
 		Cursor cursor = mTeachReachDbAdapter.fetchProgrammesList(course_id);
 		if (cursor == null){
-			Log.i(TAG, "Programmes cursor empty.");
+//			Log.i(TAG, "Programmes cursor empty.");
 		}
 		else if(cursor.getCount() == 0){
-			Log.i(TAG, "Programme count is zero.");
+//			Log.i(TAG, "Programme count is zero.");
 		}
 		else{
 			//Can traverse through content
@@ -176,7 +175,7 @@ public class TeachReachPopulater {
 		ArrayList<Part> parts = new ArrayList<Part>();
 		Cursor cursor = mTeachReachDbAdapter.fetchPartsList(programme_id);
 		if (cursor == null){
-			Log.i(TAG, "Parts cursor empty.");
+//			Log.i(TAG, "Parts cursor empty.");
 		}
 		else{
 			//Can traverse through content
@@ -425,7 +424,7 @@ public class TeachReachPopulater {
 	 * Update the database with each Course retrieved from the parser
 	 */
 	private void updateCourses(){
-		Log.i(TAG, "Number of courses: " + mCourses.size());
+//		Log.i(TAG, "Number of courses: " + mCourses.size());
 		for(Course course : mCourses){
 			mTeachReachDbAdapter.createCourse(course.getId(), course.getEN(), course.getFR(), course.getES());
 		}
@@ -435,7 +434,7 @@ public class TeachReachPopulater {
 	 * Update the database with each Programme retrieved from the parser
 	 */
 	private void updateProgrammes(){
-		Log.i(TAG, "Number of programmes: " + mProgrammes.size());
+//		Log.i(TAG, "Number of programmes: " + mProgrammes.size());
 		for(Programme programme : mProgrammes){
 			mTeachReachDbAdapter.createProgramme(programme.getId(), programme.getCourseID(), 
 					programme.getEN(), programme.getFR(), programme.getES());
@@ -447,7 +446,7 @@ public class TeachReachPopulater {
 	 * Update the database with each Part retrieved from the parser
 	 */
 	private void updateParts(){
-		Log.i(TAG, "Number of parts: " + mParts.size());
+//		Log.i(TAG, "Number of parts: " + mParts.size());
 		for(Part part : mParts){
 			mTeachReachDbAdapter.createPart(part.getId(), part.getProgrammeID(), 
 					part.getEN(), part.getFR(), part.getES());
@@ -458,7 +457,7 @@ public class TeachReachPopulater {
 	 * Update the database with each Material retrieved from the parser
 	 */
 	private void updateMaterials(){
-		Log.i(TAG, "Number of Materials: " + mMaterials.size());
+//		Log.i(TAG, "Number of Materials: " + mMaterials.size());
 		for(Material material : mMaterials){
 			mTeachReachDbAdapter.createMaterial(material.getId(), material.getPartId(),
 					material.getEN(), material.getFR(), material.getES());
@@ -469,7 +468,7 @@ public class TeachReachPopulater {
 	 * Update the database with each Quiz retrieved from the parser
 	 */
 	private void updateQuizzes(){
-		Log.i(TAG, "Number of Quizzes: " + mQuizzes.size());
+//		Log.i(TAG, "Number of Quizzes: " + mQuizzes.size());
 		for(Quiz quiz : mQuizzes){
 			mTeachReachDbAdapter.createQuiz(quiz.getId(), quiz.getPartId(), 
 					quiz.getEN(), quiz.getFR(), quiz.getES());
@@ -480,7 +479,7 @@ public class TeachReachPopulater {
 	 * Update the database with each Question retrieved from the parser
 	 */
 	private void updateQuestions(){
-		Log.i(TAG, "Number of Questions: " + mQuestions.size());
+//		Log.i(TAG, "Number of Questions: " + mQuestions.size());
 		for(Question question : mQuestions){
 			mTeachReachDbAdapter.createQuestion(question.getId(), question.getQuizId(),
 					question.getEN(), question.getFR(), question.getES(), 
@@ -492,7 +491,7 @@ public class TeachReachPopulater {
 	 * Update the database with each Option retrieved from the parser
 	 */
 	private void updateOptions(){
-		Log.i(TAG, "Number of Optoins: " + mOptions.size());
+//		Log.i(TAG, "Number of Optoins: " + mOptions.size());
 		for(Option option : mOptions){
 			mTeachReachDbAdapter.createOption(option.getId(), option.getQuestionId(),
 					option.getEN(), option.getFR(), option.getES(), option.isAnswer());

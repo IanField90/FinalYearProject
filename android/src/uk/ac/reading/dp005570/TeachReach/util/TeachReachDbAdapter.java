@@ -276,7 +276,7 @@ public class TeachReachDbAdapter {
 					COURSE_NAME_FR + "='" + fr + "', " + COURSE_NAME_ES + "='" + es + "'" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
-		Log.i(TAG, "Statement: " + statement);
+//		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);
 	}
 
@@ -300,7 +300,7 @@ public class TeachReachDbAdapter {
 					PROGRAMME_NAME_FR + "='" + fr + "', " + PROGRAMME_NAME_ES + "='" + es + "'" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
-		Log.i(TAG, "Statement: " + statement);
+//		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);
 	}
 
@@ -324,7 +324,7 @@ public class TeachReachDbAdapter {
 					PART_NAME_FR + "='" + fr + "', " + PART_NAME_ES + "='" + es + "'" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
-		Log.i(TAG, "Statement: " + statement);
+//		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);
 	}
 	
@@ -350,7 +350,7 @@ public class TeachReachDbAdapter {
 					MATERIAL_FR + "='" + fr + "', " + MATERIAL_ES + "='" + es + "'" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
-		Log.i(TAG, "Statement: " + statement);
+//		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);
 	}
 
@@ -375,7 +375,7 @@ public class TeachReachDbAdapter {
 					QUIZ_TITLE_FR + "='" + fr + "', " + QUIZ_TITLE_ES + "='" + es + "'" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
-		Log.i(TAG, "Statement: " + statement);
+//		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);
 	}
 
@@ -407,7 +407,7 @@ public class TeachReachDbAdapter {
 					feedback_fr + "', " + FEEDBACK_ES + "='" + feedback_es + "' "+
 					" WHERE " + SERVER_ID +"=" + id;
 		}
-		Log.i(TAG, "Statement: " + statement);
+//		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);
 	}
 
@@ -436,7 +436,7 @@ public class TeachReachDbAdapter {
 					OPTION_ANSWER + "='" + answer +"'" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
-		Log.i(TAG, "Statement: " + statement);
+//		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);		
 	}
 	
