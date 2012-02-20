@@ -30,6 +30,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	private String[] mProgrammeItems;
 	private String[] mPartItems;
 	
+	//TODO Boolean flag for seeing if DB is open already or not?
 	private final String TAG = "TeachReachActivity";
 	
 	//Fields to be used in the settings file

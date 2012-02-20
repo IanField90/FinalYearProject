@@ -55,7 +55,31 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 			}
 		}
 	}
-
+	
+//	@Override
+//	protected void onPause(){
+//		super.onPause();
+//		mTeachReachPopulater.closeDB();
+//	}
+//	
+//	@Override
+//	protected void onResume(){
+//		super.onResume();
+//		mTeachReachPopulater.openDB();
+//	}
+//	
+	@Override
+	protected void onStop(){
+		super.onStop();
+		mTeachReachPopulater.closeDB();
+	}
+//	
+//	@Override
+//	protected void onRestart(){
+//		super.onRestart();
+//		mTeachReachPopulater.openDB();
+//	}
+	
 //	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// When a quiz item is clicked

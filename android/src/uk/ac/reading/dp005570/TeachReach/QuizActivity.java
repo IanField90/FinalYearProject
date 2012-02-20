@@ -3,6 +3,7 @@ package uk.ac.reading.dp005570.TeachReach;
 import java.util.ArrayList;
 
 import uk.ac.reading.dp005570.TeachReach.data.Question;
+import uk.ac.reading.dp005570.TeachReach.util.TeachReachPopulater;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	private SeekBar mSlider;	
 	private int mNumberOptions;
 	private Button mNextQuestion;
+	private TeachReachPopulater mTeachReachPopulater;
 	char letter;
 
 	@Override
@@ -57,9 +59,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		// Actually prepare question
 		mLl = (LinearLayout) findViewById(R.id.question_options);
 		loadQuestion(mQuiz.get(0));
-		
 	}
-	
 
 	public void loadQuestion(Question q){
 		//Question text will not be different whatever type the question it is
