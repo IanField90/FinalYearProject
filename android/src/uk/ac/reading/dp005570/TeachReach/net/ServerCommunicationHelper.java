@@ -14,7 +14,6 @@ import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.ProgressDialog;
-import android.util.Log;
 
 /**
  * 
@@ -32,7 +31,7 @@ public class ServerCommunicationHelper {
 	//Constants in case these fields change at a later date
 
 	//Universal JSON response fields
-	private final String TAG = "SERVER_COMS";
+//	private final String TAG = "SERVER_COMS";
 
 	//TODO This does not work...
 	//Resources.getSystem().getString(uk.ac.reading.dp005570.TeachReach.R.string.server_uri);
@@ -73,21 +72,21 @@ public class ServerCommunicationHelper {
 				response_page = sb.toString();
 			}
 
-			Log.i("ServerCommunicationHelper", "Response: " + response_page);
+//			Log.i("ServerCommunicationHelper", "Response: " + response_page);
 
 		} catch (URISyntaxException e) {
-			Log.e(TAG, "Malformed URL");
+//			Log.e(TAG, "Malformed URL");
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
-			Log.e(TAG, "Client Protocol Exception");
+//			Log.e(TAG, "Client Protocol Exception");
 			e.printStackTrace();
 		}
 		catch (HttpHostConnectException e){
-			Log.e(TAG, "Couldn't connect to server.");
+//			Log.e(TAG, "Couldn't connect to server.");
 			e.printStackTrace();
 		}
 		catch (IOException e) {
-			Log.e(TAG, "IOException");
+//			Log.e(TAG, "IOException");
 			e.printStackTrace();
 		}
 
@@ -120,16 +119,16 @@ public class ServerCommunicationHelper {
 				response_page = sb.toString();
 			}
 
-			Log.d("SERVER", "Response: " + response_page);
+//			Log.d("SERVER", "Response: " + response_page);
 
 		} catch (URISyntaxException e) {
-			Log.e(TAG, "Erroneous URI");
+//			Log.e(TAG, "Erroneous URI");
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
-			Log.e(TAG, "Client Protocol Exception");
+//			Log.e(TAG, "Client Protocol Exception");
 			e.printStackTrace();
 		} catch (IOException e) {
-			Log.e(TAG, "I/O Exception");
+//			Log.e(TAG, "I/O Exception");
 			e.printStackTrace();
 		}
 		return response_page != null ? response_page : null;
