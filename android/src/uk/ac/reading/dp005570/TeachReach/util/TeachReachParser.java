@@ -47,9 +47,9 @@ public class TeachReachParser {
 	private final String QUIZ_TITLE_ES = "name_es";
 
 	private final String QUESTIONS = "questions";
-	private final String QUESTION_EN = "content_en";
-	private final String QUESTION_FR = "content_fr";
-	private final String QUESTION_ES = "content_es";
+	private final String QUESTION_EN = "question_en";
+	private final String QUESTION_FR = "question_fr";
+	private final String QUESTION_ES = "question_es";
 	private final String FEEDBACK_EN = "feedback_en";
 	private final String FEEDBACK_FR = "feedback_fr";
 	private final String FEEDBACK_ES = "feedback_es";
@@ -293,8 +293,7 @@ public class TeachReachParser {
 				type = question.getInt(QUESTION_TYPE);
 				feedback_en = question.getString(FEEDBACK_EN);
 				feedback_fr = question.getString(FEEDBACK_FR);
-				feedback_es = question.getString(FEEDBACK_ES);
-				
+				feedback_es = question.getString(FEEDBACK_ES);				
 				//May be skipped if a field is empty - Warning error in log
 				mQuestions.add(new Question(id, quiz_id, type, en, fr, es, feedback_en, feedback_fr, feedback_es));
 				JSONArray options = question.getJSONArray(OPTIONS);

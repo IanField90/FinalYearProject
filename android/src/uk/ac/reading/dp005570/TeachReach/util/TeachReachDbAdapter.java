@@ -1,5 +1,6 @@
 package uk.ac.reading.dp005570.TeachReach.util;
 
+//TODO make all "\", " etc into: "\", " instead
 
 import android.content.Context;
 import android.database.Cursor;
@@ -258,7 +259,7 @@ public class TeachReachDbAdapter {
 
 	/**
 	 * Creates or updates the database entry for a course
-	 * @param id Server's table ID
+	 * @param id Server\"s table ID
 	 * @param en English course title
 	 * @param fr French course title
 	 * @param es Spanish course title
@@ -269,11 +270,11 @@ public class TeachReachDbAdapter {
 		if(cursor.getCount() == 0){
 			//insert
 			statement = "INSERT INTO " + COURSES + " VALUES( null, " + id + 
-					", '" + en + "', '" + fr + "', '" + es + "')";
+					", \"" + en + "\", \"" + fr + "\", \"" + es + "\")";
 		}else{
 			//update
-			statement = "UPDATE " + COURSES + " SET " + COURSE_NAME_EN + "='" + en + "', " +
-					COURSE_NAME_FR + "='" + fr + "', " + COURSE_NAME_ES + "='" + es + "'" +
+			statement = "UPDATE " + COURSES + " SET " + COURSE_NAME_EN + "=\"" + en + "\", " +
+					COURSE_NAME_FR + "=\"" + fr + "\", " + COURSE_NAME_ES + "=\"" + es + "\"" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
 //		Log.i(TAG, "Statement: " + statement);
@@ -282,7 +283,7 @@ public class TeachReachDbAdapter {
 
 	/**
 	 * Creates or updates the database entry for a programme
-	 * @param id Server's table ID
+	 * @param id Server\"s table ID
 	 * @param en English programme title
 	 * @param fr French programme title
 	 * @param es Spanish programme title
@@ -293,11 +294,11 @@ public class TeachReachDbAdapter {
 		if(cursor.getCount() == 0){
 			//insert
 			statement = "INSERT INTO " + PROGRAMMES + " VALUES( null, " + id + ", " + course_id + 
-					", '" + en + "', '" + fr + "', '" + es + "')";
+					", \"" + en + "\", \"" + fr + "\", \"" + es + "\")";
 		}else{
 			//update
-			statement = "UPDATE " + PROGRAMMES + " SET " + PROGRAMME_NAME_EN + "='" + en + "', " +
-					PROGRAMME_NAME_FR + "='" + fr + "', " + PROGRAMME_NAME_ES + "='" + es + "'" +
+			statement = "UPDATE " + PROGRAMMES + " SET " + PROGRAMME_NAME_EN + "=\"" + en + "\", " +
+					PROGRAMME_NAME_FR + "=\"" + fr + "\", " + PROGRAMME_NAME_ES + "=\"" + es + "\"" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
 //		Log.i(TAG, "Statement: " + statement);
@@ -306,7 +307,7 @@ public class TeachReachDbAdapter {
 
 	/**
 	 * Creates or updates the database entry for a part
-	 * @param id Server's table ID
+	 * @param id Server\"s table ID
 	 * @param en English part title
 	 * @param fr French part title
 	 * @param es Spanish part title
@@ -317,11 +318,11 @@ public class TeachReachDbAdapter {
 		if(cursor.getCount() == 0){
 			//insert
 			statement = "INSERT INTO " + PARTS + " VALUES( null, " + id + ", " + programme_id +
-					", '" + en + "', '" + fr + "', '" + es + "')";
+					", \"" + en + "\", \"" + fr + "\", \"" + es + "\")";
 		}else{
 			//update
-			statement = "UPDATE " + PARTS + " SET " + PART_NAME_EN + "='" + en + "', " +
-					PART_NAME_FR + "='" + fr + "', " + PART_NAME_ES + "='" + es + "'" +
+			statement = "UPDATE " + PARTS + " SET " + PART_NAME_EN + "=\"" + en + "\", " +
+					PART_NAME_FR + "=\"" + fr + "\", " + PART_NAME_ES + "=\"" + es + "\"" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
 //		Log.i(TAG, "Statement: " + statement);
@@ -330,8 +331,8 @@ public class TeachReachDbAdapter {
 	
 	/**
 	 * Creates or updates the database entry for a material
-	 * @param id Server's table ID
-	 * @param part_id Server's Part ID
+	 * @param id Server\"s table ID
+	 * @param part_id Server\"s Part ID
 	 * @param en English material
 	 * @param fr French material
 	 * @param es Spanish material
@@ -343,11 +344,11 @@ public class TeachReachDbAdapter {
 		if(cursor.getCount() == 0){
 			//insert
 			statement = "INSERT INTO " + MATERIALS + " VALUES( null, " + id + ", " + part_id +
-					", '" + en + "', '" + fr + "', '" + es + "')";
+					", \"" + en + "\", \"" + fr + "\", \"" + es + "\")";
 		}else{
 			//update
-			statement = "UPDATE " + MATERIALS + " SET " + MATERIAL_EN + "='" + en + "', " +
-					MATERIAL_FR + "='" + fr + "', " + MATERIAL_ES + "='" + es + "'" +
+			statement = "UPDATE " + MATERIALS + " SET " + MATERIAL_EN + "=\"" + en + "\", " +
+					MATERIAL_FR + "=\"" + fr + "\", " + MATERIAL_ES + "=\"" + es + "\"" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
 //		Log.i(TAG, "Statement: " + statement);
@@ -356,8 +357,8 @@ public class TeachReachDbAdapter {
 
 	/**
 	 * Creates or updates the database entry for a quiz
-	 * @param id Server's table ID
-	 * @param part_id Server's Part ID
+	 * @param id Server\"s table ID
+	 * @param part_id Server\"s Part ID
 	 * @param en English quiz title
 	 * @param fr French quiz title
 	 * @param es Spanish quiz title
@@ -368,11 +369,11 @@ public class TeachReachDbAdapter {
 		if(cursor.getCount() == 0){
 			//insert
 			statement = "INSERT INTO " + QUIZZES + " VALUES( null, " + id + ", " + part_id +
-					", '" + en + "', '" + fr + "', '" + es + "')";
+					", \"" + en + "\", \"" + fr + "\", \"" + es + "\")";
 		}else{
 			//update
-			statement = "UPDATE " + QUIZZES + " SET " + QUIZ_TITLE_EN + "='" + en + "', " +
-					QUIZ_TITLE_FR + "='" + fr + "', " + QUIZ_TITLE_ES + "='" + es + "'" +
+			statement = "UPDATE " + QUIZZES + " SET " + QUIZ_TITLE_EN + "=\"" + en + "\", " +
+					QUIZ_TITLE_FR + "=\"" + fr + "\", " + QUIZ_TITLE_ES + "=\"" + es + "\"" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
 //		Log.i(TAG, "Statement: " + statement);
@@ -381,8 +382,8 @@ public class TeachReachDbAdapter {
 
 	/**
 	 * Creates or updates the database entry for a question
-	 * @param id Server's table ID
-	 * @param quiz_id Server's question ID
+	 * @param id Server\"s table ID
+	 * @param quiz_id Server\"s question ID
 	 * @param en English question
 	 * @param fr French question
 	 * @param es Spanish question
@@ -397,14 +398,14 @@ public class TeachReachDbAdapter {
 		if(cursor.getCount() == 0){
 			//insert
 			statement = "INSERT INTO " + QUESTIONS + " VALUES( null, " + id + ", " + quiz_id +
-					", '" + en + "', '" + fr + "', '" + es + "', '" + feedback_en + 
-					"', '" + feedback_fr + "', '" + feedback_es + "')";
+					", \"" + en + "\", \"" + fr + "\", \"" + es + "\", \"" + feedback_en + 
+					"\", \"" + feedback_fr + "\", \"" + feedback_es + "\")";
 		}else{
 			//update
-			statement = "UPDATE " + QUESTIONS + " SET " + QUESTION_EN + "='" + en + "', " +
-					QUESTION_FR + "='" + fr + "', " + QUESTION_ES + "='" + es + "'" +
-					FEEDBACK_EN + "='" + feedback_en + "', " + FEEDBACK_FR + "='" + 
-					feedback_fr + "', " + FEEDBACK_ES + "='" + feedback_es + "' "+
+			statement = "UPDATE " + QUESTIONS + " SET " + QUESTION_EN + "=\"" + en + "\", " +
+					QUESTION_FR + "=\"" + fr + "\", " + QUESTION_ES + "=\"" + es + "\"" +
+					FEEDBACK_EN + "=\"" + feedback_en + "\", " + FEEDBACK_FR + "=\"" + 
+					feedback_fr + "\", " + FEEDBACK_ES + "=\"" + feedback_es + "\" "+
 					" WHERE " + SERVER_ID +"=" + id;
 		}
 //		Log.i(TAG, "Statement: " + statement);
@@ -413,8 +414,8 @@ public class TeachReachDbAdapter {
 
 	/**
 	 * Creates or updates the database entry for an option
-	 * @param id Server's table ID
-	 * @param question_id Server's question ID
+	 * @param id Server\"s table ID
+	 * @param question_id Server\"s question ID
 	 * @param en English option
 	 * @param fr French option
 	 * @param es Spanish option
@@ -428,12 +429,12 @@ public class TeachReachDbAdapter {
 		if(cursor.getCount() == 0){
 			//insert
 			statement = "INSERT INTO " + OPTIONS + " VALUES( null, " + id + ", " + question_id +
-					", '" + en + "', '" + fr + "', '" + es + "', '" + answer + "')";
+					", \"" + en + "\", \"" + fr + "\", \"" + es + "\", \"" + answer + "\")";
 		}else{
 			//update
-			statement = "UPDATE " + OPTIONS + " SET " + OPTION_EN + "='" + en + "', " +
-					OPTION_FR + "='" + fr + "', " + OPTION_ES + "='" + es + "'" +
-					OPTION_ANSWER + "='" + answer +"'" +
+			statement = "UPDATE " + OPTIONS + " SET " + OPTION_EN + "=\"" + en + "\", " +
+					OPTION_FR + "=\"" + fr + "\", " + OPTION_ES + "=\"" + es + "\"" +
+					OPTION_ANSWER + "=\"" + answer +"\"" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
 //		Log.i(TAG, "Statement: " + statement);
@@ -442,7 +443,7 @@ public class TeachReachDbAdapter {
 	
 	/**
 	 * Retrieves the details for a quiz
-	 * @param part_id The server's Part ID the quiz belongs to
+	 * @param part_id The server\"s Part ID the quiz belongs to
 	 * @return All quizzes belonging to a given Part.
 	 */
 	public Cursor fetchQuizzes(int part_id){
@@ -457,7 +458,7 @@ public class TeachReachDbAdapter {
 	
 	/**
 	 * Retrieves questions for a quiz
-	 * @param quiz_id The server's Quiz ID the questions belongs to
+	 * @param quiz_id The server\"s Quiz ID the questions belongs to
 	 * @return All questions belonging to a given Quiz.
 	 */
 	public Cursor fetchQuestions(int quiz_id){
@@ -472,7 +473,7 @@ public class TeachReachDbAdapter {
 	
 	/**
 	 * Retrieves options for a question
-	 * @param question_id The server's Question ID the options belong to
+	 * @param question_id The server\"s Question ID the options belong to
 	 * @return All questions belonging to a given Quiz.
 	 */
 	public Cursor fetchOptions(int question_id){
@@ -487,7 +488,7 @@ public class TeachReachDbAdapter {
 
 	/**
 	 * Retrieves all materials for a Part
-	 * @param part_id The server's Part ID the materials belong to
+	 * @param part_id The server\"s Part ID the materials belong to
 	 * @return All materials belonging to a given Part
 	 */
 	public Cursor fetchMaterials(int part_id){
