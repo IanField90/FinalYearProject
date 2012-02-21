@@ -40,9 +40,9 @@ public class TeachReachDbAdapter {
 	private final String PART_ID = "part_id";
 
 	private final String QUIZZES = "quizzes";
-	private final String QUIZ_TITLE_EN = "quiz_name_en";
-	private final String QUIZ_TITLE_FR = "quiz_name_fr";
-	private final String QUIZ_TITLE_ES = "quiz_name_es";
+	private final String QUIZ_TITLE_EN = "name_en";
+	private final String QUIZ_TITLE_FR = "name_fr";
+	private final String QUIZ_TITLE_ES = "name_es";
 	private final String QUIZ_ID = "quiz_id";
 
 	private final String QUESTIONS = "questions";

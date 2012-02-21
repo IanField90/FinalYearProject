@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,9 +34,12 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.quiz);
 		//default to 0 - shouldn't be possible
-		int part = getIntent().getIntExtra(TeachReachActivity.PART_ID, 0);
-		Toast.makeText(this.getApplicationContext(), "Selected ID: " + part, Toast.LENGTH_LONG).show(); //TODO Localised message text
-
+		int part_id = getIntent().getIntExtra(TeachReachActivity.PART_ID, 0);
+//		Toast.makeText(this.getApplicationContext(), "Selected ID: " + part, Toast.LENGTH_LONG).show(); //TODO Localised message text
+		//TODO if made static use that instead.
+		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
+		mTeachReachPopulater.openDB();
+		mTeachReachPopulater.retrieveQuizList(part_id);
 		
 		//Set up quiz
 		populateQuiz();

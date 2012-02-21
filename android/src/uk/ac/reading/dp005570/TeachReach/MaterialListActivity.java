@@ -5,7 +5,6 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,7 +22,7 @@ import android.widget.Toast;
  */
 public class MaterialListActivity extends ListActivity implements OnItemClickListener {
 	private String[] mMaterials;
-	private final String TAG = "MaterialListActivity";
+//	private final String TAG = "MaterialListActivity";
 	private TeachReachPopulater mTeachReachPopulater;
 	private int mPartId;
 
@@ -33,7 +32,7 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 		setContentView(R.layout.material_list);
 		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());		
 		mPartId = getIntent().getIntExtra(TeachReachActivity.PART_ID, 0);// TODO handle properly
-		Log.i(TAG, "Part ID: " + mPartId);
+//		Log.i(TAG, "Part ID: " + mPartId);
 		if(mPartId != 0){
 			mTeachReachPopulater.retrieveMaterials(mPartId);
 			
