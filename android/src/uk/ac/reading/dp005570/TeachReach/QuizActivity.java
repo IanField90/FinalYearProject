@@ -62,6 +62,18 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		mLl = (LinearLayout) findViewById(R.id.question_options);
 		loadQuestion(mQuiz.get(0));
 	}
+	
+	@Override
+	protected void onStop(){
+		super.onStop();
+		mTeachReachPopulater.closeDB();
+	}
+	
+	@Override
+	protected void onRestart(){
+		super.onRestart();
+		mTeachReachPopulater.openDB();
+	}
 
 	public void loadQuestion(Question q){
 		//Question text will not be different whatever type the question it is
