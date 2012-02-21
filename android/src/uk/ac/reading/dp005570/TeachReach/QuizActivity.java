@@ -18,8 +18,15 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+/**
+ * Handles the taking of quizzes and displaying of the questions within the quiz.
+ * @author Ian Field
+ *
+ */
 public class QuizActivity extends Activity implements OnSeekBarChangeListener, OnClickListener {
-	private Integer mQuestionNumber, mNumberOfQuestions;
+	//Store the current number of the question that the user is on
+	private Integer mQuestionNumber;
+	private Integer mNumberOfQuestions;
 	private TextView mQuestionProgress, mSliderLabel;
 	private ArrayList<Question> mQuiz;
 	private LinearLayout mLl;
@@ -28,11 +35,15 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	private Button mNextQuestion;
 	private TeachReachPopulater mTeachReachPopulater;
 	char letter;
-
+	public static final String ANSWER_STATUS_STRING = "Answer_Status_";
+	private final String NUM_QUESTIONS = "Number_Questions";
+	private Intent mIntent; //Launches QuizResultsActivity
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.quiz);
+		mIntent = new Intent(this, QuizResultsActivity.class);
 		//default to 0 - shouldn't be possible
 		int part_id = getIntent().getIntExtra(TeachReachActivity.PART_ID, 0);
 //		Toast.makeText(this.getApplicationContext(), "Selected ID: " + part, Toast.LENGTH_LONG).show(); //TODO Localised message text
@@ -73,6 +84,10 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	protected void onRestart(){
 		super.onRestart();
 		mTeachReachPopulater.openDB();
+	}
+	
+	private void addAnswerToIntent(int question, char value){
+		mIntent.putExtra(ANSWER_STATUS_STRING + question, value);
 	}
 
 	public void loadQuestion(Question q){
@@ -248,8 +263,10 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 				loadQuestion(mQuiz.get(mQuestionNumber-1));
 			}else {
 				// Load final results screen
-				Intent intent = new Intent(this, QuizResultsActivity.class);
-				startActivity(intent);
+//				Intent intent = new Intent(this, QuizResultsActivity.class);
+//				startActivity(intent);
+				mIntent.putExtra(NUM_QUESTIONS, mNumberOfQuestions);
+				startActivity(mIntent);
 			}
 		}
 	}

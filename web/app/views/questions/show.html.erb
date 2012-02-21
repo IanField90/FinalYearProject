@@ -1,37 +1,36 @@
 <h1>Question</h1>
 <p>
-	<em>EN:</em>
-	<%= @question.question_en %>
+	<h3>EN:</h3>
+	<%= simple_format @question.question_en %>
 </p>
 <p>
-	<em>FR:</em>
-	<%= @question.question_fr %>
+	<h3>FR:</h3>
+	<%= simple_format @question.question_fr %>
 </p>
 <p>
-	<em>ES:</em>
-	<%= @question.question_es%>
+	<h3>ES:</h3>
+	<%= simple_format @question.question_es%>
 </p>
 
 <h2>Feedback</h2>
 <p>
-	<em>EN:</em>
-	<%= @question.feedback_en %>
+	<h3>EN:</h3>
+	<%= simple_format @question.feedback_en %>
 </p>
 <p>
-	<em>FR:</em>
-	<%= @question.feedback_fr %>
+	<h3>FR:</h3>
+	<%= simple_format @question.feedback_fr %>
 </p>
 <p>
-	<em>ES:</em>
-	<%= @question.feedback_es %>
+	<h3>ES:</h3>
+	<%= simple_format @question.feedback_es %>
 </p>
 
 <p>
-	<em>Question Type:</em>
-	<%= @type.value %> <!-- TODO: Show actual question type here -->
+	<h3>Question Type:</h3>
+	<%= @type.value %>
 </p>
 
-<!-- TODO: OPTIONS SHOW -->
 <h2>Options</h2>
 <%if is_user_admin %>
 	<%= link_to 'New Option', {:controller => "options", :action => "new", :question_id => @question }, :class => 'btn primary'%>
