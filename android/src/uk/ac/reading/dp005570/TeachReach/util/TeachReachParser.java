@@ -21,7 +21,6 @@ import uk.ac.reading.dp005570.TeachReach.data.Quiz;
  * Handles the parsing of the data retrieved from the server.
  */
 public class TeachReachParser {
-//	private final String TAG = "PARSER";
 	private final String ID = "id";
 
 	//Courses JSON response fields
@@ -56,9 +55,9 @@ public class TeachReachParser {
 	private final String QUESTION_TYPE = "type_id";
 
 	private final String OPTIONS = "options";
-	private final String OPTION_EN = "option_en";
-	private final String OPTION_FR = "option_fr";
-	private final String OPTION_ES = "option_es";
+	private final String OPTION_EN = "content_en";
+	private final String OPTION_FR = "content_fr";
+	private final String OPTION_ES = "content_es";
 	private final String OPTION_ANSWER = "answer";
 
 	private final String MATERIALS = "materials";
@@ -93,12 +92,6 @@ public class TeachReachParser {
 				en = course.getString(COURSE_NAME_EN);
 				fr = course.getString(COURSE_NAME_FR);
 				es = course.getString(COURSE_NAME_ES);
-//
-//				Log.i(TAG, course.toString());
-//				Log.i(TAG, "ID: "+id);
-//				Log.i(TAG, "EN: " + en);
-//				Log.i(TAG, "FR: " + fr);
-//				Log.i(TAG, "ES: " + es);	
 				//Add to courses list to retain information in memory
 				mCourses.add(new Course(id, en, fr, es));
 
@@ -132,12 +125,6 @@ public class TeachReachParser {
 				en = programme.getString(PROGRAMME_NAME_EN);
 				fr = programme.getString(PROGRAMME_NAME_FR);
 				es = programme.getString(PROGRAMME_NAME_ES);
-//				Log.i(TAG, programme.toString());
-//				Log.i(TAG, "ID: "+id);
-//				Log.i(TAG, "EN: " + en);
-//				Log.i(TAG, "FR: " + fr);
-//				Log.i(TAG, "ES: " + es);	
-//				Log.i(TAG, "Course ID: " + course_id);
 				//Add to programmes list to retain information in memory
 				mProgrammes.add(new Programme(id, course_id, en, fr, es));
 
@@ -169,12 +156,6 @@ public class TeachReachParser {
 				en = part.getString(PART_NAME_EN);
 				fr = part.getString(PART_NAME_FR);
 				es = part.getString(PART_NAME_ES);
-//				Log.i(TAG, part.toString());
-//				Log.i(TAG, "ID: "+id);
-//				Log.i(TAG, "EN: " + en);
-//				Log.i(TAG, "FR: " + fr);
-//				Log.i(TAG, "ES: " + es);
-//				Log.i(TAG, "Prog ID: " + programme_id);	
 				//Add to parts list to retain information in memory
 				mParts.add(new Part(id, programme_id, en, fr, es));
 
@@ -213,7 +194,6 @@ public class TeachReachParser {
 		JSONObject material;
 		int id;
 		String en, fr, es;
-//		Log.i(TAG, "Parsing materials.");
 		for (int i = 0; i < materials.length(); i++){
 			try{
 				material = materials.getJSONObject(i);
@@ -221,21 +201,12 @@ public class TeachReachParser {
 				en = material.getString(MATERIAL_EN);
 				fr = material.getString(MATERIAL_FR);
 				es = material.getString(MATERIAL_ES);
-//				Log.i(TAG, material.toString());
-//				Log.i(TAG, "Material ID: " + id);
-//				Log.i(TAG, "Material EN: " + en);
-//				Log.i(TAG, "Material FR: " + fr);
-//				Log.i(TAG, "Material ES: " + es);
-//				Log.i(TAG, "Material Part ID: " + part_id);
 				mMaterials.add(new Material(id, part_id, en, fr, es));
-//				Log.i(TAG, "Number of materials: " + mMaterials.size());
 			}
 			catch(JSONException e){
 				e.printStackTrace();
 			}
 		}
-//		Log.i(TAG, "Finished parsing materials.");
-
 	}
 
 	/**
@@ -254,14 +225,6 @@ public class TeachReachParser {
 				en = quiz.getString(QUIZ_TITLE_EN);
 				fr = quiz.getString(QUIZ_TITLE_FR);
 				es = quiz.getString(QUIZ_TITLE_ES);
-//				published =  quiz.getBoolean("published");
-//				Log.i(TAG, "ID: " + id);
-//				Log.i(TAG, "EN: " + en);
-//				Log.i(TAG, "FR: " + fr);
-//				Log.i(TAG, "ES: " + es);
-//				Log.i(TAG, "Published: " + published);
-//				Log.i(TAG, "Part ID: " + part_id);
-
 				mQuizzes.add(new Quiz(id, part_id, en, fr, es));
 				JSONArray questions = quiz.getJSONArray(QUESTIONS);
 				parseQuestions(questions, id);

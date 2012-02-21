@@ -24,7 +24,6 @@ import android.database.Cursor;
  * @author Ian Field
  */
 public class TeachReachPopulater {
-//	private final String TAG = "POPULATER";
 	private TeachReachParser mTeachReachParser;
 	private TeachReachDbAdapter mTeachReachDbAdapter;
 	private ServerCommunicationHelper mServerCommunicationHelper;
@@ -117,10 +116,7 @@ public class TeachReachPopulater {
 		// add array list here
 		ArrayList<Course> courses = new ArrayList<Course>();
 		Cursor cursor = mTeachReachDbAdapter.fetchCourseList();
-		if(cursor == null){
-//			Log.i(TAG, "Courses cursor empty.");
-		}
-		else{
+		if(cursor != null){
 			//Can traverse through content
 			do{
 				int id = cursor.getInt(0);
@@ -144,13 +140,7 @@ public class TeachReachPopulater {
 	public ArrayList<Programme> getPogrammeList(int course_id){
 		ArrayList<Programme> programmes = new ArrayList<Programme>();
 		Cursor cursor = mTeachReachDbAdapter.fetchProgrammesList(course_id);
-		if (cursor == null){
-//			Log.i(TAG, "Programmes cursor empty.");
-		}
-		else if(cursor.getCount() == 0){
-//			Log.i(TAG, "Programme count is zero.");
-		}
-		else{
+		if(cursor != null && cursor.getCount() != 0){
 			//Can traverse through content
 			do{
 				int id = cursor.getInt(0);
@@ -174,10 +164,7 @@ public class TeachReachPopulater {
 	public ArrayList<Part> getPartsList(int programme_id){
 		ArrayList<Part> parts = new ArrayList<Part>();
 		Cursor cursor = mTeachReachDbAdapter.fetchPartsList(programme_id);
-		if (cursor == null){
-//			Log.i(TAG, "Parts cursor empty.");
-		}
-		else{
+		if(cursor != null){
 			//Can traverse through content
 			do{
 				int id = cursor.getInt(0);
@@ -286,8 +273,6 @@ public class TeachReachPopulater {
 		}
 		return parts;
 	}
-
-	/* DATABASE FUNCTIONS - traverse through cursor*/
 	
 	/**
 	 * Get the course list from the database ready to use.
@@ -295,7 +280,7 @@ public class TeachReachPopulater {
 	public void retrieveCourseList(){
 		mCourses = new ArrayList<Course>();
 		Cursor cursor = mTeachReachDbAdapter.fetchCourseList();
-		if(cursor != null && cursor.getCount() > 0 ){ //Stops crash if first run
+		if(cursor != null && cursor.getCount() > 0 ){
 			do{
 				int id = cursor.getInt(0);
 				String en = cursor.getString(1);
@@ -313,7 +298,7 @@ public class TeachReachPopulater {
 	public void retrieveProgrammesList(int course_id){
 		mCurrentProgrammes = new ArrayList<Programme>();
 		Cursor cursor = mTeachReachDbAdapter.fetchProgrammesList(course_id);
-		if(cursor.getCount() > 0 ){//!= null){//CRASH
+		if(cursor.getCount() > 0 ){
 			do{
 				int id = cursor.getInt(0);
 				String en = cursor.getString(1);
@@ -479,7 +464,6 @@ public class TeachReachPopulater {
 	 * Update the database with each Question retrieved from the parser
 	 */
 	private void updateQuestions(){
-//		Log.i(TAG, "Number of Questions: " + mQuestions.size());
 		for(Question question : mQuestions){
 			mTeachReachDbAdapter.createQuestion(question.getId(), question.getQuizId(),
 					question.getEN(), question.getFR(), question.getES(), 
@@ -491,7 +475,6 @@ public class TeachReachPopulater {
 	 * Update the database with each Option retrieved from the parser
 	 */
 	private void updateOptions(){
-//		Log.i(TAG, "Number of Optoins: " + mOptions.size());
 		for(Option option : mOptions){
 			mTeachReachDbAdapter.createOption(option.getId(), option.getQuestionId(),
 					option.getEN(), option.getFR(), option.getES(), option.isAnswer());

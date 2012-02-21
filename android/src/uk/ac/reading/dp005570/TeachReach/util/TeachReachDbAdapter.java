@@ -120,7 +120,7 @@ public class TeachReachDbAdapter {
 	private static final String TABLE_OPTIONS = "CREATE TABLE Options(\n" + 
 			"	_id INTEGER NOT NULL,\n" + 
 			"   server_id INTEGER, \n" +
-			"	quiz_id INTEGER NOT NULL,\n" + 
+//			"	quiz_id INTEGER NOT NULL,\n" +  //This isn't needed ( the server id of the quiz, when question id is unique anyway)
 			"	question_id INTEGER NOT NULL,\n" + 
 			"	option_en VARCHAR(255) NOT NULL,\n" + 
 			"	option_fr VARCHAR(255) NOT NULL,\n" + 
@@ -140,7 +140,7 @@ public class TeachReachDbAdapter {
 			");";
 	
 	private static final String DATABASE_NAME = "teachreachdb";
-	private static final int DATABASE_VERSION = 9;
+	private static final int DATABASE_VERSION = 10;
 
 	private final Context mCtx;
 	private DatabaseHelper mDbHelper;
@@ -437,7 +437,6 @@ public class TeachReachDbAdapter {
 					OPTION_ANSWER + "=\"" + answer +"\"" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}
-//		Log.i(TAG, "Statement: " + statement);
 		mDb.execSQL(statement);		
 	}
 	
