@@ -71,15 +71,19 @@ public class QuizResultsActivity extends ListActivity implements OnItemClickList
                 	ImageView icon = (ImageView) v.findViewById(R.id.question_status);
                 	// Display tick
                 	if(a.getStatus() == AnswerStatus.CORRECT){
-                		icon.setImageResource(android.R.drawable.ic_menu_agenda);
+//                		icon.setImageResource(android.R.drawable.ic_menu_agenda);
+                		icon.setImageResource(R.drawable.tick);
                 	}
                 	else if (a.getStatus() == AnswerStatus.INCORRECT){
                 		//Display cross
-                		icon.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
+//                		icon.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
+                		icon.setImageResource(R.drawable.cross);
+
                 	}
                 	else{
                 		//Not applicable
-                		icon.setImageResource(android.R.drawable.ic_menu_sort_by_size);
+//                		icon.setImageResource(android.R.drawable.ic_menu_sort_by_size);
+                		icon.setImageResource(R.drawable.n_a);
                 	}
                 }
                 return v;

@@ -8,19 +8,22 @@
   	android:orientation="horizontal"
   	android:layout_width="match_parent"
   	android:layout_height="wrap_content">
-  	<ImageView 
-  		android:id="@+id/question_status"
-  		android:padding="5dp"
-  		android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="6dp"
-  	/>
+
+        <ImageView
+            android:id="@+id/question_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="6dp"
+            android:padding="5dp"
+            android:src="@drawable/tick" />
+
   	<TextView 
-  		android:layout_width="wrap_content" 
-  		android:layout_height="wrap_content"
+  		android:layout_width="fill_parent" 
+  		android:layout_height="fill_parent"
+  		android:text="Question X"
   		android:id="@+id/question_name"
   		android:textAppearance="?android:attr/textAppearanceLarge"
-  		android:padding="5dp"
+  		android:paddingTop="16dp"
   		android:layout_gravity="left"
   	/>
   	</LinearLayout>

@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item android:id="@+id/refresh_lists" 
-        android:title="@string/refresh"></item>
+        android:title="@string/refresh"
+        android:icon="@drawable/refresh"></item>
 
 </menu>
