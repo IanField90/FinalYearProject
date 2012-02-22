@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 /**
  * Handles the taking of quizzes and displaying of the questions within the quiz.
+ * Accessible through QuizListActivity - so can assume quiz is present in DB.
  * @author Ian Field
  *
  */
@@ -38,6 +39,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	public static final String ANSWER_STATUS_STRING = "Answer_Status_";
 	private final String NUM_QUESTIONS = "Number_Questions";
 	private Intent mIntent; //Launches QuizResultsActivity
+	private int mSelectedQuizId;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -51,6 +53,13 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
 		mTeachReachPopulater.openDB();
 		mTeachReachPopulater.retrieveQuizList(part_id);
+		
+//		int selected_position = getIntent().getIntExtra("Quiz_Position", 0);
+//
+//		if(mTeachReachPopulater.getCurrentQuizzes().size() > 0){
+//			mSelectedQuizId = mTeachReachPopulater.getCurrentQuizzes().get(selected_position).getId(); 
+//			mTeachReachPopulater.retrieveQuestionList(mSelectedQuizId);
+//		}
 		
 		//Set up quiz
 		populateQuiz();
@@ -176,7 +185,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 
 	public void populateQuiz(){
 		mQuiz = new ArrayList<Question>();
-		//TODO Actual population later on
+		//TODO Actual population later on - also check quesiton has options here - then display nothing
 		String questionText = "One thing a good leader should do is:" +
 				"\n\nA) Tell others what should be done" +
 				"\n\nB) Allow free exchange of ideas and support decision making" +

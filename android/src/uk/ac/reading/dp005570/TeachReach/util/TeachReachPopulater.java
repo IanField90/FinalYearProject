@@ -512,5 +512,21 @@ public class TeachReachPopulater {
 	public ArrayList<Quiz> getCurrentQuizzes(){
 		return mQuizzes;
 	}
+	
+	/**
+	 * Get the actual list of questions for current quiz
+	 * @return The list of current quiz questions
+	 */
+	public ArrayList<Question> getCurrentQuestions(){
+		return mQuestions;
+	}
+	
+	/**
+	 * Get the actual list of options for current question
+	 * @return The list of current question options
+	 */
+	public ArrayList<Option> getCurrentOptions(){
+		return mOptions;
+	}
 
 }
