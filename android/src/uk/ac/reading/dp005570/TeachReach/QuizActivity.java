@@ -2,6 +2,7 @@ package uk.ac.reading.dp005570.TeachReach;
 
 import java.util.ArrayList;
 
+import uk.ac.reading.dp005570.TeachReach.data.Option;
 import uk.ac.reading.dp005570.TeachReach.data.Question;
 import uk.ac.reading.dp005570.TeachReach.util.TeachReachPopulater;
 import android.app.Activity;
@@ -29,7 +30,10 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	private Integer mQuestionNumber;
 	private Integer mNumberOfQuestions;
 	private TextView mQuestionProgress, mSliderLabel;
-	private ArrayList<Question> mQuiz;
+	
+	private ArrayList<Question> mQuestions;	
+	private ArrayList<Option> mOptions;
+	
 	private LinearLayout mLl;
 	private SeekBar mSlider;	
 	private int mNumberOptions;
@@ -54,16 +58,16 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		mTeachReachPopulater.openDB();
 		mTeachReachPopulater.retrieveQuizList(part_id);
 		
-//		int selected_position = getIntent().getIntExtra("Quiz_Position", 0);
-//
-//		if(mTeachReachPopulater.getCurrentQuizzes().size() > 0){
-//			mSelectedQuizId = mTeachReachPopulater.getCurrentQuizzes().get(selected_position).getId(); 
-//			mTeachReachPopulater.retrieveQuestionList(mSelectedQuizId);
-//		}
+		int selected_position = getIntent().getIntExtra("Quiz_Position", 0);
+
+		if(mTeachReachPopulater.getCurrentQuizzes().size() > 0){
+			mSelectedQuizId = mTeachReachPopulater.getCurrentQuizzes().get(selected_position).getId(); 
+			mTeachReachPopulater.retrieveQuestionList(mSelectedQuizId);
+		}
 		
 		//Set up quiz
 		populateQuiz();
-		mNumberOfQuestions = mQuiz.size();
+		mNumberOfQuestions = mQuestions.size();
 		//We start on Question 1
 		mQuestionNumber = 1;
 
@@ -80,7 +84,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 
 		// Actually prepare question
 		mLl = (LinearLayout) findViewById(R.id.question_options);
-		loadQuestion(mQuiz.get(0));
+		loadQuestion(mQuestions.get(0));
 	}
 	
 	@Override
@@ -95,8 +99,33 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		mTeachReachPopulater.openDB();
 	}
 	
-	private void addAnswerToIntent(int question, char value){
-		mIntent.putExtra(ANSWER_STATUS_STRING + question, value);
+	private void addAnswerToIntent(){
+		char value;
+		switch(mQuestions.get(mQuestionNumber-1).getTypeId()){
+		case 1:
+			//Multiple choice
+			if( mOptions.get(( (Spinner) mLl.getChildAt(0) ).getSelectedItemPosition()).isAnswer()){
+				value = 'C'; //Correct
+			}
+			else{
+				value = 'I'; //Incorrect
+			}
+			break;
+		case 2:
+			//Fill-in-the-blanks
+			//More complex need to check all answers are correct
+			break;
+		case 3:
+			//Match up
+			//More complex need to check all answers are correct
+			break;
+		case 4:
+			//Slider/Opinion
+			value = 'N';// N for N/A
+			break;
+		}
+		//TODO question correctness logic here
+//		mIntent.putExtra(ANSWER_STATUS_STRING + mQuestionNumber, value);
 	}
 
 	public void loadQuestion(Question q){
@@ -182,9 +211,27 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		}
 
 	}
-
+	
+	public void loadQuestion2(Question q){
+		mTeachReachPopulater.retrieveOptionList(q.getId());
+		switch(q.getTypeId()){
+		case 1:
+			//Multiple choice			
+			break;
+		case 2:
+			//Fill-in-the-blanks
+			break;
+		case 3:
+			//Match up
+			break;
+		case 4:
+			//Slider/Opinion
+			break;
+		}
+	}
+	
 	public void populateQuiz(){
-		mQuiz = new ArrayList<Question>();
+		mQuestions = new ArrayList<Question>();
 		//TODO Actual population later on - also check quesiton has options here - then display nothing
 		String questionText = "One thing a good leader should do is:" +
 				"\n\nA) Tell others what should be done" +
@@ -197,7 +244,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		options.add("C");
 		Boolean[] correctOptions = new Boolean[]{false, false, true};
 		Question q = new Question(questionText, type, options, correctOptions);
-		mQuiz.add(q);
+		mQuestions.add(q);
 		
 		questionText = "Is a leader’s main responsibility to overcome the conflicts and challenges " +
 				"that arise during the course of a normal day, project etc.";
@@ -207,7 +254,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		correctOptions = new Boolean[]{ true, false};
 		type = Question.QuestionType.MULTIPLE_CHOICE;
 		q = new Question(questionText, type, options, correctOptions);
-		mQuiz.add(q);
+		mQuestions.add(q);
 		
 		questionText = "A bad leader is someone who always makes the decisions as they know best";
 		options = new ArrayList<String>();
@@ -216,7 +263,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		correctOptions = new Boolean[]{ false, true };
 		type = Question.QuestionType.MULTIPLE_CHOICE;
 		q = new Question(questionText, type, options, correctOptions);
-		mQuiz.add(q);
+		mQuestions.add(q);
 		
 		questionText = "Order these qualities into the order that you feel are the most important for a leader to possess.\n\n" +
 				"A) Time management\n" + 
@@ -233,7 +280,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		correctOptions = new Boolean[]{ true, true, true, true, true }; //TODO Better representation
 		type = Question.QuestionType.ORDERING;
 		q = new Question(questionText, type, options, correctOptions);
-		mQuiz.add(q);
+		mQuestions.add(q);
 		
 		questionText = "Please match these up below:\n\n" +
 		"A) A reflector learns by\n" + 
@@ -248,7 +295,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		correctOptions = new Boolean[] { true, true, true, true }; //TODO Better representation
 		type = Question.QuestionType.MATCH_UP;
 		q = new Question(questionText, type, options, correctOptions);
-		mQuiz.add(q);
+		mQuestions.add(q);
 		
 		questionText = "How likely?";
 		options = new ArrayList<String>();
@@ -260,38 +307,37 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		correctOptions = null; //Not applicable for this datatype
 		type = Question.QuestionType.SLIDER;
 		q = new Question(questionText, type, options, correctOptions);
-		mQuiz.add(q);
+		mQuestions.add(q);
 	}
 	
 	public void onClick(View v){
 		if(v == findViewById(R.id.next_question)){
 			if(mQuestionNumber < mNumberOfQuestions){
+				// Save answer status here
+				addAnswerToIntent();
 				mQuestionNumber++;
 				mQuestionProgress.setText(mQuestionNumber + " / " + mNumberOfQuestions);
 				mLl.removeAllViews();
-				loadQuestion(mQuiz.get(mQuestionNumber-1));
+				loadQuestion(mQuestions.get(mQuestionNumber-1));
 			}else {
 				// Load final results screen
-//				Intent intent = new Intent(this, QuizResultsActivity.class);
-//				startActivity(intent);
+				addAnswerToIntent();
+				mIntent.putExtra("QUIZ_ID", mSelectedQuizId);
 				mIntent.putExtra(NUM_QUESTIONS, mNumberOfQuestions);
 				startActivity(mIntent);
 			}
 		}
 	}
 
-//	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
-		Question current_question = mQuiz.get(mQuestionNumber-1);
+		Question current_question = mQuestions.get(mQuestionNumber-1);
 		mSliderLabel.setText(current_question.getOptions().get(progress));
 	}
 
-//	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {		
 	}
 
-//	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {		
 	}
 }
