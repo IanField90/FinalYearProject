@@ -25,6 +25,7 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 //	private final String TAG = "MaterialListActivity";
 	private TeachReachPopulater mTeachReachPopulater;
 	private int mPartId;
+	private ListView mLv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,10 +45,10 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 				}
 				
 				setListAdapter(new ArrayAdapter<String>(this, R.layout.material_item, mMaterials));
-				ListView lv = getListView();
+				mLv = getListView();
 				//Allows user typing to navigate through list bad for backtracing
 				//lv.setTextFilterEnabled(true);
-				lv.setOnItemClickListener(this); 
+				mLv.setOnItemClickListener(this); 
 			}
 			else{
 				Toast.makeText(this.getApplicationContext(), getString(R.string.material_apology), Toast.LENGTH_LONG).show();
@@ -108,11 +109,27 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 			String retrieve = getString(R.string.server_retrieval);
 			final ProgressDialog progress = ProgressDialog.show(MaterialListActivity.this, wait, retrieve);
 			final Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_error), Toast.LENGTH_LONG);
-			
 			Thread thread = new Thread(new Runnable(){
 				public void run(){
 					if(!mTeachReachPopulater.refreshPart(progress, mPartId)){
 						toast.show();
+					}
+					//TODO Here is the function slot to do a screen update
+					if(mPartId != 0){
+						mTeachReachPopulater.retrieveMaterials(mPartId);
+						
+						if(mTeachReachPopulater.getCurrentMaterials().size() > 0){
+							mMaterials = new String[mTeachReachPopulater.getCurrentMaterials().size()];
+							
+							for(int i = 0; i < mTeachReachPopulater.getCurrentMaterials().size(); i++){
+								mMaterials[i] = getString(R.string.material) + " " + (i+1);
+							}
+							
+							setListAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.material_item, mMaterials));
+						}
+						else{
+							Toast.makeText(getApplicationContext(), getString(R.string.material_apology), Toast.LENGTH_LONG).show();
+						}
 					}
 				}
 			});
