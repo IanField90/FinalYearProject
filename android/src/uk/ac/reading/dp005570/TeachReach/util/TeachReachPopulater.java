@@ -40,6 +40,10 @@ public class TeachReachPopulater {
 	private ArrayList<Question> mQuestions;
 	private ArrayList<Option> mOptions;
 
+	/**
+	 * Instatiates the populater with including setting up the database parser etc.
+	 * @param context The context of the application in order to display/dismiss the dialog box
+	 */
 	public TeachReachPopulater(Context context) {
 		mTeachReachParser = new TeachReachParser();
 		mTeachReachDbAdapter = new TeachReachDbAdapter(context);
@@ -48,14 +52,25 @@ public class TeachReachPopulater {
 		mLocale = Locale.getDefault().getDisplayLanguage();
 	}
 
+	/**
+	 * Close the database
+	 */
 	public void closeDB(){
 		mTeachReachDbAdapter.close();
 	}
 	
+	/**
+	 * Open the database connection - may throw error if already open
+	 */
 	public void openDB(){
 		mTeachReachDbAdapter.open();
 	}
 	
+	/**
+	 * Calls  the server to update the main menu system in the entry point activity.
+	 * @param dialog The dialog box present to the user, only dismiss is called - this is to give the user Async feedback of progress
+	 * @return Whether the server connection was successful.
+	 */
 	public boolean refreshMainMenu(ProgressDialog dialog){
 		String response = mServerCommunicationHelper.getCourseList();
 		if(response == null){
@@ -81,6 +96,12 @@ public class TeachReachPopulater {
 
 	}
 	
+	/**
+	 * Calls the server to update the content for a particular part.
+	 * @param dialog The dialog box present to the users, only dismiss is called upon completion
+	 * @param part_id The Server's ID of the part to retrieve all the content for.
+	 * @return Whether or not the server communications were successful
+	 */
 	public boolean refreshPart(ProgressDialog dialog, int part_id){
 		String response = mServerCommunicationHelper.getPartContent(part_id, dialog);
 		if(response == null){
@@ -108,7 +129,7 @@ public class TeachReachPopulater {
 	}
 
 	/**
-	 * 
+	 * Gets the list of courses to display in the entry point activity for the application
 	 * @return List of courses encapsulated - rather than cursor store in memory for faster runtime
 	 */
 	public ArrayList<Course> getCourseList(){
@@ -133,7 +154,8 @@ public class TeachReachPopulater {
 	}
 
 	/**
-	 * 
+	 * Gets the list of programmes for relevant course. 
+	 * For display in the entry point activity for the application
 	 * @param course_id The id of the parent course
 	 * @return The list of programmes corresponding to the parent course
 	 */
@@ -157,7 +179,8 @@ public class TeachReachPopulater {
 	}
 
 	/**
-	 * 
+	 * Gets the list of parts for relevant programme. 
+	 * For display in the entry point activity for the application
 	 * @param programme_id The id of the parent programme
 	 * @return The list of parts corresponding to the parent programme
 	 */
@@ -180,7 +203,7 @@ public class TeachReachPopulater {
 	}
 
 	/**
-	 * 
+	 * Convert course list to array for spinner control
 	 * @return List of courses in given language
 	 */
 	public String[] getCourses(){
@@ -210,10 +233,9 @@ public class TeachReachPopulater {
 	}
 
 	/**
-	 * 
-	 * @param language
-	 * @param course_id
-	 * @return
+	 * Convert list of programmes for spinner control
+	 * @param course_id The server ID for the course
+	 * @return Each course item for the current application language
 	 */
 	public String[] getProgrammes(int course_id){
 		retrieveProgrammesList(course_id);
@@ -243,9 +265,9 @@ public class TeachReachPopulater {
 	}
 
 	/**
-	 * 
-	 * @param programme_id
-	 * @return
+	 * Convert list of parts for spinner control
+	 * @param programme_id The server ID for the programme
+	 * @return Each part item for the current application language
 	 */
 	public String[] getParts(int programme_id){
 		// check locale language strings
