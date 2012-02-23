@@ -29,15 +29,13 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
 //		mTeachReachPopulater.get
 //		getIntent().getExtras().getSerializable(key)
 		
-//		Toast.makeText(this.getApplicationContext(), "Selected ID: " + part, Toast.LENGTH_LONG).show(); //TODO Localised message text
-
         
         // TODO ProgressDialog here while retrieving from online if chosen
         populateQuizList();
         
 //        this.mAdapter = new QuizItemAdapter(this, R.layout.quiz_item, mQuizzes);
 //        setListAdapter(mAdapter);
-        setListAdapter(new ArrayAdapter<String>(this, R.layout.quiz_item, mQuizzes)); //TODO Change quiz_item to be suitable to put here
+        setListAdapter(new ArrayAdapter<String>(this, R.layout.quiz_item, mQuizzes)); 
 
 	}
 	

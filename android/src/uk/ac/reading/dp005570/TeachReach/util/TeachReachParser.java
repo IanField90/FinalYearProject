@@ -173,7 +173,7 @@ public class TeachReachParser {
 	 * @param jsonArray The array containing all information for a particular part.
 	 */
 	public void parsePartContent(JSONArray jsonArray, int part_id){
-		//TODO triple layered parse.	
+		// triple layered parse.	
 		try {
 			JSONObject object = jsonArray.getJSONObject(0);
 			JSONArray materials = object.getJSONArray(MATERIALS);

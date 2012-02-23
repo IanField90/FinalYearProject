@@ -1,7 +1,5 @@
 package uk.ac.reading.dp005570.TeachReach.util;
 
-//TODO make all "\", " etc into: "\", " instead
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;

@@ -32,8 +32,7 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.material_list);
 		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());		
-		mPartId = getIntent().getIntExtra(TeachReachActivity.PART_ID, 0);// TODO handle properly
-//		Log.i(TAG, "Part ID: " + mPartId);
+		mPartId = getIntent().getIntExtra(TeachReachActivity.PART_ID, 0);
 		if(mPartId != 0){
 			mTeachReachPopulater.retrieveMaterials(mPartId);
 			

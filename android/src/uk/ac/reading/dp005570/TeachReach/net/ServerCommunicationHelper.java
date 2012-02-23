@@ -33,7 +33,6 @@ public class ServerCommunicationHelper {
 	//Universal JSON response fields
 //	private final String TAG = "SERVER_COMS";
 
-	//TODO This does not work...
 	//Resources.getSystem().getString(uk.ac.reading.dp005570.TeachReach.R.string.server_uri);
 	private final String SERVER_ADDRESS = "http://10.0.2.2:3000/"; //Default emulator server address
 	private final String REST_ENDING = ".json";
