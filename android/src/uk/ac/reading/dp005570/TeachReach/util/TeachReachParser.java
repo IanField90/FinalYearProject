@@ -269,6 +269,12 @@ public class TeachReachParser {
 		}
 	}
 
+	/**
+	 * Go through and translate all options relating to a question.
+	 * Add to total option list
+	 * @param options Array of all option objects
+	 * @param question_id The Server's ID of the question the options belong to
+	 */
 	private void parseOptions(JSONArray options, int question_id){
 		JSONObject option;
 		int id;
