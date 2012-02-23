@@ -431,7 +431,7 @@ public class TeachReachDbAdapter {
 		}else{
 			//update
 			statement = "UPDATE " + OPTIONS + " SET " + OPTION_EN + "=\"" + en + "\", " +
-					OPTION_FR + "=\"" + fr + "\", " + OPTION_ES + "=\"" + es + "\"" +
+					OPTION_FR + "=\"" + fr + "\", " + OPTION_ES + "=\"" + es + "\", " +
 					OPTION_ANSWER + "=\"" + answer +"\"" +
 					" WHERE " + SERVER_ID +"=" + id;
 		}

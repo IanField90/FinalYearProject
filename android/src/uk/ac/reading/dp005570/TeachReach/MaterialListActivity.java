@@ -113,23 +113,23 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 					if(!mTeachReachPopulater.refreshPart(progress, mPartId)){
 						toast.show();
 					}
-					//TODO Here is the function slot to do a screen update
-					if(mPartId != 0){
-						mTeachReachPopulater.retrieveMaterials(mPartId);
-						
-						if(mTeachReachPopulater.getCurrentMaterials().size() > 0){
-							mMaterials = new String[mTeachReachPopulater.getCurrentMaterials().size()];
-							
-							for(int i = 0; i < mTeachReachPopulater.getCurrentMaterials().size(); i++){
-								mMaterials[i] = getString(R.string.material) + " " + (i+1);
-							}
-							
-							setListAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.material_item, mMaterials));
-						}
-						else{
-							Toast.makeText(getApplicationContext(), getString(R.string.material_apology), Toast.LENGTH_LONG).show();
-						}
-					}
+//					//TODO Here is the function slot to do a screen update
+//					if(mPartId != 0){
+//						mTeachReachPopulater.retrieveMaterials(mPartId);
+//						
+//						if(mTeachReachPopulater.getCurrentMaterials().size() > 0){
+//							mMaterials = new String[mTeachReachPopulater.getCurrentMaterials().size()];
+//							
+//							for(int i = 0; i < mTeachReachPopulater.getCurrentMaterials().size(); i++){
+//								mMaterials[i] = getString(R.string.material) + " " + (i+1);
+//							}
+//							
+//							setListAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.material_item, mMaterials));
+//						}
+//						else{
+//							Toast.makeText(getApplicationContext(), getString(R.string.material_apology), Toast.LENGTH_LONG).show();
+//						}
+//					}
 				}
 			});
 			thread.start();			
