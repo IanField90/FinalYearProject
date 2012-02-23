@@ -100,9 +100,6 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     	mSelectedCourseId = settings.getInt(COURSE_ID, 0);
     	mSelectedProgrammeId = settings.getInt(PROGRAMME_ID, 0);
     	mSelectedPartId = settings.getInt(PART_ID, 0);
-//    	Log.i(TAG, "Saved course ID: " + mSelectedCourseId);
-//    	Log.i(TAG, "Saved programme ID: " + mSelectedProgrammeId);
-//    	Log.i(TAG, "Saved part ID: " + mSelectedPartId);
     }
     
     /**

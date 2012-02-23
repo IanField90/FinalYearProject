@@ -399,7 +399,7 @@ public class TeachReachPopulater {
 				String en = cursor.getString(1);
 				String fr = cursor.getString(2);
 				String es = cursor.getString(3);
-				Boolean answer = (cursor.getInt(4) > 0); // SQLite does not directly do datatype so this is a fix
+				Boolean answer = Boolean.parseBoolean(cursor.getString(4));//(cursor.getInt(4) > 0); // SQLite does not directly do datatype so this is a fix
 				mOptions.add(new Option(id, question_id, en, fr, es, answer));
 			}while(cursor.moveToNext());
 		}
