@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 /**
@@ -16,7 +15,6 @@ import android.widget.TextView;
 public class MaterialActivity extends Activity{
 	private String mTitle;
 	private String mBody;
-	private final String TAG = "Material";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -24,10 +22,10 @@ public class MaterialActivity extends Activity{
 		setContentView(R.layout.material);
 		
 		TextView title = (TextView) findViewById(R.id.material_title);
-		if(Locale.getDefault().getDisplayLanguage() == "Français"){
+		if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
 			mBody = getIntent().getExtras().getString("Material_Content_FR");
 		}
-		else if(Locale.getDefault().getDisplayLanguage() == "español"){
+		else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
 			mBody = getIntent().getExtras().getString("Material_Content_ES");
 		}
 		else{
@@ -38,7 +36,6 @@ public class MaterialActivity extends Activity{
 		title.setText(mTitle);
 		
 		TextView body = (TextView) findViewById(R.id.material_body);
-		Log.i(TAG, "Body: " + mBody);
 		body.setText(mBody);
 //		body.setText("A leader always allows his team members to speak " +
 //				"up and share their ideas and then support them in decision " +

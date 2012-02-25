@@ -2,4 +2,32 @@
 <resources>
     <string name="hello">Hola, TeachReachActivity!</string>
     <string name="app_name">Asociatión Mundial de las Guidas Scouts</string>
+        <string name="programme_prompt">Programme ES:</string>
+    <string name="course_prompt">Course ES:</string>
+    <string name="part_prompt">Part ES:</string>
+    
+    <string name="view_quizzes_button">Quizzes</string>
+    <string name="view_materials_button">Materials</string>
+    <string name="refresh">Refresh</string>
+    
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    
+    <string name="question">Question</string>
+    
+    <string name="results">Results</string>
+    
+        
+    <string name="feedback">Feedback</string>
+    
+    <string name="server_uri">http://10.0.2.2:3000/</string>
+    <string name="next_question">Next Question</string>
+    
+    <string name="please_wait">Please wait...</string>
+    <string name="server_retrieval">Retrieving data...</string>
+    <string name="server_error">Couldn\'t connect to server</string>
+    
+    <string name="material_apology">Sorry, no materials available.</string>
+    <string name="quiz_apology">Sorry, no quizzes available.</string>
+    <string name="material">Material: </string>
 </resources>

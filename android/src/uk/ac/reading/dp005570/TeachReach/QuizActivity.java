@@ -1,6 +1,7 @@
 package uk.ac.reading.dp005570.TeachReach;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import uk.ac.reading.dp005570.TeachReach.data.Option;
 import uk.ac.reading.dp005570.TeachReach.data.Question;
@@ -14,10 +15,20 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+/*
+ * If shuffling around store in the following way: int[spinner number] = correct value - this will hopefully make sense
+ * Meaning that the first element, would be the correct position for the first spinner control
+ * 
+ * Here's where the brunt of logic happens!
+ */
+
 
 /**
  * Handles the taking of quizzes and displaying of the questions within the quiz.
@@ -135,16 +146,26 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		switch(q.getType()){
 		case MULTIPLE_CHOICE:
 			//Get options
-			options = new Spinner(this);
-			//Load options ready for spinner
-			options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
-			//Put options into spinner drop down
-			options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			options.setAdapter(options_adapter);
-			options.setHorizontalScrollBarEnabled(true);
-			//TODO add OnItemSelectedListener
-			//Load spinner at the location of R.id.question_options
-			mLl.addView(options);
+//			options = new Spinner(this);
+//			//Load options ready for spinner
+//			options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
+//			//Put options into spinner drop down
+//			options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//			options.setAdapter(options_adapter);
+//			options.setHorizontalScrollBarEnabled(true);
+//			//TODO add OnItemSelectedListener
+//			//Load spinner at the location of R.id.question_options
+//			
+//			mLl.addView(options);
+			
+			RadioGroup rg = new RadioGroup(this);
+			for(String option : q.getOptions()){
+				RadioButton rb = new RadioButton(this);
+				rb.setText(option);
+				rg.addView(rb);
+			}
+			((RadioButton)rg.getChildAt(0)).setChecked(true);
+			mLl.addView(rg);
 			break;
 		case SLIDER:
 			mSliderLabel = new TextView(this);
@@ -214,7 +235,25 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		mTeachReachPopulater.retrieveOptionList(q.getId());
 		switch(q.getTypeId()){
 		case 1:
-			//Multiple choice			
+			//Multiple choice	
+			RadioGroup rg = new RadioGroup(this);
+			ArrayList<Option> options = mTeachReachPopulater.getCurrentOptions();
+			for(Option option : options){
+				RadioButton rb = new RadioButton(this);
+				if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
+					rb.setText(option.getFR());
+				}
+				else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
+					rb.setText(option.getES());
+				}
+				else{
+					rb.setText(option.getEN());
+				}
+				rg.addView(rb);
+			}
+			rg.check(1);
+			((RadioButton) rg.getChildAt(0)).setChecked(true);
+			mLl.addView(rg);
 			break;
 		case 2:
 			//Fill-in-the-blanks
@@ -224,6 +263,22 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			break;
 		case 4:
 			//Slider/Opinion
+			mSliderLabel = new TextView(this);
+			mSlider = new SeekBar(this);
+			mSlider.setProgress(0);
+			mSlider.setMax(q.getOptions().size()-1);
+			mSlider.setOnSeekBarChangeListener(this); //Within this change listener set slider_label text to q.getOptions().get(position);
+			if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
+				mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(0).getFR());
+			}
+			else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
+				mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(0).getES());
+			}
+			else{
+				mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(0).getEN());
+			}
+			mLl.addView(mSliderLabel, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+			mLl.addView(mSlider, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.MATCH_PARENT));
 			break;
 		}
 	}

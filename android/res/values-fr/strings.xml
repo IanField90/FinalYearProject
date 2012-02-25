@@ -2,4 +2,33 @@
 <resources>
     <string name="hello">Bonjour, TeachReachActivity!</string>
     <string name="app_name">Association mondiale des Guides et des Eclaireuses</string>
+            
+    <string name="programme_prompt">Programme FR:</string>
+    <string name="course_prompt">Course FR:</string>
+    <string name="part_prompt">Part FR:</string>
+    
+    <string name="view_quizzes_button">Quizzes FR</string>
+    <string name="view_materials_button">Materials FR</string>
+    <string name="refresh">Refresh FR</string>
+    
+    <string name="previous">Previous FR</string>
+    <string name="next">Next FR</string>
+    
+    <string name="question">Question FR</string>
+    
+    <string name="results">Results FR</string>
+    
+        
+    <string name="feedback">Feedback FR</string>
+    
+    <string name="server_uri">http://10.0.2.2:3000/</string>
+    <string name="next_question">Next Question FR</string>
+    
+    <string name="please_wait">Please wait... FR</string>
+    <string name="server_retrieval">Retrieving data... FR</string>
+    <string name="server_error">Couldn\'t connect to server FR</string>
+    
+    <string name="material_apology">Sorry, no materials available. FR</string>
+    <string name="quiz_apology">Sorry, no quizzes available. FR</string>
+    <string name="material">Material: FR</string>
 </resources>
