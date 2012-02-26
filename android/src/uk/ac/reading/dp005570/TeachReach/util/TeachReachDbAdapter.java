@@ -45,6 +45,7 @@ public class TeachReachDbAdapter {
 	private final String QUIZ_ID = "quiz_id";
 
 	private final String QUESTIONS = "questions";
+	private final String TYPE = "type_id";
 	private final String QUESTION_ID = "question_id";
 	private final String QUESTION_EN = "question_en";
 	private final String QUESTION_FR = "question_fr";
@@ -107,6 +108,7 @@ public class TeachReachDbAdapter {
 			"	_id INTEGER NOT NULL,\n" + 
 			"	quiz_id INTEGER NOT NULL,\n" + 
 			"   server_id INTEGER, \n" +
+			"	type_id INTEGER, \n" +
 			"	question_en VARCHAR(1000) NOT NULL,\n" + 
 			"	question_fr VARCHAR(1000) NOT NULL,\n" + 
 			"	question_es VARCHAR(1000) NOT NULL,\n" + 
@@ -138,7 +140,7 @@ public class TeachReachDbAdapter {
 			");";
 	
 	private static final String DATABASE_NAME = "teachreachdb";
-	private static final int DATABASE_VERSION = 10;
+	private static final int DATABASE_VERSION = 11;
 
 	private final Context mCtx;
 	private DatabaseHelper mDbHelper;
@@ -389,18 +391,18 @@ public class TeachReachDbAdapter {
 	 * @param feedbackFR French feedback
 	 * @param feedbackES Spanish feedback
 	 */
-	public void createQuestion(int id, int quiz_id, String en, String fr,
+	public void createQuestion(int id, int quiz_id, int type_id, String en, String fr,
 			String es, String feedback_en, String feedback_fr, String feedback_es) {
 		Cursor cursor = mDb.rawQuery("SELECT * FROM " + QUESTIONS + " WHERE server_id=?", new String[] { ""+id });
 		String statement;
 		if(cursor.getCount() == 0){
 			//insert
-			statement = "INSERT INTO " + QUESTIONS + " VALUES( null, " + id + ", " + quiz_id +
+			statement = "INSERT INTO " + QUESTIONS + " VALUES( null, " + id + ", " + quiz_id + ", " + type_id +
 					", \"" + en + "\", \"" + fr + "\", \"" + es + "\", \"" + feedback_en + 
 					"\", \"" + feedback_fr + "\", \"" + feedback_es + "\")";
 		}else{
 			//update
-			statement = "UPDATE " + QUESTIONS + " SET " + QUESTION_EN + "=\"" + en + "\", " +
+			statement = "UPDATE " + QUESTIONS + " SET " + TYPE + "="+type_id + ", " + QUESTION_EN + "=\"" + en + "\", " +
 					QUESTION_FR + "=\"" + fr + "\", " + QUESTION_ES + "=\"" + es + "\"" +
 					FEEDBACK_EN + "=\"" + feedback_en + "\", " + FEEDBACK_FR + "=\"" + 
 					feedback_fr + "\", " + FEEDBACK_ES + "=\"" + feedback_es + "\" "+
@@ -460,8 +462,8 @@ public class TeachReachDbAdapter {
 	 */
 	public Cursor fetchQuestions(int quiz_id){
 		Cursor cursor = mDb.query(true, QUESTIONS,
-				new String[] { SERVER_ID, QUESTION_EN, QUESTION_FR, QUESTION_ES, FEEDBACK_EN, FEEDBACK_FR, FEEDBACK_ES},
-				QUIZ_ID + "=" + quiz_id, null, null, null, null, null);
+				new String[] { SERVER_ID, TYPE, QUESTION_EN, QUESTION_FR, QUESTION_ES, FEEDBACK_EN, FEEDBACK_FR, FEEDBACK_ES},
+				QUIZ_ID + "=" + quiz_id, null, null, null, null, null);//TODO CHANGED
 		if(cursor != null){
 			cursor.moveToFirst();
 		}

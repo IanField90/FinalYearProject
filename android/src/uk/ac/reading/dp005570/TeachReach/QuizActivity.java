@@ -72,7 +72,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			
 		}
 		//Set up quiz
-		populateQuiz();
+		populateQuiz(); //TODO remove this once implementation is properly complete (DB retrieval issue ATM)
 		mNumberOfQuestions = mQuestions.size();
 		//We start on Question 1
 		mQuestionNumber = 1;
@@ -90,8 +90,8 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 
 		// Actually prepare question
 		mLl = (LinearLayout) findViewById(R.id.question_options);
-		loadQuestion(mQuestions.get(0));
-//		loadQuestion2(mQuestions.get(0));
+//		loadQuestion(mQuestions.get(0));
+		loadQuestion2(mQuestions.get(0));
 	}
 
 	@Override
@@ -265,7 +265,6 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 				}
 				rg.addView(rb);
 			}
-			rg.check(1);
 			((RadioButton) rg.getChildAt(0)).setChecked(true);
 			mLl.addView(rg);
 			break;

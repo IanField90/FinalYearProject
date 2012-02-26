@@ -487,7 +487,7 @@ public class TeachReachPopulater {
 	 */
 	private void updateQuestions(){
 		for(Question question : mQuestions){
-			mTeachReachDbAdapter.createQuestion(question.getId(), question.getQuizId(),
+			mTeachReachDbAdapter.createQuestion(question.getId(), question.getQuizId(), question.getTypeId(),
 					question.getEN(), question.getFR(), question.getES(), 
 					question.getFeedbackEN(), question.getFeedbackFR(), question.getFeedbackES());
 		}
