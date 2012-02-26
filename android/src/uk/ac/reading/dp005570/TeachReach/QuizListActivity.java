@@ -21,20 +21,17 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		//        
+		super.onCreate(savedInstanceState); 
 		setContentView(R.layout.quiz_list);
 		getListView().setTextFilterEnabled(false);
 		getListView().setOnItemClickListener(this);
 
-
-		// TODO ProgressDialog here while retrieving from online if chosen
-//		populateQuizList();
-		mQuizzes = new String[]{ "Test Quiz 1", "Test Quiz 2" };
-		setListAdapter(new ArrayAdapter<String>(this, R.layout.quiz_item, mQuizzes)); 
+//		 TODO ProgressDialog here while retrieving from online if chosen
+		populateQuizList();
+		if(mTeachReachPopulater.getCurrentQuizzes().size() > 0){
+			setListAdapter(new ArrayAdapter<String>(this, R.layout.quiz_item, mQuizzes)); 
+		}
 	}
-
 
 	private void populateQuizList() {
 		int part_id = getIntent().getIntExtra(TeachReachActivity.PART_ID, 0);
@@ -42,18 +39,18 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
 		mTeachReachPopulater.openDB();
 		mTeachReachPopulater.retrieveQuizList(part_id);
 		if(mTeachReachPopulater.getCurrentQuizzes().size() > 0){
-		mQuizzes = new String[mTeachReachPopulater.getCurrentQuizzes().size()];
-		for(int i = 0; i < mTeachReachPopulater.getCurrentQuizzes().size()-1; i++){
-			if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("franais")){
-				mQuizzes[i] = mTeachReachPopulater.getCurrentQuizzes().get(i).getFR();
+			mQuizzes = new String[mTeachReachPopulater.getCurrentQuizzes().size()];
+			for(int i = 0; i < mTeachReachPopulater.getCurrentQuizzes().size(); i++){
+				if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("franais")){
+					mQuizzes[i] = mTeachReachPopulater.getCurrentQuizzes().get(i).getFR();
+				}
+				else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("espa–ol")){
+					mQuizzes[i] = mTeachReachPopulater.getCurrentQuizzes().get(i).getES();
+				}
+				else{
+					mQuizzes[i] = mTeachReachPopulater.getCurrentQuizzes().get(i).getEN();
+				}
 			}
-			else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("espa–ol")){
-				mQuizzes[i] = mTeachReachPopulater.getCurrentQuizzes().get(i).getES();
-			}
-			else{
-				mQuizzes[i] = mTeachReachPopulater.getCurrentQuizzes().get(i).getEN();
-			}
-		}
 		}
 		else{
 			Toast.makeText(this.getApplicationContext(), getString(R.string.quiz_apology), Toast.LENGTH_LONG).show();
