@@ -37,12 +37,5 @@ public class MaterialActivity extends Activity{
 		
 		TextView body = (TextView) findViewById(R.id.material_body);
 		body.setText(mBody);
-//		body.setText("A leader always allows his team members to speak " +
-//				"up and share their ideas and then support them in decision " +
-//				"making to ensure that end goals are met. It is important that " +
-//				"a leader does not dictate to others but it is equally important " +
-//				"to spend time communicating. \n\nCommunication skills and willingness " +
-//				"and ability to coach and mentor others are essential characteristics " +
-//				"of a successful leader.");
 	}
 }
