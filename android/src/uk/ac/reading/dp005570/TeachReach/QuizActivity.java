@@ -37,24 +37,23 @@ import android.widget.TextView;
  *
  */
 public class QuizActivity extends Activity implements OnSeekBarChangeListener, OnClickListener {
+	private final String NUM_QUESTIONS = "Number_Questions";
 	//Store the current number of the question that the user is on
 	private Integer mQuestionNumber;
 	private Integer mNumberOfQuestions;
-	private TextView mQuestionProgress, mSliderLabel;
-
+	private TextView mQuestionProgress;
+	private TextView mSliderLabel;
 	private ArrayList<Question> mQuestions;	
 	private ArrayList<Option> mOptions;
-
 	private LinearLayout mLl;
 	private SeekBar mSlider;	
 	private int mNumberOptions;
 	private Button mNextQuestion;
 	private TeachReachPopulater mTeachReachPopulater;
-	char letter;
+	char mLetter;
 	public static final String ANSWER_STATUS_STRING = "Answer_Status_";
-	private final String NUM_QUESTIONS = "Number_Questions";
-	private Intent mIntent; //Launches QuizResultsActivity
-	private int mSelectedQuizId;
+	private Intent mIntent;
+	private int mQuizId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -62,18 +61,16 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		setContentView(R.layout.quiz);
 		mIntent = new Intent(this, QuizResultsActivity.class);
 		//default to 0 - shouldn't be possible
-		int part_id = getIntent().getIntExtra(TeachReachActivity.PART_ID, 0);
+		mQuizId = getIntent().getIntExtra(TeachReachActivity.QUIZ_ID, 0);	
 		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
 		mTeachReachPopulater.openDB();
-		mTeachReachPopulater.retrieveQuizList(part_id);
-//		mTeachReachPopulater.retrieveQuizList(1);
-
-		int selected_position = getIntent().getIntExtra("Quiz_Position", 0);
-		if(mTeachReachPopulater.getCurrentQuizzes().size() > 0){
-			mSelectedQuizId = mTeachReachPopulater.getCurrentQuizzes().get(selected_position).getId(); 
-			mTeachReachPopulater.retrieveQuestionList(mSelectedQuizId);
+		mTeachReachPopulater.retrieveQuestionList(mQuizId);
+		mQuestions = mTeachReachPopulater.getCurrentQuestions();
+		if(mQuestions.size() > 0){
+			mTeachReachPopulater.retrieveOptionList(mQuestions.get(0).getId());
+			mOptions = mTeachReachPopulater.getCurrentOptions();
+			
 		}
-
 		//Set up quiz
 		populateQuiz();
 		mNumberOfQuestions = mQuestions.size();
@@ -185,25 +182,25 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			break;
 		case ORDERING:
 			mNumberOptions = q.getOptions().size();
-			letter = '1';
+			mLetter = '1';
 			for(int i = 0; i < mNumberOptions; i++){
 				TextView label = new TextView(this);
-				label.setText(letter+")");
+				label.setText(mLetter+")");
 				options = new Spinner(this);
 				options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
 				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 				options.setAdapter(options_adapter);
 				mLl.addView(label);
 				mLl.addView(options);
-				letter++;
+				mLetter++;
 			}
 			break;
 		case BLANKS:
 			mNumberOptions = q.getOptions().size();
-			letter = 'A';
+			mLetter = 'A';
 			for(int i = 0; i < mNumberOptions; i++){
 				TextView label = new TextView(this);
-				label.setText("*|"+letter+"|*)");
+				label.setText("*|"+mLetter+"|*)");
 				options = new Spinner(this);
 				options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
 				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -212,17 +209,17 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 
 				mLl.addView(label);
 				mLl.addView(options);
-				letter++;
+				mLetter++;
 			}
 			break;
 		case MATCH_UP:
 			//Essentially the same rendering
 			//Spinner control for each option.
 			mNumberOptions = q.getOptions().size();
-			letter = 'A';
+			mLetter = 'A';
 			for(int i = 0; i < mNumberOptions; i++){
 				TextView label = new TextView(this);
-				label.setText(letter+")");
+				label.setText(mLetter+")");
 				options = new Spinner(this);
 				options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
 				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); //Can customise
@@ -230,7 +227,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 				options.setScrollContainer(true);
 				mLl.addView(label);
 				mLl.addView(options);
-				letter++;
+				mLetter++;
 			}
 			break;
 		}
@@ -274,13 +271,13 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			break;
 		case 2:
 			//Fill-in-the-blanks
-			letter = 'A';
+			mLetter = 'A';
 			for(int i = 0; i < mNumberOptions; i++){
 				TextView label = new TextView(this);
-				label.setText(letter+")");
+				label.setText(mLetter+")");
 				Spinner spinner = new Spinner(this);
 				String[] optns = new String[mOptions.size()];
-				for(int j = 0; j < mOptions.size()-1; j++){
+				for(int j = 0; j < mOptions.size(); j++){
 					if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("franais")){
 						optns[j] = mOptions.get(j).getFR();
 					}
@@ -301,13 +298,13 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			break;
 		case 3:
 			//Match up
-			letter = 'A';
+			mLetter = 'A';
 			for(int i = 0; i < mNumberOptions; i++){
 				TextView label = new TextView(this);
-				label.setText(letter+")");
+				label.setText(mLetter+")");
 				Spinner spinner = new Spinner(this);
 				String[] optns = new String[mOptions.size()];
-				for(int j = 0; j < mOptions.size()-1; j++){
+				for(int j = 0; j < mOptions.size(); j++){
 					if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("franais")){
 						optns[j] = mOptions.get(j).getFR();
 					}
@@ -444,7 +441,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			}else {
 				// Load final results screen
 				addAnswerToIntent();
-				mIntent.putExtra("QUIZ_ID", mSelectedQuizId);
+				mIntent.putExtra("QUIZ_ID", mQuizId);
 				mIntent.putExtra(NUM_QUESTIONS, mNumberOfQuestions);
 				startActivity(mIntent);
 			}

@@ -7,14 +7,15 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 public class QuizListActivity extends ListActivity implements OnItemClickListener{
 
@@ -76,6 +77,7 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
 		int value = mTeachReachPopulater.getCurrentQuizzes().get(position).getId();
 		intent.putExtra(TeachReachActivity.QUIZ_ID, value);
 		startActivity(intent);
+		Log.i("Quizlist", "Quiz ID: " + value);
 	}
 	
 	@Override
