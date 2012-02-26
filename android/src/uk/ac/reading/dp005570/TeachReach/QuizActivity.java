@@ -41,10 +41,10 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	private Integer mQuestionNumber;
 	private Integer mNumberOfQuestions;
 	private TextView mQuestionProgress, mSliderLabel;
-	
+
 	private ArrayList<Question> mQuestions;	
 	private ArrayList<Option> mOptions;
-	
+
 	private LinearLayout mLl;
 	private SeekBar mSlider;	
 	private int mNumberOptions;
@@ -55,7 +55,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	private final String NUM_QUESTIONS = "Number_Questions";
 	private Intent mIntent; //Launches QuizResultsActivity
 	private int mSelectedQuizId;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -66,14 +66,14 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
 		mTeachReachPopulater.openDB();
 		mTeachReachPopulater.retrieveQuizList(part_id);
-		
-		int selected_position = getIntent().getIntExtra("Quiz_Position", 0);
+//		mTeachReachPopulater.retrieveQuizList(1);
 
+		int selected_position = getIntent().getIntExtra("Quiz_Position", 0);
 		if(mTeachReachPopulater.getCurrentQuizzes().size() > 0){
 			mSelectedQuizId = mTeachReachPopulater.getCurrentQuizzes().get(selected_position).getId(); 
 			mTeachReachPopulater.retrieveQuestionList(mSelectedQuizId);
 		}
-		
+
 		//Set up quiz
 		populateQuiz();
 		mNumberOfQuestions = mQuestions.size();
@@ -83,7 +83,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		//Set up progress label
 		mQuestionProgress = (TextView) findViewById(R.id.question_progress);
 		mQuestionProgress.setText( mQuestionNumber + " / " + mNumberOfQuestions);
-		
+
 		mNextQuestion = (Button) findViewById(R.id.next_question);
 		mNextQuestion.setOnClickListener(this);
 
@@ -94,35 +94,41 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		// Actually prepare question
 		mLl = (LinearLayout) findViewById(R.id.question_options);
 		loadQuestion(mQuestions.get(0));
+//		loadQuestion2(mQuestions.get(0));
 	}
-	
+
 	@Override
 	protected void onStop(){
 		super.onStop();
 		mTeachReachPopulater.closeDB();
 	}
-	
+
 	@Override
 	protected void onRestart(){
 		super.onRestart();
 		mTeachReachPopulater.openDB();
 	}
-	
+
 	private void addAnswerToIntent(){
 		char value = 'X';
 		switch(mQuestions.get(mQuestionNumber-1).getTypeId()){
 		case 1:
 			//Multiple choice
-			if( mOptions.get(( (Spinner) mLl.getChildAt(0) ).getSelectedItemPosition()).isAnswer()){
-				value = 'C'; //Correct
+			RadioGroup rg = (RadioGroup) mLl.getChildAt(0);
+			for(int i = 0; i < rg.getChildCount()-1; i++){
+				RadioButton rb = (RadioButton) rg.getChildAt(i);
+				if(rb.isChecked() && mOptions.get(i).isAnswer()){
+					value = 'C';//Correct
+				}
 			}
-			else{
+			if(value == 'X'){
 				value = 'I'; //Incorrect
 			}
 			break;
 		case 2:
 			//Fill-in-the-blanks
 			//More complex need to check all answers are correct
+
 			break;
 		case 3:
 			//Match up
@@ -146,18 +152,18 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		switch(q.getType()){
 		case MULTIPLE_CHOICE:
 			//Get options
-//			options = new Spinner(this);
-//			//Load options ready for spinner
-//			options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
-//			//Put options into spinner drop down
-//			options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//			options.setAdapter(options_adapter);
-//			options.setHorizontalScrollBarEnabled(true);
-//			//TODO add OnItemSelectedListener
-//			//Load spinner at the location of R.id.question_options
-//			
-//			mLl.addView(options);
-			
+			//			options = new Spinner(this);
+			//			//Load options ready for spinner
+			//			options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, q.getOptions());
+			//			//Put options into spinner drop down
+			//			options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			//			options.setAdapter(options_adapter);
+			//			options.setHorizontalScrollBarEnabled(true);
+			//			//TODO add OnItemSelectedListener
+			//			//Load spinner at the location of R.id.question_options
+			//			
+			//			mLl.addView(options);
+
 			RadioGroup rg = new RadioGroup(this);
 			for(String option : q.getOptions()){
 				RadioButton rb = new RadioButton(this);
@@ -230,8 +236,19 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		}
 
 	}
-	
+
 	public void loadQuestion2(Question q){
+		TextView question_text = (TextView) findViewById(R.id.question_text);
+		if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
+			question_text.setText(mTeachReachPopulater.getCurrentQuestions().get(mQuestionNumber-1).getFR());
+		}
+		else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
+			question_text.setText(mTeachReachPopulater.getCurrentQuestions().get(mQuestionNumber-1).getES());
+		}
+		else{
+			question_text.setText(mTeachReachPopulater.getCurrentQuestions().get(mQuestionNumber-1).getEN());
+		}
+
 		mTeachReachPopulater.retrieveOptionList(q.getId());
 		switch(q.getTypeId()){
 		case 1:
@@ -257,9 +274,57 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			break;
 		case 2:
 			//Fill-in-the-blanks
+			letter = 'A';
+			for(int i = 0; i < mNumberOptions; i++){
+				TextView label = new TextView(this);
+				label.setText(letter+")");
+				Spinner spinner = new Spinner(this);
+				String[] optns = new String[mOptions.size()];
+				for(int j = 0; j < mOptions.size()-1; j++){
+					if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
+						optns[j] = mOptions.get(j).getFR();
+					}
+					else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
+						optns[j] = mOptions.get(j).getES();
+					}
+					else{
+						optns[j] = mOptions.get(j).getEN();
+					}
+				}
+				ArrayAdapter<String> options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optns);
+				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				spinner.setAdapter(options_adapter);
+				spinner.setHorizontalScrollBarEnabled(true);
+				mLl.addView(label);
+				mLl.addView(spinner);
+			}
 			break;
 		case 3:
 			//Match up
+			letter = 'A';
+			for(int i = 0; i < mNumberOptions; i++){
+				TextView label = new TextView(this);
+				label.setText(letter+")");
+				Spinner spinner = new Spinner(this);
+				String[] optns = new String[mOptions.size()];
+				for(int j = 0; j < mOptions.size()-1; j++){
+					if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
+						optns[j] = mOptions.get(j).getFR();
+					}
+					else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
+						optns[j] = mOptions.get(j).getES();
+					}
+					else{
+						optns[j] = mOptions.get(j).getEN();
+					}
+				}
+				ArrayAdapter<String> options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optns);
+				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				spinner.setAdapter(options_adapter);
+				spinner.setHorizontalScrollBarEnabled(true);
+				mLl.addView(label);
+				mLl.addView(spinner);
+			}
 			break;
 		case 4:
 			//Slider/Opinion
@@ -282,10 +347,14 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			break;
 		}
 	}
-	
+
+
+	/**
+	 * 
+	 */
 	public void populateQuiz(){
 		mQuestions = new ArrayList<Question>();
-		//TODO Actual population later on - also check quesiton has options here - then display nothing
+		//TODO Actual population later on - also check question has options here - then display nothing
 		String questionText = "One thing a good leader should do is:" +
 				"\n\nA) Tell others what should be done" +
 				"\n\nB) Allow free exchange of ideas and support decision making" +
@@ -298,7 +367,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		Boolean[] correctOptions = new Boolean[]{false, false, true};
 		Question q = new Question(questionText, type, options, correctOptions);
 		mQuestions.add(q);
-		
+
 		questionText = "Is a leader’s main responsibility to overcome the conflicts and challenges " +
 				"that arise during the course of a normal day, project etc.";
 		options = new ArrayList<String>();
@@ -308,7 +377,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		type = Question.QuestionType.MULTIPLE_CHOICE;
 		q = new Question(questionText, type, options, correctOptions);
 		mQuestions.add(q);
-		
+
 		questionText = "A bad leader is someone who always makes the decisions as they know best";
 		options = new ArrayList<String>();
 		options.add("True");
@@ -317,7 +386,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		type = Question.QuestionType.MULTIPLE_CHOICE;
 		q = new Question(questionText, type, options, correctOptions);
 		mQuestions.add(q);
-		
+
 		questionText = "Order these qualities into the order that you feel are the most important for a leader to possess.\n\n" +
 				"A) Time management\n" + 
 				"B) Delegation\n" + 
@@ -334,12 +403,12 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		type = Question.QuestionType.ORDERING;
 		q = new Question(questionText, type, options, correctOptions);
 		mQuestions.add(q);
-		
+
 		questionText = "Please match these up below:\n\n" +
-		"A) A reflector learns by\n" + 
-		"B) A theorist learns by\n" + 
-		"C) A Pragmatist learns by\n" + 
-		"D) An Activist learns by\n";
+				"A) A reflector learns by\n" + 
+				"B) A theorist learns by\n" + 
+				"C) A Pragmatist learns by\n" + 
+				"D) An Activist learns by\n";
 		options = new ArrayList<String>();
 		options.add("Observing and reflecting");
 		options.add("Understanding the reasons behind it");
@@ -349,7 +418,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		type = Question.QuestionType.MATCH_UP;
 		q = new Question(questionText, type, options, correctOptions);
 		mQuestions.add(q);
-		
+
 		questionText = "How likely?";
 		options = new ArrayList<String>();
 		options.add("Very unlikely");
@@ -362,7 +431,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		q = new Question(questionText, type, options, correctOptions);
 		mQuestions.add(q);
 	}
-	
+
 	public void onClick(View v){
 		if(v == findViewById(R.id.next_question)){
 			if(mQuestionNumber < mNumberOfQuestions){
@@ -382,15 +451,35 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		}
 	}
 
+	/**
+	 * Update the label for the progress bar to reflect agreement/opinion strength
+	 */
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
 		Question current_question = mQuestions.get(mQuestionNumber-1);
 		mSliderLabel.setText(current_question.getOptions().get(progress));
+
+
+		//		if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
+		//			mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(progress).getFR());
+		//		}
+		//		else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
+		//			mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(progress).getES());
+		//		}
+		//		else{
+		//			mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(progress).getEN());
+		//		}
 	}
 
+	/**
+	 * Unused
+	 */
 	public void onStartTrackingTouch(SeekBar seekBar) {		
 	}
 
+	/**
+	 * Unused
+	 */
 	public void onStopTrackingTouch(SeekBar seekBar) {		
 	}
 }

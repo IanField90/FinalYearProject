@@ -46,9 +46,9 @@ public class TeachReachDbAdapter {
 
 	private final String QUESTIONS = "questions";
 	private final String QUESTION_ID = "question_id";
-	private final String QUESTION_EN = "content_en";
-	private final String QUESTION_FR = "content_fr";
-	private final String QUESTION_ES = "content_es";
+	private final String QUESTION_EN = "question_en";
+	private final String QUESTION_FR = "question_fr";
+	private final String QUESTION_ES = "question_es";
 	private final String FEEDBACK_EN = "feedback_en";
 	private final String FEEDBACK_FR = "feedback_fr";
 	private final String FEEDBACK_ES = "feedback_es";
