@@ -9,6 +9,7 @@ import uk.ac.reading.dp005570.TeachReach.util.TeachReachPopulater;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -62,6 +63,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		mIntent = new Intent(this, QuizResultsActivity.class);
 		//default to 0 - shouldn't be possible
 		mQuizId = getIntent().getIntExtra(TeachReachActivity.QUIZ_ID, 0);	
+		Log.i("QuizActivity", "Quiz ID: " + mQuizId);
 		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
 		mTeachReachPopulater.openDB();
 		mTeachReachPopulater.retrieveQuestionList(mQuizId);
@@ -69,29 +71,28 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		if(mQuestions.size() > 0){
 			mTeachReachPopulater.retrieveOptionList(mQuestions.get(0).getId());
 			mOptions = mTeachReachPopulater.getCurrentOptions();
-			
+			//Set up quiz
+//			populateQuiz(); //TODO remove this once implementation is properly complete (DB retrieval issue ATM)
+			mNumberOfQuestions = mQuestions.size();
+			//We start on Question 1
+			mQuestionNumber = 1;
+			//Set up progress label
+			mQuestionProgress = (TextView) findViewById(R.id.question_progress);
+			mQuestionProgress.setText( mQuestionNumber + " / " + mNumberOfQuestions);
+
+			mNextQuestion = (Button) findViewById(R.id.next_question);
+			mNextQuestion.setOnClickListener(this);
+
+			//Label question with "Question"
+			TextView question_title = (TextView) findViewById(R.id.question_title);
+			question_title.setText(R.string.question);
+
+			// Actually prepare question
+			mLl = (LinearLayout) findViewById(R.id.question_options);
+//			loadQuestion(mQuestions.get(0));
+			loadQuestion2(mQuestions.get(0));
 		}
-		//Set up quiz
-		populateQuiz(); //TODO remove this once implementation is properly complete (DB retrieval issue ATM)
-		mNumberOfQuestions = mQuestions.size();
-		//We start on Question 1
-		mQuestionNumber = 1;
 
-		//Set up progress label
-		mQuestionProgress = (TextView) findViewById(R.id.question_progress);
-		mQuestionProgress.setText( mQuestionNumber + " / " + mNumberOfQuestions);
-
-		mNextQuestion = (Button) findViewById(R.id.next_question);
-		mNextQuestion.setOnClickListener(this);
-
-		//Label question with "Question"
-		TextView question_title = (TextView) findViewById(R.id.question_title);
-		question_title.setText(R.string.question);
-
-		// Actually prepare question
-		mLl = (LinearLayout) findViewById(R.id.question_options);
-//		loadQuestion(mQuestions.get(0));
-		loadQuestion2(mQuestions.get(0));
 	}
 
 	@Override
@@ -436,7 +437,9 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 				mQuestionNumber++;
 				mQuestionProgress.setText(mQuestionNumber + " / " + mNumberOfQuestions);
 				mLl.removeAllViews();
-				loadQuestion(mQuestions.get(mQuestionNumber-1));
+				mTeachReachPopulater.retrieveOptionList(mQuestions.get(mQuestionNumber-1).getId());
+				mOptions = mTeachReachPopulater.getCurrentOptions();
+				loadQuestion2(mQuestions.get(mQuestionNumber-1));
 			}else {
 				// Load final results screen
 				addAnswerToIntent();
