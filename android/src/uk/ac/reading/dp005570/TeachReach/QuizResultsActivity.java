@@ -24,10 +24,8 @@ import android.widget.TextView;
  *
  */
 public class QuizResultsActivity extends ListActivity implements OnItemClickListener{
-	
 	private QuestionItemAdapter mAdapter;
 	private ArrayList<Answer> mQuestions;
-	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
