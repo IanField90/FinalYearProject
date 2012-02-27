@@ -9,7 +9,6 @@ import uk.ac.reading.dp005570.TeachReach.util.TeachReachPopulater;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -41,14 +40,12 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	private final String NUM_QUESTIONS = "Number_Questions";
 	//Store the current number of the question that the user is on
 	private Integer mQuestionNumber;
-	private Integer mNumberOfQuestions;
 	private TextView mQuestionProgress;
 	private TextView mSliderLabel;
 	private ArrayList<Question> mQuestions;	
 	private ArrayList<Option> mOptions;
 	private LinearLayout mLl;
 	private SeekBar mSlider;	
-	private int mNumberOptions;
 	private Button mNextQuestion;
 	private TeachReachPopulater mTeachReachPopulater;
 	char mLetter;
@@ -71,12 +68,11 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			mTeachReachPopulater.retrieveOptionList(mQuestions.get(0).getId());
 			mOptions = mTeachReachPopulater.getCurrentOptions();
 			//Set up quiz
-			mNumberOfQuestions = mQuestions.size();
 			//We start on Question 1
 			mQuestionNumber = 1;
 			//Set up progress label
 			mQuestionProgress = (TextView) findViewById(R.id.question_progress);
-			mQuestionProgress.setText( mQuestionNumber + " / " + mNumberOfQuestions);
+			mQuestionProgress.setText( mQuestionNumber + " / " + mQuestions.size());
 
 			mNextQuestion = (Button) findViewById(R.id.next_question);
 			mNextQuestion.setOnClickListener(this);
@@ -138,9 +134,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		mIntent.putExtra(ANSWER_STATUS_STRING + mQuestionNumber, value);
 	}
 
-	// TODO Ordering questions
 	public void loadQuestion(Question q){
-		Log.i("QuizActivity", "Number of options: " + mNumberOptions);
 		TextView question_text = (TextView) findViewById(R.id.question_text);
 		if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
 			question_text.setText(mTeachReachPopulater.getCurrentQuestions().get(mQuestionNumber-1).getFR());
@@ -254,11 +248,11 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 
 	public void onClick(View v){
 		if(v == findViewById(R.id.next_question)){
-			if(mQuestionNumber < mNumberOfQuestions){
+			if(mQuestionNumber < mQuestions.size()){
 				// Save answer status here
 				addAnswerToIntent();
 				mQuestionNumber++;
-				mQuestionProgress.setText(mQuestionNumber + " / " + mNumberOfQuestions);
+				mQuestionProgress.setText(mQuestionNumber + " / " + mQuestions.size());
 				mLl.removeAllViews();
 				mTeachReachPopulater.retrieveOptionList(mQuestions.get(mQuestionNumber-1).getId());
 				mOptions = mTeachReachPopulater.getCurrentOptions();
@@ -267,7 +261,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 				// Load final results screen
 				addAnswerToIntent();
 				mIntent.putExtra("QUIZ_ID", mQuizId);
-				mIntent.putExtra(NUM_QUESTIONS, mNumberOfQuestions);
+				mIntent.putExtra(NUM_QUESTIONS, mQuestions.size());
 				startActivity(mIntent);
 			}
 		}
