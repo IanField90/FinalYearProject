@@ -403,7 +403,7 @@ public class TeachReachDbAdapter {
 		}else{
 			//update
 			statement = "UPDATE " + QUESTIONS + " SET " + TYPE + "="+type_id + ", " + QUESTION_EN + "=\"" + en + "\", " +
-					QUESTION_FR + "=\"" + fr + "\", " + QUESTION_ES + "=\"" + es + "\"" +
+					QUESTION_FR + "=\"" + fr + "\", " + QUESTION_ES + "=\"" + es + "\", " +
 					FEEDBACK_EN + "=\"" + feedback_en + "\", " + FEEDBACK_FR + "=\"" + 
 					feedback_fr + "\", " + FEEDBACK_ES + "=\"" + feedback_es + "\" "+
 					" WHERE " + SERVER_ID +"=" + id;
