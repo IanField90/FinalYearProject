@@ -25,25 +25,38 @@ import android.widget.TextView;
  */
 public class QuizResultsActivity extends ListActivity implements OnItemClickListener{
 	private QuestionItemAdapter mAdapter;
-	private ArrayList<Answer> mQuestions;
-	
+	private ArrayList<Answer> mAnswers;
+	private int mNumQuestions;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.quiz_results);
-		
-		mQuestions = new ArrayList<Answer>();
-		mQuestions.add(new Answer(1, AnswerStatus.CORRECT));
-		mQuestions.add(new Answer(2, AnswerStatus.INCORRECT));
-		mQuestions.add(new Answer(2, AnswerStatus.NOT_APPLICABLE));
-		
-        this.mAdapter = new QuestionItemAdapter(this, R.layout.results_question_item, mQuestions);
-        setListAdapter(mAdapter);
-        
-        getListView().setOnItemClickListener(this);
+
+		mNumQuestions = getIntent().getIntExtra("Number_Questions", 0);
+		mAnswers = new ArrayList<Answer>();
+		for(int i = 1; i <= mNumQuestions; i++){
+			switch(getIntent().getCharExtra("Answer_Status_" + i, 'X')){
+			case 'X':
+				mAnswers.add(new Answer(1, AnswerStatus.NOT_APPLICABLE));
+				break;
+			case 'C':
+				mAnswers.add(new Answer(1, AnswerStatus.CORRECT));
+				break;
+			case 'I':
+				mAnswers.add(new Answer(1, AnswerStatus.INCORRECT));
+				break;
+			}
+			
+		}
+
+		this.mAdapter = new QuestionItemAdapter(this, R.layout.results_question_item, mAnswers);
+		setListAdapter(mAdapter);
+
+		getListView().setOnItemClickListener(this);
 	}
 
-	
+
 	/**
 	 * 
 	 * @author Ian Field
@@ -51,44 +64,44 @@ public class QuizResultsActivity extends ListActivity implements OnItemClickList
 	 */
 	private class QuestionItemAdapter extends ArrayAdapter<Answer>{
 		private ArrayList<Answer> items;
-        
+
 		public QuestionItemAdapter(Context context, int textViewResourceId, ArrayList<Answer> items) {
-            super(context, textViewResourceId, items);
-            this.items = items;
-        }
-		
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-                View v = convertView;
-                if (v == null) {
-                    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = vi.inflate(R.layout.results_question_item, null);
-                }
-                Answer a = items.get(position);
-                if (a != null) {
-                	TextView question_name = (TextView) v.findViewById(R.id.question_name);
-                	if(question_name != null){
-                    	question_name.setText("Question " + (position+1));
+			super(context, textViewResourceId, items);
+			this.items = items;
+		}
 
-                	}
-                	
-                	ImageView icon = (ImageView) v.findViewById(R.id.question_status);
-                	// Display tick
-                	if(a.getStatus() == AnswerStatus.CORRECT){
-                		icon.setImageResource(R.drawable.tick);
-                	}
-                	else if (a.getStatus() == AnswerStatus.INCORRECT){
-                		//Display cross
-                		icon.setImageResource(R.drawable.cross);
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+			if (v == null) {
+				LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				v = vi.inflate(R.layout.results_question_item, null);
+			}
+			Answer a = items.get(position);
+			if (a != null) {
+				TextView question_name = (TextView) v.findViewById(R.id.question_name);
+				if(question_name != null){
+					question_name.setText("Question " + (position+1));
 
-                	}
-                	else{
-                		//Not applicable
-                		icon.setImageResource(R.drawable.n_a);
-                	}
-                }
-                return v;
-        }
+				}
+
+				ImageView icon = (ImageView) v.findViewById(R.id.question_status);
+				// Display tick
+				if(a.getStatus() == AnswerStatus.CORRECT){
+					icon.setImageResource(R.drawable.tick);
+				}
+				else if (a.getStatus() == AnswerStatus.INCORRECT){
+					//Display cross
+					icon.setImageResource(R.drawable.cross);
+
+				}
+				else{
+					//Not applicable
+					icon.setImageResource(R.drawable.n_a);
+				}
+			}
+			return v;
+		}
 	}
 
 

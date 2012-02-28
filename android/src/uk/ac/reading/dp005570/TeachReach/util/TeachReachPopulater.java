@@ -35,7 +35,7 @@ public class TeachReachPopulater {
 	private ArrayList<Part> mParts, mCurrentParts;
 	
 	private ArrayList<Material> mMaterials;
-	
+//	private static Boolean mOpen; // TODO Look into using this to reduce errors?
 	private ArrayList<Quiz> mQuizzes;
 	private ArrayList<Question> mQuestions;
 	private ArrayList<Option> mOptions;

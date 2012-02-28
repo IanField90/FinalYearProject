@@ -9,7 +9,6 @@ import uk.ac.reading.dp005570.TeachReach.util.TeachReachPopulater;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -61,7 +60,6 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		mIntent = new Intent(this, QuizResultsActivity.class);
 		//default to 0 - shouldn't be possible
 		mQuizId = getIntent().getIntExtra(TeachReachActivity.QUIZ_ID, 0);	
-		Log.i("QuizActivity", "QID: " + mQuizId);
 		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
 		mTeachReachPopulater.openDB();
 		mTeachReachPopulater.retrieveQuestionList(mQuizId);
@@ -129,7 +127,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			break;
 		case 4:
 			//Slider/Opinion
-			value = 'N';// N for N/A
+			value = 'X';// X for N/A
 			break;
 		}
 		//TODO question correctness logic here
@@ -254,7 +252,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		if(v == findViewById(R.id.next_question)){
 			if(mQuestionNumber < mQuestions.size()){
 				// Save answer status here
-//				addAnswerToIntent();
+				addAnswerToIntent();
 				mQuestionNumber++;
 				mQuestionProgress.setText(mQuestionNumber + " / " + mQuestions.size());
 				mLl.removeAllViews();
@@ -263,7 +261,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 				loadQuestion(mQuestions.get(mQuestionNumber-1));
 			}else {
 				// Load final results screen
-//				addAnswerToIntent();
+				addAnswerToIntent();
 				mIntent.putExtra("QUIZ_ID", mQuizId);
 				mIntent.putExtra(NUM_QUESTIONS, mQuestions.size());
 				startActivity(mIntent);
@@ -280,15 +278,15 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		mSliderLabel.setText(current_question.getOptions().get(progress));
 
 
-		//		if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("franais")){
-		//			mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(progress).getFR());
-		//		}
-		//		else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("espa–ol")){
-		//			mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(progress).getES());
-		//		}
-		//		else{
-		//			mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(progress).getEN());
-		//		}
+		if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("franais")){
+			mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(progress).getFR());
+		}
+		else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("espa–ol")){
+			mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(progress).getES());
+		}
+		else{
+			mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(progress).getEN());
+		}
 	}
 
 	/**
