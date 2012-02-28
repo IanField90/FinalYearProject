@@ -382,8 +382,8 @@ public class TeachReachDbAdapter {
 
 	/**
 	 * Creates or updates the database entry for a question
-	 * @param id Server\"s table ID
-	 * @param quiz_id Server\"s question ID
+	 * @param id Server's table ID
+	 * @param quiz_id Server's question ID
 	 * @param en English question
 	 * @param fr French question
 	 * @param es Spanish question
@@ -397,7 +397,7 @@ public class TeachReachDbAdapter {
 		String statement;
 		if(cursor.getCount() == 0){
 			//insert
-			statement = "INSERT INTO " + QUESTIONS + " VALUES( null, " + id + ", " + quiz_id + ", " + type_id +
+			statement = "INSERT INTO " + QUESTIONS + " VALUES( null, " + quiz_id + ", " + id + ", " + type_id +
 					", \"" + en + "\", \"" + fr + "\", \"" + es + "\", \"" + feedback_en + 
 					"\", \"" + feedback_fr + "\", \"" + feedback_es + "\")";
 		}else{
@@ -423,7 +423,6 @@ public class TeachReachDbAdapter {
 	 */
 	public void createOption(int id, int question_id, String en, String fr,
 			String es, Boolean answer) {
-		//TODO verify how booleans are added
 		Cursor cursor = mDb.rawQuery("SELECT * FROM " + OPTIONS + " WHERE server_id=?", new String[] { ""+id });
 		String statement;
 		if(cursor.getCount() == 0){
@@ -457,7 +456,7 @@ public class TeachReachDbAdapter {
 	
 	/**
 	 * Retrieves questions for a quiz
-	 * @param quiz_id The server\"s Quiz ID the questions belongs to
+	 * @param quiz_id The server's Quiz ID the questions belongs to
 	 * @return All questions belonging to a given Quiz.
 	 */
 	public Cursor fetchQuestions(int quiz_id){
@@ -478,7 +477,7 @@ public class TeachReachDbAdapter {
 	public Cursor fetchOptions(int question_id){
 		Cursor cursor = mDb.query(true, OPTIONS,
 				new String[] { SERVER_ID, OPTION_EN, OPTION_FR, OPTION_ES, OPTION_ANSWER},
-				QUESTION_ID + "=" + question_id, null, null, null, null, null);
+				QUESTION_ID + "=" + question_id, null, null, null, null, null); //TODO Changed
 		if(cursor != null){
 			cursor.moveToFirst();
 		}

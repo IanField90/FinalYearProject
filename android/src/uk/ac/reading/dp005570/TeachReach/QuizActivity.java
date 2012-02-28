@@ -9,6 +9,7 @@ import uk.ac.reading.dp005570.TeachReach.util.TeachReachPopulater;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -60,6 +61,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		mIntent = new Intent(this, QuizResultsActivity.class);
 		//default to 0 - shouldn't be possible
 		mQuizId = getIntent().getIntExtra(TeachReachActivity.QUIZ_ID, 0);	
+		Log.i("QuizActivity", "QID: " + mQuizId);
 		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
 		mTeachReachPopulater.openDB();
 		mTeachReachPopulater.retrieveQuestionList(mQuizId);
@@ -147,102 +149,104 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		}
 
 		mTeachReachPopulater.retrieveOptionList(q.getId());
-		switch(q.getTypeId()){
-		case 1:
-			//Multiple choice	
-			RadioGroup rg = new RadioGroup(this);
-			ArrayList<Option> options = mTeachReachPopulater.getCurrentOptions();
-			for(Option option : options){
-				RadioButton rb = new RadioButton(this);
+		if(mTeachReachPopulater.getCurrentOptions().size() > 0){
+			switch(q.getTypeId()){
+			case 1:
+				//Multiple choice	
+				RadioGroup rg = new RadioGroup(this);
+				ArrayList<Option> options = mTeachReachPopulater.getCurrentOptions();
+				for(Option option : options){
+					RadioButton rb = new RadioButton(this);
+					if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
+						rb.setText(option.getFR());
+					}
+					else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
+						rb.setText(option.getES());
+					}
+					else{
+						rb.setText(option.getEN());
+					}
+					rg.addView(rb);
+					((RadioButton) rg.getChildAt(0)).setChecked(true);
+				}
+				mLl.addView(rg);
+				break;
+			case 2:
+				//Fill-in-the-blanks
+				mLetter = 'A';
+				for(int i = 0; i < mOptions.size(); i++){
+					TextView label = new TextView(this);
+					label.setText(mLetter+")");
+					Spinner spinner = new Spinner(this);
+					String[] optns = new String[mOptions.size()];
+					for(int j = 0; j < mOptions.size(); j++){
+						if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
+							optns[j] = mOptions.get(j).getFR();
+						}
+						else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
+							optns[j] = mOptions.get(j).getES();
+						}
+						else{
+							optns[j] = mOptions.get(j).getEN();
+						}
+					}
+					ArrayAdapter<String> options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optns);
+					options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					spinner.setAdapter(options_adapter);
+					spinner.setHorizontalScrollBarEnabled(true);
+					mLl.addView(label);
+					mLl.addView(spinner);
+					mLetter++;
+				}
+				break;
+			case 3:
+				//Match up
+				mLetter = 'A';
+				for(int i = 0; i < mOptions.size(); i++){
+					TextView label = new TextView(this);
+					label.setText(mLetter+")");
+					Spinner spinner = new Spinner(this);
+					String[] optns = new String[mOptions.size()];
+					for(int j = 0; j < mOptions.size(); j++){
+						if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
+							optns[j] = mOptions.get(j).getFR();
+						}
+						else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
+							optns[j] = mOptions.get(j).getES();
+						}
+						else{
+							optns[j] = mOptions.get(j).getEN();
+						}
+					}
+					ArrayAdapter<String> options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optns);
+					options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					spinner.setAdapter(options_adapter);
+					spinner.setHorizontalScrollBarEnabled(true);
+					mLl.addView(label);
+					mLl.addView(spinner);
+					mLetter++;
+				}
+				break;
+			case 4:
+				//Slider/Opinion
+				mSliderLabel = new TextView(this);
+				mSlider = new SeekBar(this);
+				mSlider.setProgress(0);
+				mSlider.setMax(q.getOptions().size()-1);
+				mSlider.setOnSeekBarChangeListener(this); //Within this change listener set slider_label text to q.getOptions().get(position);
 				if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
-					rb.setText(option.getFR());
+					mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(0).getFR());
 				}
 				else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
-					rb.setText(option.getES());
+					mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(0).getES());
 				}
 				else{
-					rb.setText(option.getEN());
+					mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(0).getEN());
 				}
-				rg.addView(rb);
+				mLl.addView(mSliderLabel, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+				mLl.addView(mSlider, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.MATCH_PARENT));
+				break;
 			}
-			((RadioButton) rg.getChildAt(0)).setChecked(true);
-			mLl.addView(rg);
-			break;
-		case 2:
-			//Fill-in-the-blanks
-			mLetter = 'A';
-			for(int i = 0; i < mOptions.size(); i++){
-				TextView label = new TextView(this);
-				label.setText(mLetter+")");
-				Spinner spinner = new Spinner(this);
-				String[] optns = new String[mOptions.size()];
-				for(int j = 0; j < mOptions.size(); j++){
-					if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
-						optns[j] = mOptions.get(j).getFR();
-					}
-					else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
-						optns[j] = mOptions.get(j).getES();
-					}
-					else{
-						optns[j] = mOptions.get(j).getEN();
-					}
-				}
-				ArrayAdapter<String> options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optns);
-				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spinner.setAdapter(options_adapter);
-				spinner.setHorizontalScrollBarEnabled(true);
-				mLl.addView(label);
-				mLl.addView(spinner);
-				mLetter++;
-			}
-			break;
-		case 3:
-			//Match up
-			mLetter = 'A';
-			for(int i = 0; i < mOptions.size(); i++){
-				TextView label = new TextView(this);
-				label.setText(mLetter+")");
-				Spinner spinner = new Spinner(this);
-				String[] optns = new String[mOptions.size()];
-				for(int j = 0; j < mOptions.size(); j++){
-					if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
-						optns[j] = mOptions.get(j).getFR();
-					}
-					else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
-						optns[j] = mOptions.get(j).getES();
-					}
-					else{
-						optns[j] = mOptions.get(j).getEN();
-					}
-				}
-				ArrayAdapter<String> options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optns);
-				options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spinner.setAdapter(options_adapter);
-				spinner.setHorizontalScrollBarEnabled(true);
-				mLl.addView(label);
-				mLl.addView(spinner);
-				mLetter++;
-			}
-			break;
-		case 4:
-			//Slider/Opinion
-			mSliderLabel = new TextView(this);
-			mSlider = new SeekBar(this);
-			mSlider.setProgress(0);
-			mSlider.setMax(q.getOptions().size()-1);
-			mSlider.setOnSeekBarChangeListener(this); //Within this change listener set slider_label text to q.getOptions().get(position);
-			if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
-				mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(0).getFR());
-			}
-			else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("español")){
-				mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(0).getES());
-			}
-			else{
-				mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(0).getEN());
-			}
-			mLl.addView(mSliderLabel, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-			mLl.addView(mSlider, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.MATCH_PARENT));
-			break;
 		}
 	}
 
@@ -250,7 +254,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		if(v == findViewById(R.id.next_question)){
 			if(mQuestionNumber < mQuestions.size()){
 				// Save answer status here
-				addAnswerToIntent();
+//				addAnswerToIntent();
 				mQuestionNumber++;
 				mQuestionProgress.setText(mQuestionNumber + " / " + mQuestions.size());
 				mLl.removeAllViews();
@@ -259,7 +263,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 				loadQuestion(mQuestions.get(mQuestionNumber-1));
 			}else {
 				// Load final results screen
-				addAnswerToIntent();
+//				addAnswerToIntent();
 				mIntent.putExtra("QUIZ_ID", mQuizId);
 				mIntent.putExtra(NUM_QUESTIONS, mQuestions.size());
 				startActivity(mIntent);
