@@ -100,6 +100,12 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		mTeachReachPopulater.openDB();
 	}
 
+	/**
+	 * Adds whether the question answer was correct or not to the intent for the results activity
+	 * Answer_status_1 = 'X' means question 1's answer was N/A
+	 * Answer_Status_2 = 'C' means question 2's answer was Correct
+	 * Answer_Status_1 = 'I' means question 1's answer was Incorrect
+	 */
 	private void addAnswerToIntent(){
 		char value = 'X';
 		switch(mQuestions.get(mQuestionNumber-1).getTypeId()){

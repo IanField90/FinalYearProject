@@ -31,7 +31,6 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
 		getListView().setTextFilterEnabled(false);
 		getListView().setOnItemClickListener(this);
 
-//		 TODO ProgressDialog here while retrieving from online if chosen
 		populateQuizList();
 		if(mTeachReachPopulater.getCurrentQuizzes().size() > 0){
 			setListAdapter(new ArrayAdapter<String>(this, R.layout.quiz_item, mQuizzes)); 
@@ -64,6 +63,7 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
 		else{
 			Toast.makeText(this.getApplicationContext(), getString(R.string.quiz_apology), Toast.LENGTH_LONG).show();
 		}
+		mTeachReachPopulater.closeDB();
 	}
 
 

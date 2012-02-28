@@ -502,6 +502,30 @@ public class TeachReachPopulater {
 					option.getEN(), option.getFR(), option.getES(), option.isAnswer());
 		}
 	}
+	
+	/**
+	 * Retrieve the question at a given position from the DB
+	 * @param quiz_id Quiz ID of the quiz
+	 * @param position Position of the question to get feedback for
+	 * @return The question that the feedback will be for
+	 */
+	public Question getFeedbackForQuestion(int quiz_id, int position){
+		Question question = null;
+		Cursor cursor = mTeachReachDbAdapter.fetchQuestions(quiz_id);
+		if(cursor != null && cursor.getCount() > 0){
+			cursor.move(position);// TODO check this is correct
+			int id = cursor.getInt(0);
+			int type = cursor.getInt(1);
+			String en = cursor.getString(2);
+			String fr = cursor.getString(3);
+			String es = cursor.getString(4);
+			String feedback_en = cursor.getString(5);
+			String feedback_fr = cursor.getString(6);
+			String feedback_es = cursor.getString(7);
+			question = new Question(id, quiz_id, type, en, fr, es, feedback_en, feedback_fr, feedback_es);
+		}
+		return question;
+	}
 
 	/**
 	 * Get the actual list of Programmes currently selected.

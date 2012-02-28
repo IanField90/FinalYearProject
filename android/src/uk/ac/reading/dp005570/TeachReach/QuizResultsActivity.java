@@ -27,12 +27,14 @@ public class QuizResultsActivity extends ListActivity implements OnItemClickList
 	private QuestionItemAdapter mAdapter;
 	private ArrayList<Answer> mAnswers;
 	private int mNumQuestions;
+	private int mQuizId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.quiz_results);
 
+		mQuizId = getIntent().getIntExtra("QUIZ_ID", 0);
 		mNumQuestions = getIntent().getIntExtra("Number_Questions", 0);
 		mAnswers = new ArrayList<Answer>();
 		for(int i = 1; i <= mNumQuestions; i++){
@@ -107,6 +109,9 @@ public class QuizResultsActivity extends ListActivity implements OnItemClickList
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Intent i = new Intent(this, FeedbackActivity.class);
+		i.putExtra("QUIZ_ID", mQuizId);
+		i.putExtra("QUESTION_POS", position);//Store the cursor position to select feedback for
+											//after getting questions
 		startActivity(i);
 	}
 
