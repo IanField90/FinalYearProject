@@ -109,6 +109,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	 * spinner 1 answer 1, spinner 2 answer two etc. The positions are shuffled
 	 * Meaning that the 'correct' position for a given spinner is stored as follows:
 	 * mOptionPositions[SpinnerNumber];
+	 * This can possibly be optimised further, but for now it works.
 	 */
 	private void shuffleOptions(){
 		int pos;
@@ -122,7 +123,6 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		Random generator = new Random(1223320);
 		boolean flag;
 		
-		//TODO paper out this logic
 		for(int i = 0; i < mOptions.size(); i++){
 			do{
 				pos = generator.nextInt(mOptions.size());
