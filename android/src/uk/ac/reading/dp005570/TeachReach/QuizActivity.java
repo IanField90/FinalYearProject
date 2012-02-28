@@ -2,6 +2,7 @@ package uk.ac.reading.dp005570.TeachReach;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Random;
 
 import uk.ac.reading.dp005570.TeachReach.data.Option;
 import uk.ac.reading.dp005570.TeachReach.data.Question;
@@ -52,6 +53,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	public static final String ANSWER_STATUS_STRING = "Answer_Status_";
 	private Intent mIntent;
 	private int mQuizId;
+	private Integer[] mOptionPositions;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -85,6 +87,8 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			mLl = (LinearLayout) findViewById(R.id.question_options);
 			loadQuestion(mQuestions.get(0));
 		}
+		
+		shuffleOptions();
 
 	}
 
@@ -98,6 +102,66 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	protected void onRestart(){
 		super.onRestart();
 		mTeachReachPopulater.openDB();
+	}
+
+	/**
+	 * In order to not show the same order in spinners as they are correct
+	 * spinner 1 answer 1, spinner 2 answer two etc. The positions are shuffled
+	 * Meaning that the 'correct' position for a given spinner is stored as follows:
+	 * mOptionPositions[SpinnerNumber];
+	 */
+	private void shuffleOptions(){
+		int pos;
+		mOptionPositions = new Integer[mOptions.size()];
+		
+		//Initialise shuffle to -1
+		for(int i = 0; i < mOptions.size(); i++){
+			mOptionPositions[i] = -1;
+		}
+		
+		Random generator = new Random(1223320);
+		boolean flag;
+		
+		//TODO paper out this logic
+		for(int i = 0; i < mOptions.size(); i++){
+			do{
+				pos = generator.nextInt(mOptions.size());
+				flag = true;
+				for(int j = 0; j < mOptions.size(); j++){
+					if(mOptionPositions[j] == pos){
+						flag = false;
+					}
+				}
+			}while(!flag);
+			mOptionPositions[i] = pos;
+		}
+		
+//		int pos;
+//		mOptionPositions = new Integer[5];
+//		
+//		//Initialise shuffle to -1
+//		for(int i = 0; i < 5; i++){
+//			mOptionPositions[i] = -1;
+//		}
+//		
+//		Random generator = new Random(System.currentTimeMillis());
+//		boolean flag;
+//		
+//		//TODO paper out this logic
+//		for(int i = 0; i < 5; i++){
+//			do{
+//				pos = generator.nextInt(5);
+//				flag = true;
+//				for(int j = 0; j < 5; j++){
+//					if(mOptionPositions[j] == pos){
+//						flag = false;
+//					}
+//				}
+//			}while(!flag);
+//			mOptionPositions[i] = pos;
+//		}
+//		
+//		Log.i("QuizActivity", "Shuffle: " + mOptionPositions[0] + "," + mOptionPositions[1] + "," + mOptionPositions[2] + "," + mOptionPositions[3] + "," + mOptionPositions[4]);
 	}
 
 	/**
