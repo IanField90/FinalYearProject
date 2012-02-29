@@ -30,6 +30,7 @@ import android.widget.TextView;
  * Here's where the brunt of logic happens!
  */
 
+// TODO shuffle if valid question type, display in shuffled order instead of DB retrieval order
 
 /**
  * Handles the taking of quizzes and displaying of the questions within the quiz.
@@ -188,10 +189,22 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			break;
 		case 2:
 			//Fill-in-the-blanks
-			//More complex need to check all answers are correct
-
-			break;
 		case 3:
+			//More complex need to check all answers are correct
+			for(int i = 0; i < 2*mOptions.size(); i++){
+				//if odd
+				if((i % 2) > 0){
+					Spinner sp = (Spinner) mLl.getChildAt(i);
+					// If it's not the correct position at any stage change from X to I
+					if(sp.getSelectedItemPosition() != mOptionPositions[(i/2) - 1]){
+						value = 'I'; 
+					}
+				}
+			}
+			//If all correct value remains 'X', so change to 'C' to label as correct
+			if(value == 'X'){
+				value = 'C';
+			}
 			//Match up
 			//More complex need to check all answers are correct
 			break;
