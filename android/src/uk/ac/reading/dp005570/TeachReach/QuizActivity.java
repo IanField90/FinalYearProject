@@ -253,6 +253,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 				mLl.addView(rg);
 				break;
 			case 2:
+				//TODO shuffle
 				//Fill-in-the-blanks
 				mLetter = 'A';
 				for(int i = 0; i < mOptions.size(); i++){
@@ -262,7 +263,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 					String[] optns = new String[mOptions.size()];
 					for(int j = 0; j < mOptions.size(); j++){
 						if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("franais")){
-							optns[j] = mOptions.get(j).getFR();
+							optns[j] = mOptions.get(j).getFR(); //TODO use shuffled value here instead
 						}
 						else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("espa–ol")){
 							optns[j] = mOptions.get(j).getES();
@@ -281,6 +282,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 				}
 				break;
 			case 3:
+				///TODO shuffle
 				//Match up
 				mLetter = 'A';
 				for(int i = 0; i < mOptions.size(); i++){
@@ -290,7 +292,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 					String[] optns = new String[mOptions.size()];
 					for(int j = 0; j < mOptions.size(); j++){
 						if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("franais")){
-							optns[j] = mOptions.get(j).getFR();
+							optns[j] = mOptions.get(j).getFR(); //TODO use shuffled value here instead
 						}
 						else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("espa–ol")){
 							optns[j] = mOptions.get(j).getES();
