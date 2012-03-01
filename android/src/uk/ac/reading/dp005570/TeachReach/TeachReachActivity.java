@@ -50,7 +50,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.main);        
         mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
         loadSettings(); //Can cause crash on re-open
         mCourseItems = mTeachReachPopulater.getCourses();
