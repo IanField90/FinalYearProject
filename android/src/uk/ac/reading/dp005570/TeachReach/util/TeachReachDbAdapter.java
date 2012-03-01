@@ -462,7 +462,7 @@ public class TeachReachDbAdapter {
 	public Cursor fetchQuestions(int quiz_id){
 		Cursor cursor = mDb.query(true, QUESTIONS,
 				new String[] { SERVER_ID, TYPE, QUESTION_EN, QUESTION_FR, QUESTION_ES, FEEDBACK_EN, FEEDBACK_FR, FEEDBACK_ES},
-				QUIZ_ID + "=" + quiz_id, null, null, null, null, null);//TODO CHANGED
+				QUIZ_ID + "=" + quiz_id, null, null, null, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}
@@ -477,7 +477,7 @@ public class TeachReachDbAdapter {
 	public Cursor fetchOptions(int question_id){
 		Cursor cursor = mDb.query(true, OPTIONS,
 				new String[] { SERVER_ID, OPTION_EN, OPTION_FR, OPTION_ES, OPTION_ANSWER},
-				QUESTION_ID + "=" + question_id, null, null, null, null, null); //TODO Changed
+				QUESTION_ID + "=" + question_id, null, null, null, null, null);
 		if(cursor != null){
 			cursor.moveToFirst();
 		}

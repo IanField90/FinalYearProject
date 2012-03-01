@@ -513,7 +513,7 @@ public class TeachReachPopulater {
 		Question question = null;
 		Cursor cursor = mTeachReachDbAdapter.fetchQuestions(quiz_id);
 		if(cursor != null && cursor.getCount() > 0){
-			cursor.move(position);// TODO check this is correct
+			cursor.move(position);
 			int id = cursor.getInt(0);
 			int type = cursor.getInt(1);
 			String en = cursor.getString(2);

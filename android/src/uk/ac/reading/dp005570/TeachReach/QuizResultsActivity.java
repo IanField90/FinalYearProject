@@ -21,7 +21,6 @@ import android.widget.TextView;
  * Allows the user to see the results of their quiz,
  * then optionally access feedback for an individual question
  * @author Ian Field
- *
  */
 public class QuizResultsActivity extends ListActivity implements OnItemClickListener{
 	private QuestionItemAdapter mAdapter;
@@ -83,8 +82,7 @@ public class QuizResultsActivity extends ListActivity implements OnItemClickList
 			if (a != null) {
 				TextView question_name = (TextView) v.findViewById(R.id.question_name);
 				if(question_name != null){
-					question_name.setText("Question " + (position+1));
-
+					question_name.setText(getString(R.string.question) + " " + (position + 1) );
 				}
 
 				ImageView icon = (ImageView) v.findViewById(R.id.question_status);
@@ -95,7 +93,6 @@ public class QuizResultsActivity extends ListActivity implements OnItemClickList
 				else if (a.getStatus() == AnswerStatus.INCORRECT){
 					//Display cross
 					icon.setImageResource(R.drawable.cross);
-
 				}
 				else{
 					//Not applicable

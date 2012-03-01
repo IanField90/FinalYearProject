@@ -30,9 +30,6 @@ import android.widget.TextView;
  * Here's where the brunt of logic happens!
  */
 
-// TODO shuffle if valid question type, display in shuffled order instead of DB retrieval order
-// TODO find out why it only works correctly sometimes
-
 /**
  * Handles the taking of quizzes and displaying of the questions within the quiz.
  * Accessible through QuizListActivity - so can assume quiz is present in DB.
@@ -56,6 +53,8 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	private Intent mIntent;
 	private int mQuizId;
 	private Integer[] mOptionPositions;
+	private Random generator = new Random(System.currentTimeMillis());
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -77,7 +76,6 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			//Set up progress label
 			mQuestionProgress = (TextView) findViewById(R.id.question_progress);
 			mQuestionProgress.setText( mQuestionNumber + " / " + mQuestions.size());
-
 			mNextQuestion = (Button) findViewById(R.id.next_question);
 			mNextQuestion.setOnClickListener(this);
 
@@ -119,7 +117,6 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			mOptionPositions[i] = -1;
 		}
 		
-		Random generator = new Random(System.currentTimeMillis());
 		boolean flag;
 		
 		for(int i = 0; i < mOptions.size(); i++){
@@ -133,6 +130,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 				}
 			}while(!flag);
 			mOptionPositions[i] = pos;
+//			mOptionPositions[pos-1] = i;
 		}
 	}
 
@@ -161,14 +159,23 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 		case 2:
 			//Fill-in-the-blanks
 		case 3:
+			//Match up
 			//More complex need to check all answers are correct
 			for(int i = 0; i < 2*mOptions.size(); i++){
 				//if odd
 				if((i % 2) > 0){
 					Spinner sp = (Spinner) mLl.getChildAt(i);
 					// If it's not the correct position at any stage change from X to I
-					if(sp.getSelectedItemPosition() != mOptionPositions[i/2]){ //optimised
-						value = 'I'; 
+					int x = -1; //Index to lookup based on i
+					for(int j = 0; j<mOptions.size(); j++){
+						if(mOptionPositions[j] == i/2){
+							x = j;
+						}
+					}
+//					Log.i("QuizActivity", "Spinner pos: " + sp.getSelectedItemPosition() + " OptionCorrect: " + x);
+					//If index is the spinner position
+					if(sp.getSelectedItemPosition() != x){//!= mOptionPositions[i/2]){ //optimised
+						value = 'I';
 					}
 				}
 			}
@@ -176,8 +183,6 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 			if(value == 'X'){
 				value = 'C';
 			}
-			//Match up
-			//More complex need to check all answers are correct
 			break;
 		case 4:
 			//Slider/Opinion
@@ -286,7 +291,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 				mSliderLabel = new TextView(this);
 				mSlider = new SeekBar(this);
 				mSlider.setProgress(0);
-				mSlider.setMax(q.getOptions().size()-1);
+				mSlider.setMax(mOptions.size()-1);
 				mSlider.setOnSeekBarChangeListener(this); //Within this change listener set slider_label text to q.getOptions().get(position);
 				if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("franais")){
 					mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(0).getFR());
@@ -330,18 +335,14 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	 */
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
-		Question current_question = mQuestions.get(mQuestionNumber-1);
-		mSliderLabel.setText(current_question.getOptions().get(progress));
-
-
 		if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("franais")){
-			mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(progress).getFR());
+			mSliderLabel.setText(mOptions.get(progress).getFR());
 		}
 		else if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("espa–ol")){
-			mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(progress).getES());
+			mSliderLabel.setText(mOptions.get(progress).getES());
 		}
 		else{
-			mSliderLabel.setText(mTeachReachPopulater.getCurrentOptions().get(progress).getEN());
+			mSliderLabel.setText(mOptions.get(progress).getEN());
 		}
 	}
 

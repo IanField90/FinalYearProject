@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:padding="6dp"
-            android:text="rawr" />
+            android:text="@string/not_available" />
 
         <TextView
             android:id="@+id/question_title"

@@ -32,5 +32,6 @@
     <string name="material_apology">Sorry, no materials available.</string>
     <string name="quiz_apology">Sorry, no quizzes available.</string>
     <string name="material">Material: </string>
+    <string name="not_available">Sorry this is not available in your language.</string>
         
 </resources>
