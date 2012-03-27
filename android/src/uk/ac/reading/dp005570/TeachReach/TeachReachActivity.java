@@ -124,29 +124,34 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
     
 	@Override
 	protected void onStop(){
-		super.onStop();
 		mTeachReachPopulater.closeDB();
 		saveSettings();
+		super.onStop();
 	}
 	
-//	@Override
-//	protected void onPause(){
-//		super.onPause();
-//		mTeachReachPopulater.closeDB();
-//	}
-//	
-//	@Override
-//	protected void onResume(){
-//		super.onResume();
-//		mTeachReachPopulater.openDB();
-//	}
+	@Override
+	protected void onPause(){
+		mTeachReachPopulater.closeDB();
+		super.onPause();
+	}
+	
+	@Override
+	protected void onResume(){
+		mTeachReachPopulater.openDB();
+		super.onResume();
+	}
 	
 	@Override
 	protected void onRestart(){
-		super.onResume();
 		mTeachReachPopulater.openDB();
+		super.onResume();
 	}
 	
+//	@Override
+//	protected void onDestroy(){
+//		mTeachReachPopulater.closeDB();
+//		super.onDestroy();
+//	}
 	
 	/**
 	 * Onclick of a button

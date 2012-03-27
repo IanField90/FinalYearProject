@@ -35,6 +35,8 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
 		if(mTeachReachPopulater.getCurrentQuizzes().size() > 0){
 			setListAdapter(new ArrayAdapter<String>(this, R.layout.quiz_item, mQuizzes)); 
 		}
+		mTeachReachPopulater.closeDB();
+
 	}
 
 	
@@ -63,7 +65,6 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
 		else{
 			Toast.makeText(this.getApplicationContext(), getString(R.string.quiz_apology), Toast.LENGTH_LONG).show();
 		}
-		mTeachReachPopulater.closeDB();
 	}
 
 

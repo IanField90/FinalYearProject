@@ -39,6 +39,7 @@ public class TeachReachPopulater {
 	private ArrayList<Quiz> mQuizzes;
 	private ArrayList<Question> mQuestions;
 	private ArrayList<Option> mOptions;
+	private static Boolean open = false;
 
 	/**
 	 * Instatiates the populater with including setting up the database parser etc.
@@ -47,7 +48,8 @@ public class TeachReachPopulater {
 	public TeachReachPopulater(Context context) {
 		mTeachReachParser = new TeachReachParser();
 		mTeachReachDbAdapter = new TeachReachDbAdapter(context);
-		mTeachReachDbAdapter.open();
+//		mTeachReachDbAdapter.open();
+		this.openDB();
 		mServerCommunicationHelper = new ServerCommunicationHelper();
 		mLocale = Locale.getDefault().getDisplayLanguage();
 	}
@@ -56,14 +58,24 @@ public class TeachReachPopulater {
 	 * Close the database
 	 */
 	public void closeDB(){
-		mTeachReachDbAdapter.close();
+//		mTeachReachDbAdapter.close();
+
+		if(open){
+			mTeachReachDbAdapter.close();
+		}
+		open = false;
 	}
 	
 	/**
 	 * Open the database connection - may throw error if already open
 	 */
 	public void openDB(){
-		mTeachReachDbAdapter.open();
+//		mTeachReachDbAdapter.open();
+
+		if(!open){
+			mTeachReachDbAdapter.open();
+		}
+		open = true;
 	}
 	
 	/**
@@ -148,9 +160,9 @@ public class TeachReachPopulater {
 				Course course = new Course(id, en, fr, es);
 				courses.add(course);
 			}while(cursor.moveToNext());
-
+			cursor.close();
 		}
-		return (courses.size() > 0) ? courses : null;
+		return (courses.size() > 0) ? courses : null;	
 	}
 
 	/**
@@ -173,6 +185,7 @@ public class TeachReachPopulater {
 				Programme programme = new Programme(id, course_id, en, fr, es);
 				programmes.add(programme);
 			}while(cursor.moveToNext());
+			cursor.close();
 		}
 
 		return (programmes.size() > 0) ? programmes : null;
@@ -197,6 +210,7 @@ public class TeachReachPopulater {
 				Part part = new Part(id, programme_id, en, fr, es);
 				parts.add(part);
 			}while(cursor.moveToNext());
+			cursor.close();
 		}
 		return (parts.size() > 0) ? parts : null;
 
@@ -310,6 +324,7 @@ public class TeachReachPopulater {
 				String es = cursor.getString(3);
 				mCourses.add(new Course(id, en, fr, es));
 			}while(cursor.moveToNext());
+			cursor.close();
 		}
 	}
 	
@@ -328,6 +343,7 @@ public class TeachReachPopulater {
 				String es = cursor.getString(3);
 				mCurrentProgrammes.add(new Programme(id, course_id, en, fr, es));
 			}while(cursor.moveToNext());
+			cursor.close();
 		}
 	}
 	
@@ -346,6 +362,7 @@ public class TeachReachPopulater {
 				String es = cursor.getString(3);
 				mCurrentParts.add(new Part(id, programme_id, en, fr, es));
 			}while(cursor.moveToNext());
+			cursor.close();
 		}
 	}
 	
@@ -364,6 +381,7 @@ public class TeachReachPopulater {
 				String es = cursor.getString(3);
 				mMaterials.add(new Material(id, part_id, en, fr, es));
 			}while(cursor.moveToNext());
+			cursor.close();
 		}
 	}
 	
@@ -383,6 +401,7 @@ public class TeachReachPopulater {
 				String es = cursor.getString(3);
 				mQuizzes.add(new Quiz(id, part_id, en, fr, es));
 			}while(cursor.moveToNext());
+			cursor.close();
 		}
 	}
 	
@@ -405,6 +424,7 @@ public class TeachReachPopulater {
 				String feedback_es = cursor.getString(7);
 				mQuestions.add(new Question(id, quiz_id, type, en, fr, es, feedback_en, feedback_fr, feedback_es));
 			}while(cursor.moveToNext());
+			cursor.close();
 		}
 	}
 	
@@ -424,6 +444,7 @@ public class TeachReachPopulater {
 				Boolean answer = Boolean.parseBoolean(cursor.getString(4));//(cursor.getInt(4) > 0); // SQLite does not directly do datatype so this is a fix
 				mOptions.add(new Option(id, question_id, en, fr, es, answer));
 			}while(cursor.moveToNext());
+			cursor.close();
 		}
 	}
 
@@ -523,6 +544,7 @@ public class TeachReachPopulater {
 			String feedback_fr = cursor.getString(6);
 			String feedback_es = cursor.getString(7);
 			question = new Question(id, quiz_id, type, en, fr, es, feedback_en, feedback_fr, feedback_es);
+			cursor.close();
 		}
 		return question;
 	}

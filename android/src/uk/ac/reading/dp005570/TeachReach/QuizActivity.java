@@ -91,15 +91,33 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 
 	@Override
 	protected void onStop(){
-		super.onStop();
 		mTeachReachPopulater.closeDB();
+		super.onStop();
 	}
-
+	
+	@Override
+	protected void onPause(){
+		mTeachReachPopulater.closeDB();
+		super.onPause();
+	}
+	
+	@Override
+	protected void onResume(){
+		mTeachReachPopulater.openDB();
+		super.onResume();
+	}
+	
 	@Override
 	protected void onRestart(){
-		super.onRestart();
 		mTeachReachPopulater.openDB();
+		super.onResume();
 	}
+	
+//	@Override
+//	protected void onDestroy(){
+//		mTeachReachPopulater.closeDB();
+//		super.onDestroy();
+//	}
 
 	/**
 	 * In order to not show the same order in spinners as they are correct

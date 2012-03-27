@@ -55,29 +55,30 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 		}
 	}
 	
-//	@Override
-//	protected void onPause(){
-//		super.onPause();
-//		mTeachReachPopulater.closeDB();
-//	}
-//	
-//	@Override
-//	protected void onResume(){
-//		super.onResume();
-//		mTeachReachPopulater.openDB();
-//	}
-//	
+	
+	@Override
+	protected void onPause(){
+		mTeachReachPopulater.closeDB();
+		super.onPause();
+	}
+	
+	@Override
+	protected void onResume(){
+		mTeachReachPopulater.openDB();
+		super.onResume();
+	}
+	
+	@Override
+	protected void onRestart(){
+		mTeachReachPopulater.openDB();
+		super.onResume();
+	}
+	
 	@Override
 	protected void onStop(){
-		super.onStop();
 		mTeachReachPopulater.closeDB();
+		super.onStop();
 	}
-//	
-//	@Override
-//	protected void onRestart(){
-//		super.onRestart();
-//		mTeachReachPopulater.openDB();
-//	}
 	
 //	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
