@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
@@ -212,6 +213,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 	}
 
 	public void loadQuestion(Question q){
+		((ScrollView) findViewById(R.id.quiz_question_view)).fullScroll(ScrollView.FOCUS_UP);
 		TextView question_text = (TextView) findViewById(R.id.question_text);
 		if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
 			question_text.setText(mTeachReachPopulater.getCurrentQuestions().get(mQuestionNumber-1).getFR());
@@ -324,7 +326,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 				mLl.addView(mSlider, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.MATCH_PARENT));
 				break;
 			}
-		}
+		}		
 	}
 
 	public void onClick(View v){
