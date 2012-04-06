@@ -11,17 +11,17 @@
 <% end %>
 <div class="field">
 	<%= f.label :material_en, "Material EN" %>
-	<%= f.text_area :material_en, :rows => 10 %>
+	<%= f.text_area :material_en, :rows => 10, :value => @material.material_en ? @material.material_en : "Not available"  %>
 </div>
 
 <div class="field">
 	<%= f.label :material_fr, "Material FR"%>
-	<%= f.text_area :material_fr, :rows => 10 %>
+	<%= f.text_area :material_fr, :rows => 10, :value => @material.material_fr ? @material.material_fr : "Pas disponible"   %>
 </div>
 
 <div class="field">
 	<%= f.label :material_es, "Material ES" %>
-	<%= f.text_area :material_es, :rows => 10 %>
+	<%= f.text_area :material_es, :rows => 10, :value => @material.material_es ? @material.material_es : "No está disponible"  %>
 </div>
 
 <%= f.hidden_field :part_id, :value => @part.nil? ? @material.part_id : @part.id %>

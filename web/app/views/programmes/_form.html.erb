@@ -11,17 +11,17 @@
 <% end %>
 <div class="field">
 	<%= f.label :programme_name_en, "Programme Name EN" %>
-	<%= f.text_field :programme_name_en %>
+	<%= f.text_field :programme_name_en, :value => @programme.programme_name_en ? @programme.programme_name_en : "Not available" %>
 </div>
 
 <div class="field">
 	<%= f.label :programme_name_fr, "Programme Name FR"%>
-	<%= f.text_field :programme_name_fr %>
+	<%= f.text_field :programme_name_fr, :value => @programme.programme_name_fr ? @programme.programme_name_fr : "Pas disponible" %>
 </div>
 
 <div class="field">
 	<%= f.label :programme_name_es, "Programme Name ES" %>
-	<%= f.text_field :programme_name_es %>
+	<%= f.text_field :programme_name_es, :value => @programme.programme_name_es ? @programme.programme_name_es : "No está disponible" %>
 </div>
 
 <%= f.hidden_field :course_id, :value => @course.nil? ? @programme.course_id : @course.id %>

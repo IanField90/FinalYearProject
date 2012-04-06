@@ -12,17 +12,17 @@
 	
 	<div class="field">
 		<%= f.label :content_en, "EN" %>
-		<%= f.text_field :content_en %>
+		<%= f.text_field :content_en, :value => @content.content_en ? @content.content_en : "Not available"  %>
 	</div>
 	
 	<div class="field">
 		<%= f.label :content_fr, "FR" %>
-		<%= f.text_field :content_fr %>
+		<%= f.text_field :content_fr, :value => @content.content_fr ? @content.content_fr : "Pas disponible"  %>
 	</div>
 	
 	<div class="field">
 		<%= f.label :content_es, "ES" %>
-		<%= f.text_field :content_es %>
+		<%= f.text_field :content_es, :value => @content.content_es ? @content.content_es : "No está disponible"  %>
 	</div>
 	
 	<div class="field">

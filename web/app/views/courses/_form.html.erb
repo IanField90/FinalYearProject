@@ -9,19 +9,20 @@
   </ul>
    </div>
 <% end %>
+<!-- TODO Although not great for UX it may save time, placeholder would be better -->
 <div class="field">
 	<%= f.label :course_name_en, "Course Name EN" %>
-	<%= f.text_field :course_name_en %>
+	<%= f.text_field :course_name_en, :value => @course.course_name_en ? @course.course_name_en : "Not available" %> 
 </div>
 
 <div class="field">
 	<%= f.label :course_name_fr, "Course Name FR"%>
-	<%= f.text_field :course_name_fr %>
+	<%= f.text_field :course_name_fr, :value => @course.course_name_fr ? @course.course_name_fr : "Pas disponible" %>
 </div>
 
 <div class="field">
 	<%= f.label :course_name_es, "Course Name ES" %>
-	<%= f.text_field :course_name_es %>
+	<%= f.text_field :course_name_es, :value => @course.course_name_es ? @course.course_name_es : "No está disponible" %>
 </div>
 
 <div class="actions">
