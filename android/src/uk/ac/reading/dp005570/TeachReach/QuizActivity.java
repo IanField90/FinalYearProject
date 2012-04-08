@@ -269,7 +269,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 						}
 					}
 					ArrayAdapter<String> options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optns);
-					options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					options_adapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
 					spinner.setAdapter(options_adapter);
 					spinner.setHorizontalScrollBarEnabled(true);
 					mLl.addView(label);
@@ -298,7 +298,7 @@ public class QuizActivity extends Activity implements OnSeekBarChangeListener, O
 						}
 					}
 					ArrayAdapter<String> options_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optns);
-					options_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					options_adapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
 					spinner.setAdapter(options_adapter);
 					spinner.setHorizontalScrollBarEnabled(true);
 					mLl.addView(label);

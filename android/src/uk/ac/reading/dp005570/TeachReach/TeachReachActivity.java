@@ -60,22 +60,22 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 		//Set up course spinner
 		mCourseSpinner = (Spinner) findViewById(R.id.course_spinner);
 		ArrayAdapter<String> course_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mCourseItems);
-		course_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		course_adapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
 		mCourseSpinner.setAdapter(course_adapter);
 		mCourseSpinner.setOnItemSelectedListener(this);
 
 		//Set up proramme spinner
 		mProgrammeSpinner = (Spinner) findViewById(R.id.programme_spinner);
 		ArrayAdapter<String> programme_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mProgrammeItems);
-		programme_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		programme_adapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
 		mProgrammeSpinner.setAdapter(programme_adapter);
 		mProgrammeSpinner.setOnItemSelectedListener(this);
 
 		//Set up module spinner
 		mPartSpinner = (Spinner) findViewById(R.id.part_spinner);
-		ArrayAdapter<String> module_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mPartItems);
-		module_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		mPartSpinner.setAdapter(module_adapter);
+		ArrayAdapter<String> part_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mPartItems);
+		part_adapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
+		mPartSpinner.setAdapter(part_adapter);
 		mPartSpinner.setOnItemSelectedListener(this);
 
 		//Set up m
@@ -211,6 +211,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 			mSelectedProgrammeId = 0;
 			mSelectedPartId = 0;
 			updateCourseSpinner();
+//			((ArrayAdapter<String>) mCourseSpinner.getAdapter()).notifyDataSetChanged();
 			updateProgrammeSpinner();
 			updatePartSpinner();
 		default:
@@ -238,13 +239,11 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 
 		}
 		else if(parent == mProgrammeSpinner){
-			//			Log.i(TAG, "Programmes Spinner changed.");
 			mSelectedProgrammeId = mTeachReachPopulater.getCurrentProgrammes().get(position).getId();
 			updatePartSpinner();
 		}
 		else if(parent == mPartSpinner){
 			mSelectedPartId = mTeachReachPopulater.getCurrentParts().get(position).getId();
-			//			Log.i(TAG, "Parts Spinner changed. ID: " + mSelectedPartId);
 		}
 
 	}
@@ -255,7 +254,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 	private void updateCourseSpinner(){
 		mCourseItems = mTeachReachPopulater.getCourses();
 		ArrayAdapter<String> course_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mCourseItems);
-		course_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		course_adapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
 		mCourseSpinner.setAdapter(course_adapter);
 		mCourseSpinner.setOnItemSelectedListener(this);
 	}
@@ -267,7 +266,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 		// update programme spinner to reflect this change
 		mProgrammeItems = mTeachReachPopulater.getProgrammes(mSelectedCourseId);
 		ArrayAdapter<String> programme_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mProgrammeItems);
-		programme_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		programme_adapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
 		mProgrammeSpinner.setAdapter(programme_adapter);
 	}
 
@@ -278,7 +277,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 		// update part spinner to reflect this change
 		mPartItems = mTeachReachPopulater.getParts(mSelectedProgrammeId);
 		ArrayAdapter<String> part_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mPartItems);
-		part_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		part_adapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
 		mPartSpinner.setAdapter(part_adapter);
 	}
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This is the same a s simple spinner dropdown, but with singleline set to false -->
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    style="?android:attr/spinnerDropDownItemStyle"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:checkMark="@drawable/check_radios"
+    android:ellipsize="marquee"
+    android:singleLine="false" />
