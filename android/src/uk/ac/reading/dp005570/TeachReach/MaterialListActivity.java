@@ -5,6 +5,8 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,11 +33,12 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.material_list);
-		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());		
+		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
 		mPartId = getIntent().getIntExtra(TeachReachActivity.PART_ID, 0);
 		if(mPartId != 0){
+			mTeachReachPopulater.openDB();
 			mTeachReachPopulater.retrieveMaterials(mPartId);
-			
+			mTeachReachPopulater.closeDB();
 			if(mTeachReachPopulater.getCurrentMaterials().size() > 0){
 				mMaterials = new String[mTeachReachPopulater.getCurrentMaterials().size()];
 				
@@ -61,19 +64,19 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 		mTeachReachPopulater.closeDB();
 		super.onPause();
 	}
-	
-	@Override
-	protected void onResume(){
-		mTeachReachPopulater.openDB();
-		super.onResume();
-	}
-	
-	@Override
-	protected void onRestart(){
-		mTeachReachPopulater.openDB();
-		super.onResume();
-	}
-	
+//	
+//	@Override
+//	protected void onResume(){
+//		mTeachReachPopulater.openDB();
+//		super.onResume();
+//	}
+//	
+////	@Override
+////	protected void onRestart(){
+////		mTeachReachPopulater.openDB();
+////		super.onResume();
+////	}
+//	
 	@Override
 	protected void onStop(){
 		mTeachReachPopulater.closeDB();
@@ -109,33 +112,45 @@ public class MaterialListActivity extends ListActivity implements OnItemClickLis
 			String retrieve = getString(R.string.server_retrieval);
 			final ProgressDialog progress = ProgressDialog.show(MaterialListActivity.this, wait, retrieve);
 			final Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_error), Toast.LENGTH_LONG);
+			final Handler handler = new Handler(){
+				@Override
+				public void handleMessage(Message msg){
+					refreshList();
+				}
+			};
+			mTeachReachPopulater.openDB();
 			Thread thread = new Thread(new Runnable(){
 				public void run(){
 					if(!mTeachReachPopulater.refreshPart(progress, mPartId)){
 						toast.show();
 					}
-//					//TODO Here is the function slot to do a screen update
-//					if(mPartId != 0){
-//						mTeachReachPopulater.retrieveMaterials(mPartId);
-//						
-//						if(mTeachReachPopulater.getCurrentMaterials().size() > 0){
-//							mMaterials = new String[mTeachReachPopulater.getCurrentMaterials().size()];
-//							
-//							for(int i = 0; i < mTeachReachPopulater.getCurrentMaterials().size(); i++){
-//								mMaterials[i] = getString(R.string.material) + " " + (i+1);
-//							}
-//							
-//							setListAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.material_item, mMaterials));
-//						}
-//						else{
-//							Toast.makeText(getApplicationContext(), getString(R.string.material_apology), Toast.LENGTH_LONG).show();
-//						}
-//					}
+					handler.sendEmptyMessage(0); //TODO move into if statement once working properly
 				}
 			});
-			thread.start();			
+			thread.start();
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	public void refreshList(){
+		//TODO fix
+		if(mPartId != 0){
+			mTeachReachPopulater.openDB();
+			mTeachReachPopulater.retrieveMaterials(mPartId);
+			mTeachReachPopulater.closeDB();
+			if(mTeachReachPopulater.getCurrentMaterials().size() > 0){
+				mMaterials = new String[mTeachReachPopulater.getCurrentMaterials().size()];
+
+				for(int i = 0; i < mTeachReachPopulater.getCurrentMaterials().size(); i++){
+					mMaterials[i] = getString(R.string.material) + " " + (i+1);
+				}
+				setListAdapter(new ArrayAdapter<String>(this, R.layout.material_item, mMaterials));
+			}
+			else{
+				Toast.makeText(getApplicationContext(), getString(R.string.material_apology), Toast.LENGTH_LONG).show();
+			}
+
 		}
 	}
 }

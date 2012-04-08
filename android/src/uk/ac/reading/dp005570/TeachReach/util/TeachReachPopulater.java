@@ -35,7 +35,6 @@ public class TeachReachPopulater {
 	private ArrayList<Part> mParts, mCurrentParts;
 	
 	private ArrayList<Material> mMaterials;
-//	private static Boolean mOpen; // TODO Look into using this to reduce errors?
 	private ArrayList<Quiz> mQuizzes;
 	private ArrayList<Question> mQuestions;
 	private ArrayList<Option> mOptions;
@@ -59,11 +58,10 @@ public class TeachReachPopulater {
 	 */
 	public void closeDB(){
 //		mTeachReachDbAdapter.close();
-
 		if(open){
+			open = false;
 			mTeachReachDbAdapter.close();
 		}
-		open = false;
 	}
 	
 	/**
@@ -71,11 +69,10 @@ public class TeachReachPopulater {
 	 */
 	public void openDB(){
 //		mTeachReachDbAdapter.open();
-
 		if(!open){
+			open = true;
 			mTeachReachDbAdapter.open();
 		}
-		open = true;
 	}
 	
 	/**
@@ -128,6 +125,7 @@ public class TeachReachPopulater {
 				mQuizzes = mTeachReachParser.getQuizzes();
 				mQuestions = mTeachReachParser.getQuesitons();
 				mOptions = mTeachReachParser.getOptions();
+				openDB();
 				updateMaterials();
 				updateQuizzes();
 				updateQuestions();

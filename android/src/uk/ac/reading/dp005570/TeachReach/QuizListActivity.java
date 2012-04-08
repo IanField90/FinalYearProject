@@ -7,6 +7,8 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,24 +32,47 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
 		setContentView(R.layout.quiz_list);
 		getListView().setTextFilterEnabled(false);
 		getListView().setOnItemClickListener(this);
-
+		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
 		populateQuizList();
 		if(mTeachReachPopulater.getCurrentQuizzes().size() > 0){
 			setListAdapter(new ArrayAdapter<String>(this, R.layout.quiz_item, mQuizzes)); 
 		}
-		mTeachReachPopulater.closeDB();
 
 	}
 
+	@Override
+	protected void onStop(){
+		mTeachReachPopulater.closeDB();
+		super.onStop();
+	}
+	
+	@Override
+	protected void onPause(){
+		mTeachReachPopulater.closeDB();
+		super.onPause();
+	}
+	
+//	@Override
+//	protected void onResume(){
+//		mTeachReachPopulater.openDB();
+//		super.onResume();
+//	}
+	
+	@Override
+	protected void onRestart(){
+		mTeachReachPopulater.openDB();
+		super.onResume();
+	}
+	
 	
 	/**
 	 * Get quiz list from the database, do checks and populate list with correct languages
 	 */
 	private void populateQuizList() {
 		mPartId = getIntent().getIntExtra(TeachReachActivity.PART_ID, 0);
-		mTeachReachPopulater = new TeachReachPopulater(getApplicationContext());
 		mTeachReachPopulater.openDB();
 		mTeachReachPopulater.retrieveQuizList(mPartId);
+		mTeachReachPopulater.closeDB();
 		if(mTeachReachPopulater.getCurrentQuizzes().size() > 0){
 			mQuizzes = new String[mTeachReachPopulater.getCurrentQuizzes().size()];
 			for(int i = 0; i < mTeachReachPopulater.getCurrentQuizzes().size(); i++){
@@ -95,34 +120,32 @@ public class QuizListActivity extends ListActivity implements OnItemClickListene
 			String retrieve = getString(R.string.server_retrieval);
 			final ProgressDialog progress = ProgressDialog.show(QuizListActivity.this, wait, retrieve);
 			final Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_error), Toast.LENGTH_LONG);
+			final Handler handler = new Handler(){
+				@Override
+				public void handleMessage(Message msg){
+					refreshList();
+				}
+			};
+			mTeachReachPopulater.openDB();
 			Thread thread = new Thread(new Runnable(){
 				public void run(){
 					if(!mTeachReachPopulater.refreshPart(progress, mPartId)){
 						toast.show();
+						handler.sendEmptyMessage(0);
 					}
-//					//TODO Here is the function slot to do a screen update
-//					if(mPartId != 0){
-//						mTeachReachPopulater.retrieveMaterials(mPartId);
-//						
-//						if(mTeachReachPopulater.getCurrentMaterials().size() > 0){
-//							mMaterials = new String[mTeachReachPopulater.getCurrentMaterials().size()];
-//							
-//							for(int i = 0; i < mTeachReachPopulater.getCurrentMaterials().size(); i++){
-//								mMaterials[i] = getString(R.string.material) + " " + (i+1);
-//							}
-//							
-//							setListAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.material_item, mMaterials));
-//						}
-//						else{
-//							Toast.makeText(getApplicationContext(), getString(R.string.material_apology), Toast.LENGTH_LONG).show();
-//						}
-//					}
 				}
 			});
-			thread.start();			
+			thread.start();	
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+
+	}
+	
+	public void refreshList(){
+		populateQuizList();
+		setListAdapter(new ArrayAdapter<String>(this, R.layout.quiz_item, mQuizzes)); 
+		mTeachReachPopulater.closeDB();
 	}
 
 }

@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -197,27 +199,36 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 			String retrieve = getString(R.string.server_retrieval);
 			final ProgressDialog progress = ProgressDialog.show(TeachReachActivity.this, wait, retrieve);
 			final Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_error), Toast.LENGTH_LONG);
-
+			final Handler handler = new Handler(){
+				@Override
+				public void handleMessage(Message msg){
+					refresh();
+				}
+			};
 			Thread thread = new Thread(new Runnable(){
 				public void run(){
 					if(!mTeachReachPopulater.refreshMainMenu(progress)){
 						toast.show();
+						handler.sendEmptyMessage(0);
 					}
 				}
 			});
 			thread.start();	
 			// redraw spinners - test this
-			mSelectedCourseId = 0;
-			mSelectedProgrammeId = 0;
-			mSelectedPartId = 0;
-			updateCourseSpinner();
-//			((ArrayAdapter<String>) mCourseSpinner.getAdapter()).notifyDataSetChanged();
-			updateProgrammeSpinner();
-			updatePartSpinner();
+
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 
+	}
+	
+	public void refresh(){
+		mSelectedCourseId = 0;
+		mSelectedProgrammeId = 0;
+		mSelectedPartId = 0;
+		updateCourseSpinner();
+		updateProgrammeSpinner();
+		updatePartSpinner();
 	}
 
 	/**
@@ -256,7 +267,7 @@ public class TeachReachActivity extends Activity implements OnClickListener, OnI
 		ArrayAdapter<String> course_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mCourseItems);
 		course_adapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
 		mCourseSpinner.setAdapter(course_adapter);
-		mCourseSpinner.setOnItemSelectedListener(this);
+//		mCourseSpinner.setOnItemSelectedListener(this);
 	}
 
 	/**
