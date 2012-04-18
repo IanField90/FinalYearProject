@@ -31,6 +31,43 @@ class PartsController < ApplicationController
         },
         :except => [ :created_at, :updated_at, :programme_id, :id,  :part_name_en, :part_name_fr, :part_name_es ] 
       }
+      #Test render without optimisation
+         # render :json => @part, :include => {
+         #  :materials => {   },
+         #  :quizzes => {   :include => {  :questions => {   :include => {  :options => { } },} },}
+         #   }
+         # }
+      format.xml {
+        @part = Part.includes( :quizzes => { :questions => :options  }).where(["quizzes.published = ? AND parts.id = ?", true, params[:id]])
+         render :xml => @part, :include => {
+          :materials => {
+            :except => [ :created_at, :updated_at, :part_id, :material_type ]
+          },
+          :quizzes => { 
+            :include => {
+              :questions => {
+                :include => { 
+                  :options => { 
+                    :except => [ :created_at, :updated_at, :question_id ] 
+                  }
+                },
+                :except => [ :created_at, :updated_at, :quiz_id ]
+              }
+            },
+            :except => [ :created_at, :updated_at, :user_id], #:part_id, :published ],
+            # :conditions => { :published => true}
+          }
+        },
+        :except => [ :created_at, :updated_at, :programme_id, :id,  :part_name_en, :part_name_fr, :part_name_es ] 
+      }
+      #Test render without optimisation
+         # render :xml => @part, :include => {
+         #  :materials => {   },
+         #  :quizzes => {   :include => {  :questions => {   :include => {  :options => { } },} },}
+         #   }
+         # }
+      
+        
     end
   end
 
