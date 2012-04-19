@@ -17,27 +17,27 @@
 
 <div class="field" style="float:left; margin-right:10px;">
 	<%= f.label :question_fr, "Question FR" %>
-	<%= f.text_area :question_fr, :rows => 10, :value => @quesiton.quesiton_fr ? @question.question_fr : "Pas disponible" %>
+	<%= f.text_area :question_fr, :rows => 10, :value => @question.question_fr ? @question.question_fr : "Pas disponible" %>
 </div>
 
 <div class="field">
 	<%= f.label :question_es, "Question ES" %>
-	<%= f.text_area :question_es, :rows => 10, :value => @question.quesiton_es ? @question.quesiton_es : "No está disponible" %>
+	<%= f.text_area :question_es, :rows => 10, :value => @question.question_es ? @question.quesiton_es : "No está disponible" %>
 </div>
 
 <div class="field" style="float:left; margin-right:10px;">
 	<%= f.label :feedback_en, "Feedback EN" %>
-	<%= f.text_area :feedback_en, :rows => 10, :value => @quesiton.feedback_en ? @question.feedback_en : "Not available" %>
+	<%= f.text_area :feedback_en, :rows => 10, :value => @question.feedback_en ? @question.feedback_en : "Not available" %>
 </div>
 
 <div class="field" style="float:left; margin-right:10px;">
 	<%= f.label :feedback_fr, "Feedback FR" %>
-	<%= f.text_area :feedback_fr, :rows => 10, :value => @question.feedback_fr ? @quesiton.feedback_fr : "Pas disponible" %>
+	<%= f.text_area :feedback_fr, :rows => 10, :value => @question.feedback_fr ? @question.feedback_fr : "Pas disponible" %>
 </div>
 
 <div class="field">
 	<%= f.label :feedback_es, "Feedback ES" %>
-	<%= f.text_area :feedback_es, :rows => 10, :value => @quesiton.feedback_es ? @question.feedbackes : "No está disponible" %>
+	<%= f.text_area :feedback_es, :rows => 10, :value => @question.feedback_es ? @question.feedbackes : "No está disponible" %>
 </div>
 
 <div class="field">
